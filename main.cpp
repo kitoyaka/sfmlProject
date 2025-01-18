@@ -1,8 +1,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 
-#include "cmake-build-debug/_deps/sfml-src/src/SFML/Graphics/GLLoader.hpp"
-
 int main()
 {
     // Create the main window
@@ -19,7 +17,8 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
+        // Clear screen
+        window.clear();
         // Update the window
         window.display();
     }
