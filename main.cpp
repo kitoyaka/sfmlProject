@@ -19,6 +19,10 @@ int main() {
     textField loginField(200.f, 50.f);
     loginField.setPosition(300.f, 200.f);
 
+    // Load a music to play
+    sf::Music music("../music/bgm_1.ogg");
+    music.play();
+
     // Start the game loop
     while (window.isOpen()) {
         // Process events
@@ -30,6 +34,10 @@ int main() {
 
             // Pass event to textField
             loginField.textEntering(window, *event);
+        }
+        // Проверка: если музыка остановилась, запустить снова
+        if (music.getStatus() != sf::SoundSource::Status::Playing) {
+            music.play();
         }
 
         // Clear the window

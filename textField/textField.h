@@ -16,6 +16,7 @@ private:
     const sf::Font font;
     sf::Text m_text;
     sf::Event::TextEntered textEntered;
+    int i=0;
 
 public:
     textField(int width, int height) : m_width(width), m_height(height),
@@ -39,6 +40,7 @@ public:
     void textEntering(sf::RenderWindow& window, sf::Event event);
     void draw(sf::RenderWindow& window) const;
     void setPosition(float x, float y);
+    void clear();
 };
 
 #endif //SFMLPROJECT_TEXTFIELD_H
