@@ -11,5 +11,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(sfmlProject main.cpp
         button/button.cpp
-        button/button.h)
+        button/button.h
+        textField/textField.cpp
+        textField/textField.h)
 target_link_libraries(sfmlProject sfml-graphics sfml-window sfml-audio)

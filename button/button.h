@@ -13,11 +13,11 @@ private:
     sf::Text m_text;//(font,m_buttonText , 50);
 
 public:
-    // Конструктор кнопки, принимающий ширину и высоту
+
     button(int width, int height, std::string buttonText) : m_width(width), m_height(height), m_buttonText(buttonText),font("../font/ArialMT.ttf"),
                                                             m_text(font,m_buttonText , 50)
     {
-        // Прямоугольник
+        // Малювання прямокутника
         m_rect.setSize(sf::Vector2f(m_width, m_height));
         m_rect.setOutlineColor(sf::Color::Black);
         m_rect.setOutlineThickness(2);
