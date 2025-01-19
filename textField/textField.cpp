@@ -32,7 +32,7 @@ void textField::textEntering(sf::RenderWindow& window, sf::Event event) {
         else if(textEntered->unicode < 128)
         {
 
-            if (i%12==0) {
+            if (i%15==0) {
                clear();
             }
             else {
