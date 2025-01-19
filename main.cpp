@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "button/button.h"
 #include "textField/textField.h"
+#include <SFML/Window/Cursor.hpp>
 
 int main() {
     // Create the main window
@@ -23,6 +24,13 @@ int main() {
     sf::Music music("../music/bgm_1.ogg");
     music.play();
 
+    // Load image for cursor
+    sf::Image cursorImage("../image/cursor_1.png");
+
+    // Cursor
+    const auto cursor = sf::Cursor::createFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(0, 0));
+
+
     // Start the game loop
     while (window.isOpen()) {
         // Process events
@@ -40,6 +48,7 @@ int main() {
             music.play();
         }
 
+
         // Clear the window
         window.clear();
 
@@ -47,6 +56,8 @@ int main() {
         window.draw(sprite);  // фон
         btn.draw(window);     // кнопка
         loginField.draw(window); // поле вводу
+        window.setMouseCursor(cursor.value()); // курсор
+
 
         // Update the window
         window.display();
