@@ -1,3 +1,4 @@
+#include <iostream>
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include "button/button.h"
@@ -21,8 +22,9 @@ int main() {
     loginField.setPosition(300.f, 200.f);
 
     // Load a music to play
-    sf::Music music("../music/bgm_1.ogg");
-    music.play();
+    sf::Music music("../music/gimn_ukrainyi.ogg");
+    bool musicPlaying = true;
+    bool keyPressed = false;
 
     // Load image for cursor
     sf::Image cursorImage("../image/cursor_1.png");
@@ -30,6 +32,8 @@ int main() {
     // Cursor
     const auto cursor = sf::Cursor::createFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(0, 0));
 
+    int leftButtonPressedTimes=1;
+    bool leftButtonPressed = true;
 
     // Start the game loop
     while (window.isOpen()) {
@@ -39,15 +43,36 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-
             // Pass event to textField
             loginField.textEntering(window, *event);
-        }
-        // Проверка: если музыка остановилась, запустить снова
-        if (music.getStatus() != sf::SoundSource::Status::Playing) {
-            music.play();
+
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
+            {
+                if (leftButtonPressed) {
+                    std::cout<<"button pressed "<<leftButtonPressedTimes<<" times"<<std::endl;
+                    leftButtonPressedTimes++;
+                    leftButtonPressed = false;
+                } else {
+                    leftButtonPressed = true;
+                }
+            }
         }
 
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
+            if (musicPlaying) {
+                music.setVolume(0);
+                musicPlaying = false;
+            } else {
+                music.setVolume(100);
+                musicPlaying = true;
+            }
+            keyPressed = true;
+        } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
+            keyPressed = false;
+        }
+        if (music.getStatus() != sf::SoundSource::Status::Playing && musicPlaying) {
+            music.play();
+        }
 
         // Clear the window
         window.clear();
@@ -58,10 +83,8 @@ int main() {
         loginField.draw(window); // поле вводу
         window.setMouseCursor(cursor.value()); // курсор
 
-
         // Update the window
         window.display();
     }
-
     return 0;
 }
