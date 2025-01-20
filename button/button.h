@@ -2,6 +2,7 @@
 #define BUTTON_H
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 
 class button {
@@ -11,6 +12,8 @@ private:
     std::string m_buttonText;
     const sf::Font font;//("ArialMT.ttf");
     sf::Text m_text;//(font,m_buttonText , 50);
+    int leftButtonPressedTimes=1;
+    bool leftButtonPressed = true;
 
 public:
 
@@ -35,6 +38,7 @@ public:
 
     void draw(sf::RenderWindow& window) const;
     void setPosition(float x, float y);
+    void isButtonClicked(sf::RenderWindow& window);
 };
 
 #endif // BUTTON_H
