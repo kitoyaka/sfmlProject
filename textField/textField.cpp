@@ -64,4 +64,3 @@ void textField::isButtonClicked(sf::RenderWindow& window, sf::Event event) {
 
 
 
-

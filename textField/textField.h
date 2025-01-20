@@ -46,6 +46,10 @@ public:
     void setPosition(float x, float y);
     void isButtonClicked(sf::RenderWindow& window, sf::Event event);
     void clear();
+    sf::RectangleShape& getRect() {
+        return m_rect;
+    }
+
 };
 
 #endif //SFMLPROJECT_TEXTFIELD_H
