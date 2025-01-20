@@ -8,6 +8,7 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 class UserManager {
 private:
@@ -15,7 +16,7 @@ private:
     std::string filename;
 
 public:
-    UserManager(std::string& file) : filename(file) {
+    UserManager(const std::string& file) : filename(file) {
         loadUsers();
     }
     ~UserManager()  {
@@ -25,6 +26,8 @@ public:
 
     void loadUsers();
     void saveUsers();
+    bool loginUser(std::string& login, std::string& password);
+    void registerUser(std::string& login, std::string& password);
 };
 
 
