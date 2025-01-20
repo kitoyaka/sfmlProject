@@ -19,10 +19,7 @@ int main() {
 
     // Add textField
     textField loginField(200.f, 50.f);
-    loginField.setPosition(300.f, 50.f);
-    textField passwordField(200.f,50.f);
-    passwordField.setPosition(300.f, 150.f);
-
+    loginField.setPosition(300.f, 200.f);
 
     // Load a music to play
     sf::Music music("../music/gimn_ukrainyi.ogg");
@@ -35,9 +32,6 @@ int main() {
     // Cursor
     const auto cursor = sf::Cursor::createFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(0, 0));
 
-    int leftButtonPressedTimes=1;
-    bool leftButtonPressed = true;
-
     // Start the game loop
     while (window.isOpen()) {
         // Process events
@@ -48,20 +42,6 @@ int main() {
             }
             // Pass event to textField
             loginField.textEntering(window, *event);
-            passwordField.textEntering(window,*event);
-
-
-
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
-            {
-                if (leftButtonPressed) {
-                    std::cout<<"button pressed "<<leftButtonPressedTimes<<" times"<<std::endl;
-                    leftButtonPressedTimes++;
-                    leftButtonPressed = false;
-                } else {
-                    leftButtonPressed = true;
-                }
-            }
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
@@ -79,16 +59,17 @@ int main() {
         if (music.getStatus() != sf::SoundSource::Status::Playing && musicPlaying) {
             music.play();
         }
-
         // Clear the window
-        window.clear();
+        window.clear(sf::Color::Black);
 
         // Draw objects
         window.draw(sprite);  // фон
         btn.draw(window);     // кнопка
         loginField.draw(window); // поле вводу
-        passwordField.draw(window);
         window.setMouseCursor(cursor.value()); // курсор
+
+        // Проверяем нажатие кнопки
+        btn.isButtonClicked(window);
 
         // Update the window
         window.display();
