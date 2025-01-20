@@ -19,7 +19,9 @@ int main() {
 
     // Add textField
     textField loginField(200.f, 50.f);
-    loginField.setPosition(300.f, 200.f);
+    loginField.setPosition(300.f, 50.f);
+    textField passwordField(200.f,50.f);
+    passwordField.setPosition(300.f, 150.f);
 
 
     // Load a music to play
@@ -46,6 +48,7 @@ int main() {
             }
             // Pass event to textField
             loginField.textEntering(window, *event);
+            passwordField.textEntering(window,*event);
 
 
 
@@ -84,6 +87,7 @@ int main() {
         window.draw(sprite);  // фон
         btn.draw(window);     // кнопка
         loginField.draw(window); // поле вводу
+        passwordField.draw(window);
         window.setMouseCursor(cursor.value()); // курсор
 
         // Update the window
