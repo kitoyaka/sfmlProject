@@ -46,8 +46,8 @@ int main() {
                 window.close();
             }
             // Pass event to textField
-            loginField.textEntering(window, *event);
-            passwordField.textEntering(window, *event);
+            loginField.isButtonClicked(window,*event);
+            passwordField.isButtonClicked(window,*event);
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
@@ -77,8 +77,6 @@ int main() {
 
         // Проверяем нажатие кнопки
         btn.isButtonClicked(window);
-        loginField.isButtonClicked(window);
-        passwordField.isButtonClicked(window);
 
         // Update the window
         window.display();

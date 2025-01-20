@@ -42,10 +42,9 @@ public:
     }
 
 
-    void textEntering(sf::RenderWindow& window, sf::Event event);
     void draw(sf::RenderWindow& window) const;
     void setPosition(float x, float y);
-    void isButtonClicked(sf::RenderWindow& window);
+    void isButtonClicked(sf::RenderWindow& window, sf::Event event);
     void clear();
 };
 
