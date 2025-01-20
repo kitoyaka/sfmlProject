@@ -21,6 +21,7 @@ int main() {
     textField loginField(200.f, 50.f);
     loginField.setPosition(300.f, 200.f);
 
+
     // Load a music to play
     sf::Music music("../music/gimn_ukrainyi.ogg");
     bool musicPlaying = true;
@@ -45,6 +46,8 @@ int main() {
             }
             // Pass event to textField
             loginField.textEntering(window, *event);
+
+
 
             if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
             {
