@@ -18,7 +18,7 @@ void button::isButtonClicked(sf::RenderWindow& window) {
         // Проверяем, попадает ли мышь в область кнопки
         if (m_rect.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosition))) {
             if (leftButtonPressed) {
-                std::cout << "Button pressed " << leftButtonPressedTimes << " times" << std::endl;
+                std::cout << m_buttonText << " pressed " << leftButtonPressedTimes << " times" << std::endl;
                 m_rect.setFillColor(sf::Color::Blue);
                 leftButtonPressedTimes++;
                 leftButtonPressed = false;

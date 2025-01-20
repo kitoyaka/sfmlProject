@@ -43,3 +43,25 @@ void textField::textEntering(sf::RenderWindow& window, sf::Event event) {
         m_text.setString(m_userInput);
     }
 }
+
+void textField::isButtonClicked(sf::RenderWindow& window) {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+
+        // Проверяем, попадает ли мышь в область кнопки
+        if (m_rect.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosition))) {
+            if (leftButtonPressed) {
+                std::cout<<m_buttonName << " pressed " << leftButtonPressedTimes << " times" << std::endl;
+                m_rect.setFillColor(sf::Color::Blue);
+                leftButtonPressedTimes++;
+                leftButtonPressed = false;
+            }
+            else if (leftButtonPressedTimes % 2 != 0) {
+                m_rect.setFillColor(sf::Color::White);
+            }
+        }
+    } else {
+        leftButtonPressed = true;
+    }
+
+}

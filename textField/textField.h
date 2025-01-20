@@ -6,6 +6,8 @@
 #define SFMLPROJECT_TEXTFIELD_H
 
 #include "SFML/Graphics.hpp"
+#include <iostream>
+#include <string>
 
 class textField
 {
@@ -17,9 +19,12 @@ private:
     sf::Text m_text;
     sf::Event::TextEntered textEntered;
     int i=0;
+    int leftButtonPressedTimes=1;
+    bool leftButtonPressed = true;
+    std::string m_buttonName;
 
 public:
-    textField(int width, int height) : m_width(width), m_height(height),
+    textField(int width, int height, std::string buttonName) : m_width(width), m_height(height), m_buttonName(buttonName),
     font("../font/ArialMT.ttf"), m_text(font, m_userInput, 50) {
 
         m_rect.setSize(sf::Vector2f(m_width, m_height));
@@ -40,6 +45,7 @@ public:
     void textEntering(sf::RenderWindow& window, sf::Event event);
     void draw(sf::RenderWindow& window) const;
     void setPosition(float x, float y);
+    void isButtonClicked(sf::RenderWindow& window);
     void clear();
 };
 

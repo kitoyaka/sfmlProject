@@ -15,11 +15,15 @@ int main() {
 
     // Add button
     button btn(200, 50, "HELLO BUTTON");
-    btn.setPosition(20.f, 20.f);
+    btn.setPosition(300.f, 300.f);
 
     // Add textField
-    textField loginField(200.f, 50.f);
-    loginField.setPosition(300.f, 200.f);
+    textField loginField(200.f, 50.f, "Login Button");
+    loginField.setPosition(300.f, 100.f);
+
+    // Add textField
+    textField passwordField(200.f, 50.f, "Password Button");
+    passwordField.setPosition(300.f, 200.f);
 
     // Load a music to play
     sf::Music music("../music/gimn_ukrainyi.ogg");
@@ -32,6 +36,7 @@ int main() {
     // Cursor
     const auto cursor = sf::Cursor::createFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(0, 0));
 
+
     // Start the game loop
     while (window.isOpen()) {
         // Process events
@@ -42,6 +47,7 @@ int main() {
             }
             // Pass event to textField
             loginField.textEntering(window, *event);
+            passwordField.textEntering(window, *event);
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
@@ -65,11 +71,14 @@ int main() {
         // Draw objects
         window.draw(sprite);  // фон
         btn.draw(window);     // кнопка
-        loginField.draw(window); // поле вводу
+        loginField.draw(window); // поле вводу login
+        passwordField.draw(window); // поле вводу password
         window.setMouseCursor(cursor.value()); // курсор
 
         // Проверяем нажатие кнопки
         btn.isButtonClicked(window);
+        loginField.isButtonClicked(window);
+        passwordField.isButtonClicked(window);
 
         // Update the window
         window.display();

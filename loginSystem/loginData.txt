@@ -1,1 +1,2 @@
 kitoyaka:monster
+pisun:pisun
