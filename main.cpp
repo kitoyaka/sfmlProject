@@ -43,8 +43,11 @@ int main() {
     sf::Cursor textCursor(sf::Cursor::Type::Text);  // Create a Text cursor
 
     // Load a sprite to display
-    const sf::Texture newTexture("../image/like.png");
+    const sf::Texture newTexture("../image/bigLike.png");
     sf::Sprite newSprite(newTexture);
+
+    //sf::RenderWindow (sf::VideoMode({800, 400}), "Small patric");
+
 
     // Start the game loop
     while (window.isOpen()) {
@@ -59,6 +62,7 @@ int main() {
             loginField.isButtonClicked(window,*event);
             passwordField.isButtonClicked(window,*event);
         }
+
 
         // Change the cursor to text cursor when over text fields
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
@@ -90,15 +94,18 @@ int main() {
         if (btn.isButtonClicked(window)) {
             music.stop();
             window.close();  // Закрываем старое окно
-            // Создаём новое окно
-            sf::RenderWindow newWindow(sf::VideoMode({800, 400}), "Small patric");
+            // New window
+            sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+            sf::RenderWindow newWindow(desktop, "Small patric", sf::Style::None);
+
                 while (newWindow.isOpen()) {
                     if (const std::optional<sf::Event> newEvent = newWindow.pollEvent()) {
+                        /*
                         if (newEvent->is<sf::Event::Closed>()) {
                             newWindow.close();
                         }
+                        */
                     }
-
                     newWindow.clear();
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
                         if (newMusicPlaying) {
@@ -123,6 +130,9 @@ int main() {
         }
 
         window.clear();
+
+
+
         window.draw(sprite);  // фон
         btn.draw(window);     // кнопка
         loginField.draw(window); // поле вводу login
