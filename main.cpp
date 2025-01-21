@@ -107,6 +107,7 @@ int main() {
                         */
                     }
                     newWindow.clear();
+                    /*
                     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
                         if (newMusicPlaying) {
                             newMusic.setVolume(0);
@@ -118,10 +119,11 @@ int main() {
                         keyPressed = true;
                     } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
                         keyPressed = false;
-                    }
+                    }*/
                     if (newMusic.getStatus() != sf::SoundSource::Status::Playing && newMusicPlaying) {
                         newMusic.play();
                     }
+
                     //newMusic.play();
                     newWindow.draw(newSprite);
                     newWindow.display();
