@@ -29,6 +29,9 @@ int main() {
     sf::Music music("../music/gimn_ukrainyi.ogg");
     bool musicPlaying = true;
     bool keyPressed = false;
+    sf::Music newMusic("../music/gmnrss.ogg");
+    bool newMusicPlaying = true;
+    //bool keyPressed = false;
 
     // Load image for cursor
     sf::Image cursorImage("../image/cursor_1.png");
@@ -39,6 +42,9 @@ int main() {
     // Create a text cursor for text fields
     sf::Cursor textCursor(sf::Cursor::Type::Text);  // Create a Text cursor
 
+    // Load a sprite to display
+    const sf::Texture newTexture("../image/like.png");
+    sf::Sprite newSprite(newTexture);
 
     // Start the game loop
     while (window.isOpen()) {
@@ -48,19 +54,20 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
+
             // Pass event to textField
             loginField.isButtonClicked(window,*event);
             passwordField.isButtonClicked(window,*event);
+        }
 
-            // Change the cursor to text cursor when over text fields
-            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            bool isOverLoginField = loginField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
-            bool isOverPasswordField = passwordField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
-            if (isOverLoginField || isOverPasswordField) {
-                window.setMouseCursor(textCursor);
-            } else {
-                window.setMouseCursor(cursor.value());
-            }
+        // Change the cursor to text cursor when over text fields
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        bool isOverLoginField = loginField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        bool isOverPasswordField = passwordField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+        if (isOverLoginField || isOverPasswordField) {
+            window.setMouseCursor(textCursor);
+        } else {
+            window.setMouseCursor(cursor.value());
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
@@ -78,19 +85,48 @@ int main() {
         if (music.getStatus() != sf::SoundSource::Status::Playing && musicPlaying) {
             music.play();
         }
-        // Clear the window
-        window.clear(sf::Color::Black);
 
-        // Draw objects
+        // Проверяем, нажата ли кнопка
+        if (btn.isButtonClicked(window)) {
+            music.stop();
+            window.close();  // Закрываем старое окно
+            // Создаём новое окно
+            sf::RenderWindow newWindow(sf::VideoMode({800, 400}), "Small patric");
+                while (newWindow.isOpen()) {
+                    if (const std::optional<sf::Event> newEvent = newWindow.pollEvent()) {
+                        if (newEvent->is<sf::Event::Closed>()) {
+                            newWindow.close();
+                        }
+                    }
+
+                    newWindow.clear();
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
+                        if (newMusicPlaying) {
+                            newMusic.setVolume(0);
+                            newMusicPlaying = false;
+                        } else {
+                            newMusic.setVolume(100);
+                            newMusicPlaying = true;
+                        }
+                        keyPressed = true;
+                    } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
+                        keyPressed = false;
+                    }
+                    if (newMusic.getStatus() != sf::SoundSource::Status::Playing && newMusicPlaying) {
+                        newMusic.play();
+                    }
+                    //newMusic.play();
+                    newWindow.draw(newSprite);
+                    newWindow.display();
+                }
+
+        }
+
+        window.clear();
         window.draw(sprite);  // фон
         btn.draw(window);     // кнопка
         loginField.draw(window); // поле вводу login
         passwordField.draw(window); // поле вводу password
-
-        // Проверяем нажатие кнопки
-        btn.isButtonClicked(window);
-
-        // Update the window
         window.display();
     }
     return 0;

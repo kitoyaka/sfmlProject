@@ -15,6 +15,7 @@ private:
     int leftButtonPressedTimes=1;
     bool leftButtonPressed = true;
 
+
 public:
 
     button(int width, int height, std::string buttonText) : m_width(width), m_height(height), m_buttonText(buttonText),font("../font/ArialMT.ttf"),
@@ -35,10 +36,11 @@ public:
         m_text.setOutlineColor(sf::Color::Black);
         m_text.setOutlineThickness(2.f);
     }
+    int m_zalupa;
 
     void draw(sf::RenderWindow& window) const;
     void setPosition(float x, float y);
-    void isButtonClicked(sf::RenderWindow& window);
+    bool isButtonClicked(sf::RenderWindow& window);
 };
 
 #endif // BUTTON_H

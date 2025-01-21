@@ -11,7 +11,7 @@ void button::draw(sf::RenderWindow& window) const {
     window.draw(m_text);
 }
 
-void button::isButtonClicked(sf::RenderWindow& window) {
+bool button::isButtonClicked(sf::RenderWindow& window) {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
@@ -22,13 +22,16 @@ void button::isButtonClicked(sf::RenderWindow& window) {
                 m_rect.setFillColor(sf::Color::Blue);
                 leftButtonPressedTimes++;
                 leftButtonPressed = false;
+                m_zalupa++;
+                return true; // Сигнализируем, что кнопка нажата
             }
         }
     } else {
         m_rect.setFillColor(sf::Color::Green);
         leftButtonPressed = true;
     }
-
+    return false; // Кнопка не нажата
 }
+
 
 
