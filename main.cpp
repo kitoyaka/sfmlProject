@@ -34,10 +34,12 @@ int main() {
     //bool keyPressed = false;
 
     // Load image for cursor
-    sf::Image cursorImage("../image/cursor_1.png");
+    sf::Image cursorImage("../image/notActiveCursor.png");
+    sf::Image activeCursorImage("../image/activeCursor.png");
 
     // Cursor
     const auto cursor = sf::Cursor::createFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(0, 0));
+    const auto activeCursor = sf::Cursor::createFromPixels(activeCursorImage.getPixelsPtr(), activeCursorImage.getSize(), sf::Vector2u(0, 0));
 
     // Create a text cursor for text fields
     sf::Cursor textCursor(sf::Cursor::Type::Text);  // Create a Text cursor
@@ -47,7 +49,6 @@ int main() {
     sf::Sprite newSprite(newTexture);
 
     //sf::RenderWindow (sf::VideoMode({800, 400}), "Small patric");
-
 
     // Start the game loop
     while (window.isOpen()) {
@@ -70,7 +71,10 @@ int main() {
         bool isOverPasswordField = passwordField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
         if (isOverLoginField || isOverPasswordField) {
             window.setMouseCursor(textCursor);
-        } else {
+        } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+            window.setMouseCursor(activeCursor.value());
+        }
+        else {
             window.setMouseCursor(cursor.value());
         }
 
