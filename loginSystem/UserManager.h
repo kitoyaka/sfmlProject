@@ -26,7 +26,7 @@ public:
 
     void loadUsers();
     void saveUsers();
-    bool loginUser(std::string& login, std::string& password);
+    bool loginUser(const std::string& login, const std::string& password);
     void registerUser(std::string& login, std::string& password);
 };
 

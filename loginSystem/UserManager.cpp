@@ -7,7 +7,7 @@
 
 
 
-bool UserManager::loginUser(std::string& login, std::string& password) {
+bool UserManager::loginUser(const std::string& login, const std::string& password) {
     auto it  = users.find(login);
     return it != users.end() && it->second == password;
 }
@@ -21,19 +21,23 @@ void UserManager::registerUser(std::string &login, std::string &password) {
 
 
 void UserManager::loadUsers() {
-    std::ifstream  file(filename);
-    if(!file.is_open())
-    {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
         std::cerr << "Could not open the file: " << filename << std::endl;
+        return;
     }
+
     std::string line;
-    while(std::getline(file, line))
-    {
-        std::ifstream  iss(line);
+    while (std::getline(file, line)) {
+        // Для кожного рядка використовуємо istringstream
+        std::istringstream iss(line);
         std::string login, password;
-        if(std::getline(iss, login, ':') && std::getline(iss, password))
-        {
-            users[login] = password;
+
+        // Парсимо логін і пароль, розділені символом ':'
+        if (std::getline(iss, login, ':') && std::getline(iss, password)) {
+            users[login] = password;  // Додаємо логін і пароль до мапи(хеша)
+        } else {
+            std::cerr << "Invalid format in line: " << line << std::endl;
         }
     }
 
@@ -42,12 +46,12 @@ void UserManager::loadUsers() {
 
 void UserManager::saveUsers() {
     std::ofstream file(filename);
-    if(file.is_open())
-    {
-        std::cerr << "Could not open the file: " << filename << std:: endl;
+    if (!file.is_open()) {
+        std::cerr << "Could not open the file for writing: " << filename << std::endl;
+        return;
     }
-    for(auto& [login, password] : users)
-    {
+
+    for (const auto& [login, password] : users) {
         file << login << ":" << password << "\n";
     }
 

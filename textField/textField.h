@@ -22,7 +22,7 @@ private:
     int leftButtonPressedTimes=1;
     bool leftButtonPressed = true;
     std::string m_buttonName;
-
+    bool m_isActive;
 public:
     textField(int width, int height, std::string buttonName) : m_width(width), m_height(height), m_buttonName(buttonName),
     font("../font/ArialMT.ttf"), m_text(font, m_userInput, 50) {
@@ -32,6 +32,7 @@ public:
         m_rect.setOutlineThickness(2);
         m_rect.setFillColor(sf::Color::White);
 
+
         m_text.setFont(font);
         m_text.setString(m_userInput);
         m_text.setCharacterSize(24);
@@ -39,6 +40,7 @@ public:
         m_text.setStyle(sf::Text::Bold);
         m_text.setOutlineColor(sf::Color::Black);
         m_text.setOutlineThickness(2.f);
+
     }
 
 
@@ -46,6 +48,11 @@ public:
     void setPosition(float x, float y);
     void isButtonClicked(sf::RenderWindow& window, sf::Event event);
     void clear();
+    void setActive(bool checkActive);
+    void handleClick(sf::RenderWindow& window, sf::Event event);
+    void handeTextInput(sf::Event event);
+    bool checkActive();
+    std::string getUserInput();
     sf::RectangleShape& getRect() {
         return m_rect;
     }

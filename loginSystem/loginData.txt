@@ -1,2 +1,1 @@
-kitoyaka:monster
-pisun:pisun
+kitoyaka:admin

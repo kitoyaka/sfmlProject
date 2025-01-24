@@ -4,6 +4,7 @@
 #include "button/button.h"
 #include "textField/textField.h"
 #include <SFML/Window/Cursor.hpp>
+#include "loginSystem/UserManager.h"
 
 int main() {
     // Create the main window
@@ -33,9 +34,13 @@ int main() {
     bool newMusicPlaying = true;
     //bool keyPressed = false;
 
+
     // Load image for cursor
     sf::Image cursorImage("../image/notActiveCursor.png");
     sf::Image activeCursorImage("../image/activeCursor.png");
+
+    // UserManager
+    UserManager userManager("../loginSystem/loginData.txt");
 
     // Cursor
     const auto cursor = sf::Cursor::createFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(0, 0));
@@ -60,8 +65,11 @@ int main() {
             }
 
             // Pass event to textField
-            loginField.isButtonClicked(window,*event);
-            passwordField.isButtonClicked(window,*event);
+            loginField.handleClick(window, *event);
+            passwordField.handleClick(window, *event);
+
+            loginField.handeTextInput(*event);
+            passwordField.handeTextInput(*event);
         }
 
 
@@ -98,9 +106,10 @@ int main() {
         if (btn.isButtonClicked(window)) {
             music.stop();
             window.close();  // Закрываем старое окно
-            // New window
-            sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-            sf::RenderWindow newWindow(desktop, "Small patric", sf::Style::None);
+           if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
+                // New window
+                sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+                sf::RenderWindow newWindow(desktop, "Small patric", sf::Style::None);
 
                 while (newWindow.isOpen()) {
                     if (const std::optional<sf::Event> newEvent = newWindow.pollEvent()) {
@@ -132,7 +141,7 @@ int main() {
                     newWindow.draw(newSprite);
                     newWindow.display();
                 }
-
+            }
         }
 
         window.clear();
