@@ -39,21 +39,26 @@ void textField::handleClick(sf::RenderWindow &window, sf::Event event) {
 void textField::handeTextInput(sf::Event event) {
     if (m_isActive) {
         if (auto* textEntered = event.getIf<sf::Event::TextEntered>()) {
-            if (textEntered->unicode == '\b') {
-                if (!m_userInput.empty()) {
-                    m_userInput.pop_back();
-                }
-            } else if (textEntered->unicode < 128) {
+
+            if (textEntered->unicode < 128 && textEntered->unicode != 8) {
                 m_userInput += static_cast<char>(textEntered->unicode);
                 i++;
                 if (i % 15 == 0) {
                     clear();
                 }
                 m_text.setString(m_userInput);
+            } else if (textEntered->unicode == 8) {
+                if (!m_userInput.empty()) {
+                    m_userInput.pop_back();
+                    m_text.setString(m_userInput);
+                }
             }
         }
     }
 }
+
+
+
 
 
 
@@ -65,6 +70,10 @@ void textField::setActive(bool checkActive) {
     m_isActive = checkActive;
     m_rect.setFillColor(m_isActive ? sf::Color::Blue : sf::Color::White);
 }
+void textField::setUnActive() {
+    m_isActive = false;
+}
+
 
 bool textField::checkActive() {
     return m_isActive;

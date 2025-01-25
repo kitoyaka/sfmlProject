@@ -25,7 +25,7 @@ private:
     bool m_isActive;
 public:
     textField(int width, int height, std::string buttonName) :
-    m_width(width), m_height(height), m_buttonName(buttonName),
+    m_width(width), m_height(height), m_buttonName(buttonName), m_isActive(false),
     font("../font/ArialMT.ttf"), m_text(font, m_userInput, 50) {
 
         m_rect.setSize(sf::Vector2f(m_width, m_height));
@@ -53,6 +53,7 @@ public:
     void handleClick(sf::RenderWindow& window, sf::Event event);
     void handeTextInput(sf::Event event);
     bool checkActive();
+    void setUnActive();
     std::string getUserInput();
     sf::RectangleShape& getRect() {
         return m_rect;
