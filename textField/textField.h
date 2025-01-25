@@ -24,8 +24,9 @@ private:
     std::string m_buttonName;
     bool m_isActive;
 public:
-    textField(int width, int height, std::string buttonName) : m_width(width), m_height(height), m_buttonName(buttonName),
-    font("../font/ArialMT.ttf"), m_text(font, m_userInput, 50) {
+    textField(int width, int height, std::string buttonName) :
+    m_width(width), m_height(height), m_buttonName(buttonName),
+    font("../font/Lilita.ttf"), m_text(font, m_userInput, 50) {
 
         m_rect.setSize(sf::Vector2f(m_width, m_height));
         m_rect.setOutlineColor(sf::Color::Black);

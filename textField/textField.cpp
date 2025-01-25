@@ -19,38 +19,7 @@ void textField::clear() {
     m_text.setString("");
 }
 
-/*void textField::isButtonClicked(sf::RenderWindow& window, sf::Event event) {
 
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-        sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-
-        if (m_rect.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosition))) {
-            if (leftButtonPressed) {
-                std::cout << m_buttonName << " pressed " << leftButtonPressedTimes << " times" << std::endl;
-                m_rect.setFillColor(sf::Color::Blue);
-                leftButtonPressedTimes++;
-                leftButtonPressed = false;
-            }
-        }
-    } else {
-        leftButtonPressed = true;
-    }
-
-
-    if (m_rect.getFillColor() == sf::Color::Blue) {
-        if (auto* textEntered = event.getIf<sf::Event::TextEntered>()) {
-            if (textEntered->unicode == '\b') { // Обробка backspace
-                if (!m_userInput.empty()) {
-                    m_userInput.pop_back();
-                }
-            } else if (textEntered->unicode < 128) { // Додавання символу
-                m_userInput += static_cast<char>(textEntered->unicode);
-                m_text.setString(m_userInput);
-            }
-        }
-    }
-}
-*/
 
 void textField::handleClick(sf::RenderWindow &window, sf::Event event) {
     if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
