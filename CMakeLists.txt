@@ -15,5 +15,7 @@ add_executable(sfmlProject main.cpp
         textField/textField.cpp
         textField/textField.h
         loginSystem/UserManager.cpp
-        loginSystem/UserManager.h)
+        loginSystem/UserManager.h
+        gameMenu.cpp
+        gameMenu.h)
 target_link_libraries(sfmlProject sfml-graphics sfml-window sfml-audio)

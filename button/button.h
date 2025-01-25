@@ -14,18 +14,30 @@ private:
     sf::Text m_text;//(font,m_buttonText , 50);
     int leftButtonPressedTimes=1;
     bool leftButtonPressed = true;
-
+    sf::Texture m_texture;  // Текстура для кнопки
+    bool textureSet = false;  // Флаг для проверки, установлена ли текстура
 
 public:
 
-    button(int width, int height, std::string buttonText) : m_width(width), m_height(height), m_buttonText(buttonText),font("../font/ArialMT.ttf"),
+    button(int width, int height, std::string buttonText,const std::string& texturePath = "") : m_width(width), m_height(height), m_buttonText(buttonText),font("../font/ArialMT.ttf"),
                                                             m_text(font,m_buttonText , 50)
     {
         // Малювання прямокутника
         m_rect.setSize(sf::Vector2f(m_width, m_height));
-        m_rect.setOutlineColor(sf::Color::Black);
-        m_rect.setOutlineThickness(2);
-        m_rect.setFillColor(sf::Color::Green);
+        //m_rect.setOutlineColor(sf::Color::Black);
+        //m_rect.setOutlineThickness(2);
+        //m_rect.setFillColor(sf::Color::Green);
+
+        // Загрузка текстуры (если указана)
+        if (!texturePath.empty()) {
+            if (!m_texture.loadFromFile(texturePath)) {
+                throw std::runtime_error("Failed to load texture: " + texturePath);
+            }
+            m_rect.setTexture(&m_texture);  // Установка текстуры на прямоугольник
+            textureSet = true;  // Устанавливаем флаг текстуры
+        } else {
+            m_rect.setFillColor(sf::Color::Green);  // Если текстура не задана, используем цвет
+        }
 
         // Текст
         m_text.setFont(font);

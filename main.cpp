@@ -5,6 +5,38 @@
 #include "textField/textField.h"
 #include <SFML/Window/Cursor.hpp>
 #include "loginSystem/UserManager.h"
+#include "gameMenu.h"
+
+void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &loginField,textField &passwordField,const auto &activeCursor,const auto &cursor) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+    bool isOverLoginField = loginField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+    bool isOverPasswordField = passwordField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+    if (isOverLoginField || isOverPasswordField) {
+        window.setMouseCursor(textCursor);
+    } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+        window.setMouseCursor(activeCursor.value());
+    }
+    else {
+        window.setMouseCursor(cursor.value());
+    }
+}
+void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
+        if (musicPlaying) {
+            music.setVolume(0);
+            musicPlaying = false;
+        } else {
+            music.setVolume(100);
+            musicPlaying = true;
+        }
+        keyPressed = true;
+    } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
+        keyPressed = false;
+    }
+    if (music.getStatus() != sf::SoundSource::Status::Playing && musicPlaying) {
+        music.play();
+    }
+}
 
 int main() {
     // Create the main window
@@ -30,10 +62,6 @@ int main() {
     sf::Music music("../music/gimn_ukrainyi.ogg");
     bool musicPlaying = true;
     bool keyPressed = false;
-    sf::Music newMusic("../music/gmnrss.ogg");
-    bool newMusicPlaying = true;
-    //bool keyPressed = false;
-
 
     // Load image for cursor
     sf::Image cursorImage("../image/notActiveCursor.png");
@@ -49,9 +77,7 @@ int main() {
     // Create a text cursor for text fields
     sf::Cursor textCursor(sf::Cursor::Type::Text);  // Create a Text cursor
 
-    // Load a sprite to display
-    const sf::Texture newTexture("../image/bigLike.png");
-    sf::Sprite newSprite(newTexture);
+
 
     //sf::RenderWindow (sf::VideoMode({800, 400}), "Small patric");
 
@@ -72,87 +98,27 @@ int main() {
             passwordField.handeTextInput(*event);
         }
 
-
         // Change the cursor to text cursor when over text fields
-        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        bool isOverLoginField = loginField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
-        bool isOverPasswordField = passwordField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
-        if (isOverLoginField || isOverPasswordField) {
-            window.setMouseCursor(textCursor);
-        } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-            window.setMouseCursor(activeCursor.value());
-        }
-        else {
-            window.setMouseCursor(cursor.value());
-        }
+        changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor);
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
-            if (musicPlaying) {
-                music.setVolume(0);
-                musicPlaying = false;
-            } else {
-                music.setVolume(100);
-                musicPlaying = true;
-            }
-            keyPressed = true;
-        } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
-            keyPressed = false;
-        }
-        if (music.getStatus() != sf::SoundSource::Status::Playing && musicPlaying) {
-            music.play();
-        }
+        musicSettings(keyPressed,music,musicPlaying);
 
         // Проверяем, нажата ли кнопка
         if (btn.isButtonClicked(window)) {
             music.stop();
             window.close();  // Закрываем старое окно
-           if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
-                // New window
-                sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-                sf::RenderWindow newWindow(desktop, "Small patric", sf::Style::None);
+            if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
+                gameMenu startGameMenu;
+                startGameMenu.showGameMenu();
 
-                while (newWindow.isOpen()) {
-                    if (const std::optional<sf::Event> newEvent = newWindow.pollEvent()) {
-                        /*
-                        if (newEvent->is<sf::Event::Closed>()) {
-                            newWindow.close();
-                        }
-                        */
-                    }
-                    newWindow.clear();
-                    /*
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
-                        if (newMusicPlaying) {
-                            newMusic.setVolume(0);
-                            newMusicPlaying = false;
-                        } else {
-                            newMusic.setVolume(100);
-                            newMusicPlaying = true;
-                        }
-                        keyPressed = true;
-                    } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
-                        keyPressed = false;
-                    }*/
-                    if (newMusic.getStatus() != sf::SoundSource::Status::Playing && newMusicPlaying) {
-                        newMusic.play();
-                    }
-
-                    //newMusic.play();
-                    newWindow.draw(newSprite);
-                    newWindow.display();
-                }
             }
         }
-
-        window.clear();
-
-
-
-        window.draw(sprite);  // фон
-        btn.draw(window);     // кнопка
-        loginField.draw(window); // поле вводу login
-        passwordField.draw(window); // поле вводу password
-        window.display();
-    }
+            window.clear();
+            window.draw(sprite);  // фон
+            btn.draw(window);     // кнопка
+            loginField.draw(window); // поле вводу login
+            passwordField.draw(window); // поле вводу password
+            window.display();
+        }
     return 0;
 }
