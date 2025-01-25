@@ -15,7 +15,7 @@ private:
     int m_width, m_height;
     sf::RectangleShape m_rect;
     std::string m_userInput;
-    const sf::Font font;
+    sf::Font font;
     sf::Text m_text;
     sf::Event::TextEntered textEntered;
     int i=0;
@@ -26,7 +26,7 @@ private:
 public:
     textField(int width, int height, std::string buttonName) :
     m_width(width), m_height(height), m_buttonName(buttonName),
-    font("../font/Lilita.ttf"), m_text(font, m_userInput, 50) {
+    font("../font/ArialMT.ttf"), m_text(font, m_userInput, 50) {
 
         m_rect.setSize(sf::Vector2f(m_width, m_height));
         m_rect.setOutlineColor(sf::Color::Black);
@@ -47,7 +47,7 @@ public:
 
     void draw(sf::RenderWindow& window) const;
     void setPosition(float x, float y);
-    void isButtonClicked(sf::RenderWindow& window, sf::Event event);
+
     void clear();
     void setActive(bool checkActive);
     void handleClick(sf::RenderWindow& window, sf::Event event);

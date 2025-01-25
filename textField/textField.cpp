@@ -37,18 +37,25 @@ void textField::handleClick(sf::RenderWindow &window, sf::Event event) {
 }
 
 void textField::handeTextInput(sf::Event event) {
-    if(m_isActive && event.is<sf::Event::TextEntered>())
-    {
-        if (textEntered.unicode == '\b') { // Обробка backspace
-            if (!m_userInput.empty()) {
-                m_userInput.pop_back();
+    if (m_isActive) {
+        if (auto* textEntered = event.getIf<sf::Event::TextEntered>()) {
+            if (textEntered->unicode == '\b') {
+                if (!m_userInput.empty()) {
+                    m_userInput.pop_back();
+                }
+            } else if (textEntered->unicode < 128) {
+                m_userInput += static_cast<char>(textEntered->unicode);
+                i++;
+                if (i % 15 == 0) {
+                    clear();
+                }
+                m_text.setString(m_userInput);
             }
-        } else if (textEntered.unicode < 128) { // Додавання символу
-            m_userInput += static_cast<char>(textEntered.unicode);
         }
-        m_text.setString(m_userInput);
     }
 }
+
+
 
 std::string textField::getUserInput() {
     return m_userInput;
