@@ -5,6 +5,7 @@
 #include "textField/textField.h"
 #include <SFML/Window/Cursor.hpp>
 #include "loginSystem/UserManager.h"
+#include <SFML/Audio.hpp>
 #include "gameMenu.h"
 
 void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &loginField,textField &passwordField,const auto &activeCursor,const auto &cursor) {
@@ -97,6 +98,7 @@ int main() {
             loginField.handeTextInput(*event);
             passwordField.handeTextInput(*event);
         }
+
 
 
         changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor);

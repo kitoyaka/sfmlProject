@@ -29,6 +29,7 @@ void gameMenu::showGameMenu() {
                     Quit.setActive(false);
                     Start.setActive(true);
                 }
+                buttonSound.play();
                 updateButtonStates();
                 clock.restart();
             }
@@ -45,6 +46,7 @@ void gameMenu::showGameMenu() {
                     Quit.setActive(false);
                     Options.setActive(true);
                 }
+                buttonSound.play();
                 updateButtonStates();
                 clock.restart();
             }
