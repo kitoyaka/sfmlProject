@@ -41,7 +41,7 @@ public:
         Options.setPosition(780.f, 410.f);
         Quit.setPosition(780.f, 560.f);
     };
-    void showGameMenu();
+    int showGameMenu();
 
     void updateButtonStates();
 

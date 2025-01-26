@@ -5,7 +5,7 @@
 #include "gameMenu.h"
 
 
-void gameMenu::showGameMenu() {
+int gameMenu::showGameMenu() {
     // New window
     sf::RenderWindow menuWindow(sf::VideoMode({1920, 1080}), "Small patric",sf::Style::None);
     menuWindow.setMouseCursorVisible(false);
@@ -50,6 +50,9 @@ void gameMenu::showGameMenu() {
                 updateButtonStates();
                 clock.restart();
             }
+            if (Quit.getActive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+                return 0;
+            }
         }
 
         musicSettings(keyPressed,music,musicPlaying);
@@ -61,6 +64,7 @@ void gameMenu::showGameMenu() {
         Quit.draw(menuWindow);
         menuWindow.display();
     }
+return 0;
 }
 
 void gameMenu::updateButtonStates() {
