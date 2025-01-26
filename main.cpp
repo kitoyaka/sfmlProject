@@ -5,7 +5,6 @@
 #include "textField/textField.h"
 #include <SFML/Window/Cursor.hpp>
 #include "loginSystem/UserManager.h"
-#include <SFML/Audio.hpp>
 #include "gameMenu.h"
 
 void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &loginField,textField &passwordField,const auto &activeCursor,const auto &cursor) {
@@ -99,10 +98,7 @@ int main() {
             passwordField.handeTextInput(*event);
         }
 
-
-
         changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor);
-
         musicSettings(keyPressed,music,musicPlaying);
 
 
@@ -112,7 +108,6 @@ int main() {
             if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
                 gameMenu startGameMenu;
                 startGameMenu.showGameMenu();
-
             }
         }
             window.clear();
@@ -121,6 +116,6 @@ int main() {
             loginField.draw(window); // поле вводу login
             passwordField.draw(window); // поле вводу password
             window.display();
-        }
+    }
     return 0;
 }

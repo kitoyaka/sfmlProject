@@ -10,6 +10,8 @@
 #include <SFML/Audio.hpp>
 #include <vector>
 
+void musicSettings(bool &isPlaying, sf::Music &music, bool &stopMusic);
+
 
 class gameMenu {
 private:
@@ -21,13 +23,19 @@ private:
     bool active;
     sf::SoundBuffer buffer;
     sf::Sound buttonSound;
-
-
+    sf::Music music;
+    bool musicPlaying = true;
+    bool keyPressed = false;
 public:
-    gameMenu() : newTexture(("../image/menuBackground.png")),newSprite(newTexture), Start(true,360, 100, "", "../image/StartButtonRed.png"),
-    Options(false,360, 100, "", "../image/OptionsButtonWhite.png"), Quit(false,360, 100, "", "../image/QuitButtonWhite.png"),
-    buffer("../music/Blip_select 6.wav"), buttonSound(buffer)
+    gameMenu() : newTexture(("../image/menuBackground.png")),
+    newSprite(newTexture), Start(true,360, 100, "", "../image/StartButtonRed.png"),
+    Options(false,360, 100, "", "../image/OptionsButtonWhite.png"),
+    Quit(false,360, 100, "", "../image/QuitButtonWhite.png"),
+    buffer("../music/Blip_select 6.wav"),
+    buttonSound(buffer),
+    music("../music/bgm_17.ogg")
     {
+        music.setVolume(30);
         buttonSound.setVolume(20);
         Start.setPosition(780.f, 240.f);
         Options.setPosition(780.f, 410.f);

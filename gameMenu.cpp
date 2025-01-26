@@ -4,13 +4,13 @@
 
 #include "gameMenu.h"
 
+
 void gameMenu::showGameMenu() {
     // New window
     sf::RenderWindow menuWindow(sf::VideoMode({1920, 1080}), "Small patric",sf::Style::None);
     menuWindow.setMouseCursorVisible(false);
     sf::Clock clock;
     const float delayTime = 0.2f;
-
     while (menuWindow.isOpen()) {
         if (const std::optional<sf::Event> newEvent = menuWindow.pollEvent()) {
             if (newEvent->is<sf::Event::Closed>()) {
@@ -52,6 +52,7 @@ void gameMenu::showGameMenu() {
             }
         }
 
+        musicSettings(keyPressed,music,musicPlaying);
 
         menuWindow.clear();
         menuWindow.draw(newSprite);
