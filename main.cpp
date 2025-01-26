@@ -47,7 +47,7 @@ int main() {
     sf::Sprite sprite(texture);
 
     // Add button
-    button btn(200, 50, "HELLO BUTTON");
+    button btn(false,200, 50, "HELLO BUTTON");
     btn.setPosition(300.f, 300.f);
 
     // Add textField
@@ -98,15 +98,15 @@ int main() {
             passwordField.handeTextInput(*event);
         }
 
-        // Change the cursor to text cursor when over text fields
+
         changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor);
 
         musicSettings(keyPressed,music,musicPlaying);
 
-        // Проверяем, нажата ли кнопка
+
         if (btn.isButtonClicked(window)) {
             music.stop();
-            window.close();  // Закрываем старое окно
+            window.close();
             if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
                 gameMenu startGameMenu;
                 startGameMenu.showGameMenu();

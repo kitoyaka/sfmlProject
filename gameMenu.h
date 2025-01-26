@@ -7,7 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "button/button.h"
-#include "button/button.h"
+#include <vector>
 
 
 class gameMenu {
@@ -17,18 +17,21 @@ private:
     button Start;
     button Options;
     button Quit;
-
+    bool active;
 
 
 public:
-    gameMenu() : newTexture(("../image/menuBackground.png")),newSprite(newTexture), Start(360, 100, "", "../image/StartButtonWhite.png"),
-    Options(360, 100, "", "../image/OptionsButtonWhite.png"), Quit(360, 100, "", "../image/QuitButtonWhite.png") {
+    gameMenu() : newTexture(("../image/menuBackground.png")),newSprite(newTexture), Start(true,360, 100, "", "../image/StartButtonRed.png"),
+    Options(false,360, 100, "", "../image/OptionsButtonWhite.png"), Quit(false,360, 100, "", "../image/QuitButtonWhite.png") {
 
         Start.setPosition(780.f, 240.f);
         Options.setPosition(780.f, 410.f);
         Quit.setPosition(780.f, 560.f);
     };
     void showGameMenu();
+
+    void updateButtonStates();
+
 };
 
 

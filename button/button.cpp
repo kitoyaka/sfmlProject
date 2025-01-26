@@ -15,7 +15,7 @@ bool button::isButtonClicked(sf::RenderWindow& window) {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
 
-        // Проверяем, попадает ли мышь в область кнопки
+
         if (m_rect.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosition))) {
             if (leftButtonPressed) {
                 std::cout << m_buttonText << " pressed " << leftButtonPressedTimes << " times" << std::endl;
@@ -23,15 +23,33 @@ bool button::isButtonClicked(sf::RenderWindow& window) {
                 leftButtonPressedTimes++;
                 leftButtonPressed = false;
                 m_zalupa++;
-                return true; // Сигнализируем, что кнопка нажата
+                return true;
             }
         }
     } else {
         m_rect.setFillColor(sf::Color::Green);
         leftButtonPressed = true;
     }
-    return false; // Кнопка не нажата
+    return false;
 }
 
 
-
+void button::changeTexture(const std::string& newTexturePath) {
+    if (!m_texture.loadFromFile(newTexturePath)) {
+        throw std::runtime_error("Failed to load new texture: " + newTexturePath);
+    }
+    m_rect.setTexture(&m_texture);
+    textureSet = true;
+}
+void button::setActive(bool active, const std::string& activeTexturePath, const std::string& inactiveTexturePath){
+    if(active)
+    {
+        m_texture.loadFromFile( activeTexturePath);
+    }
+    else if(!active)
+    {
+        m_texture.loadFromFile(inactiveTexturePath);
+    }
+    m_rect.setTexture(&m_texture);
+    isActive = active;
+}

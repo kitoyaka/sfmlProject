@@ -6,10 +6,10 @@
 
 void gameMenu::showGameMenu() {
     // New window
-    //sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
-    //sf::RenderWindow menuWindow(desktop, "Small patric", sf::Style::None);
     sf::RenderWindow menuWindow(sf::VideoMode({1920, 1080}), "Small patric",sf::Style::None);
     menuWindow.setMouseCursorVisible(false);
+    sf::Clock clock;
+    const float delayTime = 0.2f;
 
     while (menuWindow.isOpen()) {
         if (const std::optional<sf::Event> newEvent = menuWindow.pollEvent()) {
@@ -17,6 +17,40 @@ void gameMenu::showGameMenu() {
                 menuWindow.close();
             }
         }
+        if(clock.getElapsedTime().asSeconds() >= delayTime) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
+                if (Start.getActive()) {
+                    Start.setActive(false);
+                    Options.setActive(true);
+                } else if (Options.getActive()) {
+                    Options.setActive(false);
+                    Quit.setActive(true);
+                } else if (Quit.getActive()) {
+                    Quit.setActive(false);
+                    Start.setActive(true);
+                }
+                updateButtonStates();
+                clock.restart();
+            }
+        }
+        if(clock.getElapsedTime().asSeconds() >= delayTime) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
+                if (Start.getActive()) {
+                    Start.setActive(false);
+                    Quit.setActive(true);
+                } else if (Options.getActive()) {
+                    Options.setActive(false);
+                    Start.setActive(true);
+                } else if (Quit.getActive()) {
+                    Quit.setActive(false);
+                    Options.setActive(true);
+                }
+                updateButtonStates();
+                clock.restart();
+            }
+        }
+
+
         menuWindow.clear();
         menuWindow.draw(newSprite);
         Start.draw(menuWindow);
@@ -24,4 +58,28 @@ void gameMenu::showGameMenu() {
         Quit.draw(menuWindow);
         menuWindow.display();
     }
+}
+
+void gameMenu::updateButtonStates() {
+
+    if(Start.checkActive())
+    {
+        Start.setActive(true, "../image/StartButtonRed.png", "../image/StartButtonWhite.png");
+        Options.setActive(false, "../image/OptionsButtonRed.png", "../image/OptionsButtonWhite.png");
+        Quit.setActive(false, "../image/QuitButtonRed.png", "../image/QuitButtonWhite.png");
+    }
+    else if(Options.checkActive())
+    {
+        Start.setActive(false, "../image/StartButtonRed.png", "../image/StartButtonWhite.png");
+        Options.setActive(true, "../image/OptionsButtonRed.png", "../image/OptionsButtonWhite.png");
+        Quit.setActive(false, "../image/QuitButtonRed.png", "../image/QuitButtonWhite.png");
+    }
+    else if(Quit.checkActive())
+    {
+        Start.setActive(false, "../image/StartButtonRed.png", "../image/StartButtonWhite.png");
+        Options.setActive(false, "../image/OptionsButtonRed.png", "../image/OptionsButtonWhite.png");
+        Quit.setActive(true, "../image/QuitButtonRed.png", "../image/QuitButtonWhite.png");
+    }
+
+
 }
