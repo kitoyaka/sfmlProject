@@ -19,10 +19,10 @@ bool button::isButtonClicked(sf::RenderWindow& window) {
         if (m_rect.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosition))) {
             if (leftButtonPressed) {
                 std::cout << m_buttonText << " pressed " << leftButtonPressedTimes << " times" << std::endl;
-                m_rect.setFillColor(sf::Color::Blue);
+                //m_rect.setFillColor(sf::Color::Cyan);
                 leftButtonPressedTimes++;
                 leftButtonPressed = false;
-                m_zalupa++;
+                //m_zalupa++;
                 return true;
             }
         }
@@ -35,19 +35,15 @@ bool button::isButtonClicked(sf::RenderWindow& window) {
 
 
 void button::changeTexture(const std::string& newTexturePath) {
-    if (!m_texture.loadFromFile(newTexturePath)) {
-        throw std::runtime_error("Failed to load new texture: " + newTexturePath);
-    }
+    m_texture.loadFromFile(newTexturePath);
     m_rect.setTexture(&m_texture);
     textureSet = true;
 }
 void button::setActive(bool active, const std::string& activeTexturePath, const std::string& inactiveTexturePath){
-    if(active)
-    {
+    if(active) {
         m_texture.loadFromFile( activeTexturePath);
     }
-    else if(!active)
-    {
+    else if(!active) {
         m_texture.loadFromFile(inactiveTexturePath);
     }
     m_rect.setTexture(&m_texture);

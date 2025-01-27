@@ -5,67 +5,62 @@
 #include "gameMenu.h"
 
 
-int gameMenu::showGameMenu() {
-    // New window
-    sf::RenderWindow menuWindow(sf::VideoMode({1920, 1080}), "Small patric",sf::Style::None);
-    menuWindow.setMouseCursorVisible(false);
-    sf::Clock clock;
-    const float delayTime = 0.2f;
-    while (menuWindow.isOpen()) {
-        if (const std::optional<sf::Event> newEvent = menuWindow.pollEvent()) {
-            if (newEvent->is<sf::Event::Closed>()) {
-                menuWindow.close();
+int gameMenu::showGameMenu(sf::RenderWindow &window) {
+    musicSettings(keyPressed,music,musicPlaying);
+    // Проверяем, прошло ли достаточно времени
+    if (clock.getElapsedTime().asSeconds() >= delayTime) {
+        // Обрабатываем нажатие стрелки вниз
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
+            if (Start.getActive()) {
+                Start.setActive(false);
+                Options.setActive(true);
+            } else if (Options.getActive()) {
+                Options.setActive(false);
+                Quit.setActive(true);
+            } else if (Quit.getActive()) {
+                Quit.setActive(false);
+                Start.setActive(true);
             }
-        }
-        if(clock.getElapsedTime().asSeconds() >= delayTime) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
-                if (Start.getActive()) {
-                    Start.setActive(false);
-                    Options.setActive(true);
-                } else if (Options.getActive()) {
-                    Options.setActive(false);
-                    Quit.setActive(true);
-                } else if (Quit.getActive()) {
-                    Quit.setActive(false);
-                    Start.setActive(true);
-                }
-                buttonSound.play();
-                updateButtonStates();
-                clock.restart();
-            }
-        }
-        if(clock.getElapsedTime().asSeconds() >= delayTime) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
-                if (Start.getActive()) {
-                    Start.setActive(false);
-                    Quit.setActive(true);
-                } else if (Options.getActive()) {
-                    Options.setActive(false);
-                    Start.setActive(true);
-                } else if (Quit.getActive()) {
-                    Quit.setActive(false);
-                    Options.setActive(true);
-                }
-                buttonSound.play();
-                updateButtonStates();
-                clock.restart();
-            }
-            if (Quit.getActive() && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
-                return 0;
-            }
+            buttonSound.play();
+            updateButtonStates();
+            clock.restart(); // Перезапускаем таймер после изменения состояния
         }
 
-        musicSettings(keyPressed,music,musicPlaying);
-
-        menuWindow.clear();
-        menuWindow.draw(newSprite);
-        Start.draw(menuWindow);
-        Options.draw(menuWindow);
-        Quit.draw(menuWindow);
-        menuWindow.display();
+        // Обрабатываем нажатие стрелки вверх
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
+            if (Start.getActive()) {
+                Start.setActive(false);
+                Quit.setActive(true);
+            } else if (Options.getActive()) {
+                Options.setActive(false);
+                Start.setActive(true);
+            } else if (Quit.getActive()) {
+                Quit.setActive(false);
+                Options.setActive(true);
+            }
+            buttonSound.play();
+            updateButtonStates();
+            clock.restart(); // Перезапускаем таймер после изменения состояния
+        }
     }
-return 0;
+    // Обработка нажатия Enter, если активна кнопка Quit
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Start.getActive()) {
+        return 1;
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Options.getActive()) {
+        return 2;
+    } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Quit.getActive()) {
+        return 3;
+    }
+
+    // Рисуем фоновое изображение и кнопки
+    window.draw(newSprite);
+    Start.draw(window);
+    Options.draw(window);
+    Quit.draw(window);
+    return 0;
 }
+
+
 
 void gameMenu::updateButtonStates() {
 

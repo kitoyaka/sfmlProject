@@ -26,7 +26,7 @@ void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
             music.setVolume(0);
             musicPlaying = false;
         } else {
-            music.setVolume(100);
+            music.setVolume(30);
             musicPlaying = true;
         }
         keyPressed = true;
@@ -38,28 +38,37 @@ void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
     }
 }
 
+enum class GameState {
+    LoginMenu,
+    GameMenu,
+    Settings,
+    Game
+};
+
 int main() {
     // Create the main window
-    sf::RenderWindow window(sf::VideoMode({800, 400}), "Big patric");
+    sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Big patric", sf::Style::None);
+    GameState currentState = GameState::LoginMenu;
 
     // Load a sprite to display
-    const sf::Texture texture("../image/main_menu.png");
+    const sf::Texture texture("../image/startWindow.png");
     sf::Sprite sprite(texture);
 
     // Add button
-    button btn(false,200, 50, "HELLO BUTTON");
-    btn.setPosition(300.f, 300.f);
+    button btn(false,360, 100, "HELLO BUTTON");
+    btn.setPosition(780.f, 560.f);
 
     // Add textField
-    textField loginField(200.f, 50.f, "Login Button");
-    loginField.setPosition(300.f, 100.f);
+    textField loginField(360, 100, "Login Button");
+    loginField.setPosition(780.f, 240.f);
 
     // Add textField
-    textField passwordField(200.f, 50.f, "Password Button");
-    passwordField.setPosition(300.f, 200.f);
+    textField passwordField(360, 100, "Password Button");
+    passwordField.setPosition(780.f, 410.f);
 
     // Load a music to play
-    sf::Music music("../music/gimn_ukrainyi.ogg");
+    sf::Music music("../music/bgm_6.ogg");
+    music.setVolume(30);
     bool musicPlaying = true;
     bool keyPressed = false;
 
@@ -77,9 +86,7 @@ int main() {
     // Create a text cursor for text fields
     sf::Cursor textCursor(sf::Cursor::Type::Text);  // Create a Text cursor
 
-
-
-    //sf::RenderWindow (sf::VideoMode({800, 400}), "Small patric");
+    gameMenu startGameMenu(window);
 
     // Start the game loop
     while (window.isOpen()) {
@@ -89,7 +96,6 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-
             // Pass event to textField
             loginField.handleClick(window, *event);
             passwordField.handleClick(window, *event);
@@ -98,24 +104,35 @@ int main() {
             passwordField.handeTextInput(*event);
         }
 
-        changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor);
-        musicSettings(keyPressed,music,musicPlaying);
-
-
         if (btn.isButtonClicked(window)) {
-            music.stop();
-            window.close();
-            if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
-                gameMenu startGameMenu;
-                startGameMenu.showGameMenu();
+            if (currentState == GameState::LoginMenu) {
+                if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
+                    currentState = GameState::GameMenu; // Переход к состоянию игрового меню
+                    music.stop();
+                }
             }
+
         }
-            window.clear();
+        window.clear();
+
+        if (currentState == GameState::LoginMenu) {
+            musicSettings(keyPressed,music,musicPlaying);
+            changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor);
             window.draw(sprite);  // фон
             btn.draw(window);     // кнопка
             loginField.draw(window); // поле вводу login
             passwordField.draw(window); // поле вводу password
-            window.display();
+        } else if (currentState == GameState::GameMenu) {
+            startGameMenu.showGameMenu(window);
+            if (startGameMenu.showGameMenu(window) == 1) {
+                currentState = GameState::Game;
+            } else if (startGameMenu.showGameMenu(window) == 2) {
+                currentState = GameState::Settings;
+            } else if (startGameMenu.showGameMenu(window) == 3) {
+                window.close();
+            }
+        }
+        window.display();
     }
     return 0;
 }

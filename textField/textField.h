@@ -47,7 +47,6 @@ public:
 
     void draw(sf::RenderWindow& window) const;
     void setPosition(float x, float y);
-
     void clear();
     void setActive(bool checkActive);
     void handleClick(sf::RenderWindow& window, sf::Event event);
@@ -58,7 +57,6 @@ public:
     sf::RectangleShape& getRect() {
         return m_rect;
     }
-
 };
 
 #endif //SFMLPROJECT_TEXTFIELD_H
