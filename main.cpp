@@ -13,20 +13,21 @@ void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &log
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     bool isOverLoginField = loginField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
     bool isOverPasswordField = passwordField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
-    static bool wasClicked = false;  // Переменная для отслеживания нажатия
+    static bool wasClicked = false;
+
 
     if (isOverLoginField || isOverPasswordField) {
         window.setMouseCursor(textCursor);
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         window.setMouseCursor(activeCursor.value());
-        // Если кнопка мыши была только что нажата (не удерживается), проигрываем звук
+
         if (!wasClicked) {
             clickSound.play();
             wasClicked = true;
         }
     } else {
         window.setMouseCursor(cursor.value());
-        wasClicked = false;  // Сбрасываем флаг, когда кнопка отпущена
+        wasClicked = false;
     }
 }
 void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
@@ -64,7 +65,7 @@ int main() {
     sf::Sprite sprite(texture);
 
     // Add button
-    button btn(false,360, 100, "HELLO BUTTON");
+    button btn(false,360, 100, "LOG IN");
     btn.setPosition(780.f, 560.f);
 
     // Add textField
@@ -115,13 +116,20 @@ int main() {
 
             loginField.handeTextInput(*event);
             passwordField.handeTextInput(*event);
+
+            loginField.handleHover(window);
+            passwordField.handleHover(window);
         }
         if (btn.isButtonClicked(window)) {
             if (currentState == GameState::LoginMenu) {
                 if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
-                    currentState = GameState::GameMenu; // Переход к состоянию игрового меню
+                    currentState = GameState::GameMenu;
                     window.setMouseCursorVisible(false);
                     music.stop();
+                }
+                else
+                {
+                    window.close();
                 }
             }
 
@@ -134,6 +142,7 @@ int main() {
             btn.draw(window);     // кнопка
             loginField.draw(window); // поле вводу login
             passwordField.draw(window); // поле вводу password
+
         } else if (currentState == GameState::GameMenu) {
             startGameMenu.showGameMenu(window);
             if (startGameMenu.showGameMenu(window) == 1) {
@@ -144,6 +153,7 @@ int main() {
                 window.close();
             }
         }
+
         window.display();
     }
     return 0;

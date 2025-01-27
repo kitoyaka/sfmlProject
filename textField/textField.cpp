@@ -12,6 +12,7 @@ void textField::setPosition(float x, float y) {
 void textField::draw(sf::RenderWindow& window) const {
     window.draw(m_rect);
     window.draw(m_text);
+
 }
 
 void textField::clear() {
@@ -36,29 +37,40 @@ void textField::handleClick(sf::RenderWindow &window, sf::Event event) {
     }
 }
 
+void textField::handleHover(sf::RenderWindow &window) {
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
+    if(m_rect.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosition)))
+    {
+        sf::Color grayColor(128,128,128);
+        m_rect.setFillColor(grayColor);
+    }
+    else
+    {
+        m_rect.setFillColor(sf::Color::White);
+    }
+}
+
+
 void textField::handeTextInput(sf::Event event) {
     if (m_isActive) {
         if (auto* textEntered = event.getIf<sf::Event::TextEntered>()) {
 
             if (textEntered->unicode < 128 && textEntered->unicode != 8) {
-                m_userInput += static_cast<char>(textEntered->unicode);
-                i++;
-                if (i % 15 == 0) {
-                    clear();
+                if(m_userInput.size() < 15) {
+                    m_userInput += static_cast<char>(textEntered->unicode);
+                    m_text.setString(m_userInput);
+
                 }
-                m_text.setString(m_userInput);
             } else if (textEntered->unicode == 8) {
                 if (!m_userInput.empty()) {
                     m_userInput.pop_back();
                     m_text.setString(m_userInput);
                 }
             }
+
         }
     }
 }
-
-
-
 
 
 
@@ -67,8 +79,9 @@ std::string textField::getUserInput() {
 }
 
 void textField::setActive(bool checkActive) {
+    sf::Color grayColor(128,128,128);
     m_isActive = checkActive;
-    m_rect.setFillColor(m_isActive ? sf::Color::Blue : sf::Color::White);
+    m_rect.setFillColor(m_isActive ? grayColor : sf::Color::White);
 }
 void textField::setUnActive() {
     m_isActive = false;

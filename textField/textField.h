@@ -18,11 +18,12 @@ private:
     sf::Font font;
     sf::Text m_text;
     sf::Event::TextEntered textEntered;
-    int i=0;
     int leftButtonPressedTimes=1;
     bool leftButtonPressed = true;
     std::string m_buttonName;
     bool m_isActive;
+
+
 public:
     textField(int width, int height, std::string buttonName) :
     m_width(width), m_height(height), m_buttonName(buttonName), m_isActive(false),
@@ -42,6 +43,7 @@ public:
         m_text.setOutlineColor(sf::Color::Black);
         m_text.setOutlineThickness(2.f);
 
+
     }
 
 
@@ -50,7 +52,9 @@ public:
     void clear();
     void setActive(bool checkActive);
     void handleClick(sf::RenderWindow& window, sf::Event event);
+    void handleHover(sf::RenderWindow& window);
     void handeTextInput(sf::Event event);
+
     bool checkActive();
     void setUnActive();
     std::string getUserInput();
