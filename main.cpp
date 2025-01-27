@@ -7,17 +7,26 @@
 #include "loginSystem/UserManager.h"
 #include "gameMenu.h"
 
-void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &loginField,textField &passwordField,const auto &activeCursor,const auto &cursor) {
+void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &loginField,
+                 textField &passwordField,const auto &activeCursor,const auto &cursor,
+                 sf::Sound &clickSound) {
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     bool isOverLoginField = loginField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
     bool isOverPasswordField = passwordField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+    static bool wasClicked = false;  // Переменная для отслеживания нажатия
+
     if (isOverLoginField || isOverPasswordField) {
         window.setMouseCursor(textCursor);
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         window.setMouseCursor(activeCursor.value());
-    }
-    else {
+        // Если кнопка мыши была только что нажата (не удерживается), проигрываем звук
+        if (!wasClicked) {
+            clickSound.play();
+            wasClicked = true;
+        }
+    } else {
         window.setMouseCursor(cursor.value());
+        wasClicked = false;  // Сбрасываем флаг, когда кнопка отпущена
     }
 }
 void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
@@ -88,6 +97,10 @@ int main() {
 
     gameMenu startGameMenu(window);
 
+    sf::SoundBuffer buffer("../music/pzdc.wav.");
+    sf::Sound clickSound(buffer);
+    clickSound.setVolume(50);
+
     // Start the game loop
     while (window.isOpen()) {
         // Process events
@@ -103,21 +116,20 @@ int main() {
             loginField.handeTextInput(*event);
             passwordField.handeTextInput(*event);
         }
-
         if (btn.isButtonClicked(window)) {
             if (currentState == GameState::LoginMenu) {
                 if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
                     currentState = GameState::GameMenu; // Переход к состоянию игрового меню
+                    window.setMouseCursorVisible(false);
                     music.stop();
                 }
             }
 
         }
         window.clear();
-
         if (currentState == GameState::LoginMenu) {
             musicSettings(keyPressed,music,musicPlaying);
-            changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor);
+            changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor,clickSound);
             window.draw(sprite);  // фон
             btn.draw(window);     // кнопка
             loginField.draw(window); // поле вводу login
