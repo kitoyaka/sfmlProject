@@ -6,10 +6,9 @@
 
 
 int gameMenu::showGameMenu(sf::RenderWindow &window) {
-    musicSettings(keyPressed,music,musicPlaying);
-    // Проверяем, прошло ли достаточно времени
+    musicSettings(keyPressed, music, musicPlaying);
+
     if (clock.getElapsedTime().asSeconds() >= delayTime) {
-        // Обрабатываем нажатие стрелки вниз
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
             if (Start.getActive()) {
                 Start.setActive(false);
@@ -23,10 +22,9 @@ int gameMenu::showGameMenu(sf::RenderWindow &window) {
             }
             buttonSound.play();
             updateButtonStates();
-            clock.restart(); // Перезапускаем таймер после изменения состояния
+            clock.restart();
         }
 
-        // Обрабатываем нажатие стрелки вверх
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
             if (Start.getActive()) {
                 Start.setActive(false);
@@ -40,26 +38,36 @@ int gameMenu::showGameMenu(sf::RenderWindow &window) {
             }
             buttonSound.play();
             updateButtonStates();
-            clock.restart(); // Перезапускаем таймер после изменения состояния
+            clock.restart();
         }
     }
-    // Обработка нажатия Enter, если активна кнопка Quit
+
+    // Возвращаем значение в зависимости от текущей кнопки
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Start.getActive()) {
-        return 1;
+        return 1; // Начало игры
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Options.getActive()) {
-        return 2;
+        return 2; // Настройки
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Quit.getActive()) {
-        return 3;
+        return 3; // Выход
     }
 
-    // Рисуем фоновое изображение и кнопки
+    // Рисуем элементы меню
     window.draw(newSprite);
     Start.draw(window);
     Options.draw(window);
     Quit.draw(window);
+
     return 0;
 }
 
+void gameMenu::showSettings(sf::RenderWindow &window) {
+    musicSettings(keyPressed, music, musicPlaying);
+    window.draw(newSprite);
+    Start.draw(window);
+    Options.draw(window);
+    Quit.draw(window);
+    settingsField.draw(window);
+}
 
 
 void gameMenu::updateButtonStates() {

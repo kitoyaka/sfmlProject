@@ -68,18 +68,17 @@ int main() {
     const sf::Texture texture("../image/startWindow.png");
     sf::Sprite sprite(texture);
 
+    // Add loginField
+    textField loginField(360, 100, "Login Button","../image/LoginPasswordField_v2.png");
+    loginField.setPosition(780.f, 220.f);
+
+    // Add passwordField
+    textField passwordField(360, 100, "Password Button","../image/LoginPasswordField_v2.png");
+    passwordField.setPosition(780.f, 380.f);
+
     // Add button
     button btn(false,360, 100, "", "../image/LoginButton3d_v2.png");
-
-    btn.setPosition(780.f, 560.f);
-
-    // Add textField
-    textField loginField(360, 100, "Login Button","../image/LoginPasswordField_v2.png");
-    loginField.setPosition(780.f, 240.f);
-
-    // Add textField
-    textField passwordField(360, 100, "Password Button","../image/LoginPasswordField_v2.png");
-    passwordField.setPosition(780.f, 410.f);
+    btn.setPosition(780.f, 720.f);
 
     // Load a music to play
     sf::Music music("../music/bgm_6.ogg");
@@ -108,26 +107,17 @@ int main() {
     clickSound.setVolume(50);
 
     // Start the game loop
-    while (window.isOpen()) {
-        // Process events
-        while (const std::optional<sf::Event> event = window.pollEvent()) {
-            // Close window: exit
-            if (event->is<sf::Event::Closed>()) {
-                window.close();
-            }
-            // Pass event to textField
-            loginField.handleClick(window, *event);
-            passwordField.handleClick(window, *event);
-
-            loginField.handeTextInput(*event);
-            passwordField.handeTextInput(*event);
+while (window.isOpen()) {
+    // Process events
+    while (const std::optional<sf::Event> event = window.pollEvent()) {
+        // Close window: exit
+        if (event->is<sf::Event::Closed>()) {
+            window.close();
         }
-        window.clear();
 
+        // Переход Состояний
+        //if (event->is<sf::Event::KeyPressed>()) {
         if (currentState == GameState::LoginMenu) {
-            musicSettings(keyPressed,music,musicPlaying);
-            changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor,clickSound);
-            // Проверка логина при клике
             if (btn.isButtonClicked(window)) {
                 if (userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
                     currentState = GameState::GameMenu; // Переход к игровому меню
@@ -135,21 +125,56 @@ int main() {
                     music.stop();
                 }
             }
-            window.draw(sprite);  // фон
-            loginField.draw(window); // поле вводу login
-            passwordField.draw(window); // поле вводу password
-            btn.draw(window);     // кнопка
+
         } else if (currentState == GameState::GameMenu) {
-            startGameMenu.showGameMenu(window);
-            if (startGameMenu.showGameMenu(window) == 1) {
-                currentState = GameState::Game;
-            } else if (startGameMenu.showGameMenu(window) == 2) {
-                currentState = GameState::Settings;
-            } else if (startGameMenu.showGameMenu(window) == 3) {
-                window.close();
-            }
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+                    if (startGameMenu.showGameMenu(window) == 1) {
+                        currentState = GameState::Game;
+                    } else if (startGameMenu.showGameMenu(window) == 2) {
+                        // Переключение состояния на настройки
+                        currentState = GameState::Settings;
+                    } else if (startGameMenu.showGameMenu(window) == 3) {
+                        window.close();
+                    }
+                }
+        } else if (currentState == GameState::Settings) {
+                // Выход из настроек при нажатии Escape
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+                    currentState = GameState::GameMenu;
+                }
+        } else if (currentState == GameState::Game) {
+
         }
-        window.display();
+        //}
+
+        // Pass event to textField
+        loginField.handleClick(window, *event);
+        passwordField.handleClick(window, *event);
+
+        loginField.handeTextInput(*event);
+        passwordField.handeTextInput(*event);
     }
+
+    // Очистка окна
+    window.clear();
+
+    // Отображение предметов на разных состоянияниях
+    if (currentState == GameState::LoginMenu) {
+        musicSettings(keyPressed, music, musicPlaying);
+        changeCursor(window, textCursor, loginField, passwordField, activeCursor, cursor, clickSound);
+        window.draw(sprite);              // фон
+        loginField.draw(window);       // поле ввода логина
+        passwordField.draw(window);    // поле ввода пароля
+        btn.draw(window);              // кнопка
+    } else if (currentState == GameState::GameMenu) {
+        startGameMenu.showGameMenu(window);
+    } else if (currentState == GameState::Settings) {
+        startGameMenu.showSettings(window);
+    }
+
+    // Отображение окна
+    window.display();
+}
+
     return 0;
 }

@@ -29,7 +29,8 @@ private:
 
     sf::Clock clock;
     const float delayTime = 0.2f;
-    //sf::RenderWindow(window);
+
+    button settingsField;
 public:
     gameMenu(sf::RenderWindow &window) : newTexture(("../image/menuBackground_v2.png")),
     newSprite(newTexture), Start(true,360, 100, "", "../image/StartButtonRed.png"),
@@ -37,7 +38,8 @@ public:
     Quit(false,360, 100, "", "../image/QuitButtonWhite.png"),
     buffer("../music/Blip_select 6.wav"),
     buttonSound(buffer),
-    music("../music/bgm_17.ogg")
+    music("../music/bgm_17.ogg"),
+    settingsField(false,810, 800, "", "../image/SettingsField.png")
 
     {
         music.setVolume(30);
@@ -45,11 +47,15 @@ public:
         Start.setPosition(780.f, 240.f);
         Options.setPosition(780.f, 410.f);
         Quit.setPosition(780.f, 560.f);
+
+
+        settingsField.setPosition(555.f, 150);
     };
 
 
     int showGameMenu(sf::RenderWindow &window);
     void updateButtonStates();
+    void showSettings(sf::RenderWindow &window);
 
 };
 
