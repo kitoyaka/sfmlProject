@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+void changeTexture(sf::RectangleShape &m_rect, sf::Texture &m_texture, const std::string& newTexturePath);
 
 class button {
 private:
@@ -55,7 +56,7 @@ public:
     void draw(sf::RenderWindow& window) const;
     void setPosition(float x, float y);
     bool isButtonClicked(sf::RenderWindow& window);
-    void changeTexture(const std::string& newTexturePath);
+    //void changeTexture(const std::string& newTexturePath);
     void setActive(bool active, const std::string& activeTexturePath, const std::string& inactiveTexturePath);
     bool checkActive() { return isActive; }
     bool getActive() const { return isActive; }

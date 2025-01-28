@@ -23,23 +23,23 @@ bool button::isButtonClicked(sf::RenderWindow& window) {
                 leftButtonPressedTimes++;
                 leftButtonPressed = false;
                 //m_zalupa++;
-                changeTexture("../image/LoginButton3dPressed_v2.png");
+                changeTexture(m_rect,m_texture,"../image/LoginButton3dPressed_v2.png");
                 return true;
             }
         }
     } else {
-        changeTexture("../image/LoginButton3d_v2.png");
+        changeTexture(m_rect,m_texture,"../image/LoginButton3d_v2.png");
         leftButtonPressed = true;
     }
     return false;
 }
 
 
-void button::changeTexture(const std::string& newTexturePath) {
+/*void button::changeTexture(const std::string& newTexturePath) {
     m_texture.loadFromFile(newTexturePath);
     m_rect.setTexture(&m_texture);
     textureSet = true;
-}
+}*/
 void button::setActive(bool active, const std::string& activeTexturePath, const std::string& inactiveTexturePath){
     if(active) {
         m_texture.loadFromFile( activeTexturePath);

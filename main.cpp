@@ -7,6 +7,11 @@
 #include "loginSystem/UserManager.h"
 #include "gameMenu.h"
 
+void changeTexture(sf::RectangleShape &rect, sf::Texture &m_texture, const std::string& newTexturePath) {
+    m_texture.loadFromFile(newTexturePath);
+    rect.setTexture(&m_texture);
+}
+
 void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &loginField,
                  textField &passwordField,const auto &activeCursor,const auto &cursor,
                  sf::Sound &clickSound) {
