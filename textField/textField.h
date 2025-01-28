@@ -23,16 +23,22 @@ private:
     bool leftButtonPressed = true;
     std::string m_buttonName;
     bool m_isActive;
+    sf::Texture m_texture;
 public:
-    textField(int width, int height, std::string buttonName) :
+    textField(int width, int height, std::string buttonName, const std::string& texturePath = "") :
     m_width(width), m_height(height), m_buttonName(buttonName), m_isActive(false),
     font("../font/ArialMT.ttf"), m_text(font, m_userInput, 50) {
 
-        m_rect.setSize(sf::Vector2f(m_width, m_height));
-        m_rect.setOutlineColor(sf::Color::Black);
-        m_rect.setOutlineThickness(2);
-        m_rect.setFillColor(sf::Color::White);
+        if (!texturePath.empty()) {
+            if (!m_texture.loadFromFile(texturePath)) {
+                throw std::runtime_error("Failed to load texture: " + texturePath);
+            }
+            m_rect.setTexture(&m_texture);
+        } else {
+            m_rect.setFillColor(sf::Color::Green);
+        }
 
+        m_rect.setSize(sf::Vector2f(m_width, m_height));
 
         m_text.setFont(font);
         m_text.setString(m_userInput);

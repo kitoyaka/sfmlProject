@@ -64,15 +64,16 @@ int main() {
     sf::Sprite sprite(texture);
 
     // Add button
-    button btn(false,360, 100, "HELLO BUTTON");
+    button btn(false,360, 100, "", "../image/LoginButton3d.png");
+
     btn.setPosition(780.f, 560.f);
 
     // Add textField
-    textField loginField(360, 100, "Login Button");
+    textField loginField(360, 100, "Login Button","../image/LoginPasswordField.png");
     loginField.setPosition(780.f, 240.f);
 
     // Add textField
-    textField passwordField(360, 100, "Password Button");
+    textField passwordField(360, 100, "Password Button","../image/LoginPasswordField.png");
     passwordField.setPosition(780.f, 410.f);
 
     // Load a music to play
@@ -116,20 +117,23 @@ int main() {
             loginField.handeTextInput(*event);
             passwordField.handeTextInput(*event);
         }
-        if (btn.isButtonClicked(window)) {
-            if (currentState == GameState::LoginMenu) {
-                if(userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
-                    currentState = GameState::GameMenu; // Переход к состоянию игрового меню
+        window.clear();
+
+        if (currentState == GameState::LoginMenu) {
+            musicSettings(keyPressed,music,musicPlaying);
+            changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor,clickSound);
+            // Проверка логина при клике
+            if (btn.isButtonClicked(window)) {
+                btn.setActive(true);
+                if (userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
+                    currentState = GameState::GameMenu; // Переход к игровому меню
                     window.setMouseCursorVisible(false);
                     music.stop();
                 }
             }
-
-        }
-        window.clear();
-        if (currentState == GameState::LoginMenu) {
-            musicSettings(keyPressed,music,musicPlaying);
-            changeCursor(window,textCursor,loginField,passwordField,activeCursor,cursor,clickSound);
+            else if (btn.isButtonClicked(window)) {
+                btn.setActive(false);
+            }
             window.draw(sprite);  // фон
             btn.draw(window);     // кнопка
             loginField.draw(window); // поле вводу login

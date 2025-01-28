@@ -23,11 +23,12 @@ bool button::isButtonClicked(sf::RenderWindow& window) {
                 leftButtonPressedTimes++;
                 leftButtonPressed = false;
                 //m_zalupa++;
+                changeTexture("../image/LoginButton3dPressed.png");
                 return true;
             }
         }
     } else {
-        m_rect.setFillColor(sf::Color::Green);
+        changeTexture("../image/LoginButton3d.png");
         leftButtonPressed = true;
     }
     return false;
