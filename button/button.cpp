@@ -23,12 +23,12 @@ bool button::isButtonClicked(sf::RenderWindow& window) {
                 leftButtonPressedTimes++;
                 leftButtonPressed = false;
                 //m_zalupa++;
-                changeTexture("../image/LoginButton3dPressed.png");
+                changeTexture("../image/LoginButton3dPressed_v2.png");
                 return true;
             }
         }
     } else {
-        changeTexture("../image/LoginButton3d.png");
+        changeTexture("../image/LoginButton3d_v2.png");
         leftButtonPressed = true;
     }
     return false;
