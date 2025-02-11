@@ -17,5 +17,8 @@ add_executable(sfmlProject main.cpp
         loginSystem/UserManager.cpp
         loginSystem/UserManager.h
         gameMenu.cpp
-        gameMenu.h)
+        gameMenu.h
+        tetris/Field.cpp
+        tetris/Field.h)
+
 target_link_libraries(sfmlProject sfml-graphics sfml-window sfml-audio)

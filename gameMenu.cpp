@@ -42,7 +42,7 @@ int gameMenu::showGameMenu(sf::RenderWindow &window) {
         }
     }
 
-    // Возвращаем значение в зависимости от текущей кнопки
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Start.getActive()) {
         return 1; // Начало игры
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Options.getActive()) {
@@ -51,7 +51,7 @@ int gameMenu::showGameMenu(sf::RenderWindow &window) {
         return 3; // Выход
     }
 
-    // Рисуем элементы меню
+
     window.draw(newSprite);
     Start.draw(window);
     Options.draw(window);

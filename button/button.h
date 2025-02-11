@@ -51,7 +51,7 @@ public:
         m_text.setOutlineColor(sf::Color::Black);
         m_text.setOutlineThickness(2.f);
     }
-    //int m_zalupa;
+
 
     void draw(sf::RenderWindow& window) const;
     void setPosition(float x, float y);

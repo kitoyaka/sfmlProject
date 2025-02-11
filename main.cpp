@@ -6,10 +6,12 @@
 #include <SFML/Window/Cursor.hpp>
 #include "loginSystem/UserManager.h"
 #include "gameMenu.h"
+#include "tetris/Field.h"
 
 void changeTexture(sf::RectangleShape &rect, sf::Texture &m_texture, const std::string& newTexturePath) {
     m_texture.loadFromFile(newTexturePath);
     rect.setTexture(&m_texture);
+
 }
 
 void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &loginField,
@@ -18,20 +20,20 @@ void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &log
     sf::Vector2i mousePos = sf::Mouse::getPosition(window);
     bool isOverLoginField = loginField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
     bool isOverPasswordField = passwordField.getRect().getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
-    static bool wasClicked = false;  // Переменная для отслеживания нажатия
+    static bool wasClicked = false;
 
     if (isOverLoginField || isOverPasswordField) {
         window.setMouseCursor(textCursor);
     } else if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
         window.setMouseCursor(activeCursor.value());
-        // Если кнопка мыши была только что нажата (не удерживается), проигрываем звук
+
         if (!wasClicked) {
             clickSound.play();
             wasClicked = true;
         }
     } else {
         window.setMouseCursor(cursor.value());
-        wasClicked = false;  // Сбрасываем флаг, когда кнопка отпущена
+        wasClicked = false;
     }
 }
 void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
@@ -97,8 +99,8 @@ int main() {
     const auto cursor = sf::Cursor::createFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(0, 0));
     const auto activeCursor = sf::Cursor::createFromPixels(activeCursorImage.getPixelsPtr(), activeCursorImage.getSize(), sf::Vector2u(0, 0));
 
-    // Create a text cursor for text fields
-    sf::Cursor textCursor(sf::Cursor::Type::Text);  // Create a Text cursor
+
+    sf::Cursor textCursor(sf::Cursor::Type::Text);
 
     gameMenu startGameMenu(window);
 
@@ -106,21 +108,21 @@ int main() {
     sf::Sound clickSound(buffer);
     clickSound.setVolume(50);
 
-    // Start the game loop
+
 while (window.isOpen()) {
-    // Process events
+
     while (const std::optional<sf::Event> event = window.pollEvent()) {
         // Close window: exit
         if (event->is<sf::Event::Closed>()) {
             window.close();
         }
 
-        // Переход Состояний
+
         //if (event->is<sf::Event::KeyPressed>()) {
         if (currentState == GameState::LoginMenu) {
             if (btn.isButtonClicked(window)) {
                 if (userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
-                    currentState = GameState::GameMenu; // Переход к игровому меню
+                    currentState = GameState::GameMenu;
                     window.setMouseCursorVisible(false);
                     music.stop();
                 }
@@ -131,14 +133,14 @@ while (window.isOpen()) {
                     if (startGameMenu.showGameMenu(window) == 1) {
                         currentState = GameState::Game;
                     } else if (startGameMenu.showGameMenu(window) == 2) {
-                        // Переключение состояния на настройки
+
                         currentState = GameState::Settings;
                     } else if (startGameMenu.showGameMenu(window) == 3) {
                         window.close();
                     }
                 }
         } else if (currentState == GameState::Settings) {
-                // Выход из настроек при нажатии Escape
+
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                     currentState = GameState::GameMenu;
                 }
@@ -147,7 +149,7 @@ while (window.isOpen()) {
         }
         //}
 
-        // Pass event to textField
+
         loginField.handleClick(window, *event);
         passwordField.handleClick(window, *event);
 
@@ -155,26 +157,40 @@ while (window.isOpen()) {
         passwordField.handeTextInput(*event);
     }
 
-    // Очистка окна
+
     window.clear();
 
-    // Отображение предметов на разных состоянияниях
+
     if (currentState == GameState::LoginMenu) {
         musicSettings(keyPressed, music, musicPlaying);
         changeCursor(window, textCursor, loginField, passwordField, activeCursor, cursor, clickSound);
         window.draw(sprite);              // фон
-        loginField.draw(window);       // поле ввода логина
-        passwordField.draw(window);    // поле ввода пароля
-        btn.draw(window);              // кнопка
+        loginField.draw(window);
+        passwordField.draw(window);
+        btn.draw(window);
     } else if (currentState == GameState::GameMenu) {
         startGameMenu.showGameMenu(window);
     } else if (currentState == GameState::Settings) {
         startGameMenu.showSettings(window);
+    } else if(currentState == GameState::Game)
+    {
+        Field field(window);
+        field.draw(window);
     }
 
-    // Отображение окна
+
     window.display();
 }
 
     return 0;
 }
+
+
+
+
+
+
+
+
+
+
