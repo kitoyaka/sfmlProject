@@ -21,24 +21,18 @@ private:
     std::vector<std::vector<int>> grid;
     sf::Vector2f offset;
 
-    const sf::Texture newTexture;
-    sf::Sprite newSprite;
+    const sf::Texture gameBackgroundTexture;
+    sf::Sprite gameBackgroundSprite;
 
     sf::Music music;
     bool musicPlaying = true;
     bool keyPressed = false;
 
-
     sf::Texture textureBlueBlock;
-    //sf::Sprite spriteBlueBlock;
     sf::Texture textureYellowBlock;
-    //sf::Sprite spriteYellowBlock;
     sf::Texture texturePinkBlock;
-    //sf::Sprite spritePinkBlock;
     sf::Texture textureGreenBlock;
-    //sf::Sprite spriteGreenBlock;
     sf::Texture textureRedBlock;
-    //sf::Sprite spriteRedBlock;
 
     const int figures[7][4] = {
             {1, 3, 5, 7},
@@ -60,7 +54,7 @@ private:
 
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
-            newTexture(("../image/Tetris_backgroundv2.png")), newSprite(newTexture),
+            gameBackgroundTexture(("../image/Tetris_backgroundv2.png")), gameBackgroundSprite(gameBackgroundTexture),
             music("../music/bgm_2.ogg"),
             textureBlueBlock(("../image/blue_squarev2.png")),
             textureYellowBlock(("../image/yellow_squarev2.png")),
