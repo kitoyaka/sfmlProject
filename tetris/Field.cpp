@@ -6,7 +6,10 @@
 
 
 void Field::draw(sf::RenderWindow& window) {
+    musicSettings(keyPressed, music, musicPlaying);
+
     window.draw(newSprite);
+
     for (int row = 0; row < HEIGHT; ++row) {
         for (int col = 0; col < WIDTH; ++col) {
             cell.setPosition(sf::Vector2f (offset.x + col * TILE_SIZE, offset.y + row * TILE_SIZE));
@@ -14,4 +17,8 @@ void Field::draw(sf::RenderWindow& window) {
         }
     }
 
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+        music.stop();
+    }
 }

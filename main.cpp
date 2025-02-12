@@ -36,6 +36,7 @@ void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &log
         wasClicked = false;
     }
 }
+
 void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
         if (musicPlaying) {
@@ -108,6 +109,8 @@ int main() {
     sf::Sound clickSound(buffer);
     clickSound.setVolume(50);
 
+    Field field(window);
+
 
 while (window.isOpen()) {
 
@@ -132,20 +135,21 @@ while (window.isOpen()) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
                     if (startGameMenu.showGameMenu(window) == 1) {
                         currentState = GameState::Game;
+                        //music.stop();
                     } else if (startGameMenu.showGameMenu(window) == 2) {
-
                         currentState = GameState::Settings;
                     } else if (startGameMenu.showGameMenu(window) == 3) {
                         window.close();
                     }
                 }
         } else if (currentState == GameState::Settings) {
-
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
-                    currentState = GameState::GameMenu;
-                }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+                currentState = GameState::GameMenu;
+            }
         } else if (currentState == GameState::Game) {
-
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+                currentState = GameState::GameMenu;
+            }
         }
         //}
 
@@ -174,10 +178,8 @@ while (window.isOpen()) {
         startGameMenu.showSettings(window);
     } else if(currentState == GameState::Game)
     {
-        Field field(window);
         field.draw(window);
     }
-
 
     window.display();
 }

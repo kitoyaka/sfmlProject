@@ -6,6 +6,9 @@
 #define SFMLPROJECT_FIELD_H
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <SFML/Audio.hpp>
+
+void musicSettings(bool &isPlaying, sf::Music &music, bool &stopMusic);
 
 class Field {
 private:
@@ -20,12 +23,18 @@ private:
     const sf::Texture newTexture;
     sf::Sprite newSprite;
 
+    sf::Music music;
+    bool musicPlaying = true;
+    bool keyPressed = false;
+
 
 public:
     Field(sf::RenderWindow& window)
             : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
-            newTexture(("../image/Tetris_backgroundv2.png")), newSprite(newTexture)
+            newTexture(("../image/Tetris_backgroundv2.png")), newSprite(newTexture),
+            music("../music/bgm_2.ogg")
     {
+        music.setVolume(30);
 
         cell.setFillColor(sf::Color::White);
 
@@ -36,6 +45,7 @@ public:
         offset.x = (window.getSize().x - fieldWidth) / 2;
         offset.y = 0;
     }
+
 
     void draw(sf::RenderWindow& window);
 };
