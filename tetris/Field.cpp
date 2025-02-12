@@ -6,6 +6,7 @@
 
 
 void Field::draw(sf::RenderWindow& window) {
+
     musicSettings(keyPressed, music, musicPlaying);
 
     window.draw(newSprite);
@@ -19,9 +20,9 @@ void Field::draw(sf::RenderWindow& window) {
 
     if (isActiveFigure) {
         for (int i = 0; i < 4; i++) {
-            spriteBlueBlock.setPosition(sf::Vector2f (offset.x + currentShape[i].x * TILE_SIZE,
+            blockSprite[randomColor].setPosition(sf::Vector2f (offset.x + currentShape[i].x * TILE_SIZE,
                                         offset.y + currentShape[i].y * TILE_SIZE));
-            window.draw(spriteBlueBlock);
+            window.draw(blockSprite[randomColor]);
         }
     }
 
@@ -34,6 +35,7 @@ void Field::draw(sf::RenderWindow& window) {
 void Field::generateNewFigure() {
     if (isActiveFigure) return;
     int n = rand() % 7;
+    randomColor = rand() % 5;
 
     for (int i = 0; i < 4; ++i) {
 

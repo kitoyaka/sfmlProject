@@ -30,15 +30,15 @@ private:
 
 
     sf::Texture textureBlueBlock;
-    sf::Sprite spriteBlueBlock;
+    //sf::Sprite spriteBlueBlock;
     sf::Texture textureYellowBlock;
-    sf::Sprite spriteYellowBlock;
+    //sf::Sprite spriteYellowBlock;
     sf::Texture texturePinkBlock;
-    sf::Sprite spritePinkBlock;
+    //sf::Sprite spritePinkBlock;
     sf::Texture textureGreenBlock;
-    sf::Sprite spriteGreenBlock;
+    //sf::Sprite spriteGreenBlock;
     sf::Texture textureRedBlock;
-    sf::Sprite spriteRedBlock;
+    //sf::Sprite spriteRedBlock;
 
     const int figures[7][4] = {
             {1, 3, 5, 7},
@@ -49,32 +49,35 @@ private:
             {3, 5, 7, 6},
             {2, 3, 4, 5}
     };
-
     struct Point {int x, y;};
     Point currentShape[4];
     float dropTimer = 0;
     const float dropDelay = 0.5f;
     bool isActiveFigure = false;
+    sf::Sprite blockSprite[5];
+    int randomColor;
 
 
 public:
-    Field(sf::RenderWindow& window)
-            : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
+    Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             newTexture(("../image/Tetris_backgroundv2.png")), newSprite(newTexture),
             music("../music/bgm_2.ogg"),
-            textureBlueBlock(("../image/blue_squarev2.png")), spriteBlueBlock(textureBlueBlock),
-            textureYellowBlock(("../image/yellow_squarev2.png")), spriteYellowBlock(textureYellowBlock),
-            texturePinkBlock(("../image/pink_squarev2.png")), spritePinkBlock(texturePinkBlock),
-            textureGreenBlock(("../image/green_squarev2.png")), spriteGreenBlock(textureGreenBlock),
-            textureRedBlock(("../image/red_squarev2.png")), spriteRedBlock(textureRedBlock)
+            textureBlueBlock(("../image/blue_squarev2.png")),
+            textureYellowBlock(("../image/yellow_squarev2.png")),
+            texturePinkBlock(("../image/pink_squarev2.png")),
+            textureGreenBlock(("../image/green_squarev2.png")),
+            textureRedBlock(("../image/red_squarev2.png")),
+            blockSprite{
+            sf::Sprite(textureBlueBlock),
+            sf::Sprite(textureYellowBlock),
+            sf::Sprite(texturePinkBlock),
+            sf::Sprite(textureGreenBlock),
+            sf::Sprite(textureRedBlock)
+            }
     {
         music.setVolume(30);
         cell.setFillColor(sf::Color(0, 0, 0,50));
-
-
-
         float fieldWidth = WIDTH * TILE_SIZE;
-
         offset.x = (window.getSize().x - fieldWidth) / 2;
         offset.y = 0;
     }
