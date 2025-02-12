@@ -9,18 +9,23 @@
 
 class Field {
 private:
-    static constexpr int WIDTH = 10;
-    static constexpr int HEIGHT = 20;
+    static constexpr int WIDTH = 15;
+    static constexpr int HEIGHT = 15;
     static constexpr int TILE_SIZE = 72;
 
     sf::RectangleShape cell;
     std::vector<std::vector<int>> grid;
     sf::Vector2f offset;
 
+    const sf::Texture newTexture;
+    sf::Sprite newSprite;
+
 
 public:
     Field(sf::RenderWindow& window)
-            : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)) {
+            : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
+            newTexture(("../image/Tetris_backgroundv2.png")), newSprite(newTexture)
+    {
 
         cell.setFillColor(sf::Color::White);
 
