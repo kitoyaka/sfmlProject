@@ -15,6 +15,7 @@ private:
     static constexpr int WIDTH = 15;
     static constexpr int HEIGHT = 15;
     static constexpr int TILE_SIZE = 72;
+    static constexpr  int SPACING = 0;
 
     sf::RectangleShape cell;
     std::vector<std::vector<int>> grid;
@@ -38,6 +39,21 @@ private:
     sf::Sprite spriteGreenBlock;
     sf::Texture textureRedBlock;
     sf::Sprite spriteRedBlock;
+
+    const int figures[7][4] = {
+            {1, 3, 5, 7},
+            {2, 4, 5, 7},
+            {3, 5, 4, 6},
+            {3, 5, 4, 7},
+            {2, 3, 5, 7},
+            {3, 5, 7, 6},
+            {2, 3, 4, 5}
+    };
+
+    struct Point {int x, y;};
+    Point currentShape[4];
+
+    bool isActiveFigure = false;
 
 
 public:
@@ -71,6 +87,7 @@ public:
 
 
     void draw(sf::RenderWindow& window);
+    void generateNewFigure();
 };
 
 

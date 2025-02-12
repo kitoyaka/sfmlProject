@@ -179,6 +179,7 @@ while (window.isOpen()) {
     } else if(currentState == GameState::Game)
     {
         field.draw(window);
+        field.generateNewFigure();
     }
 
     window.display();
