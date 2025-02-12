@@ -50,6 +50,12 @@ private:
     bool isActiveFigure = false;
     sf::Sprite blockSprite[5];
     int randomColor;
+    int Right;
+    int Left;
+    float moveSideTimer = 0;
+    const float moveSideDelay = 0.15f;
+    void moveLeft();
+    void moveRight();
 
 
 public:
@@ -80,6 +86,7 @@ public:
     void draw(sf::RenderWindow& window);
     void generateNewFigure();
     void moveFigure(float deltaTime);
+    void handleInput();
 };
 
 

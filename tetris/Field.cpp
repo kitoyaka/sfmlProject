@@ -4,7 +4,6 @@
 
 #include "Field.h"
 
-
 void Field::draw(sf::RenderWindow& window) {
     musicSettings(keyPressed, music, musicPlaying);
     window.draw(gameBackgroundSprite);
@@ -23,7 +22,7 @@ void Field::draw(sf::RenderWindow& window) {
     for (int row = 0; row < HEIGHT; ++row) {
         for (int col = 0; col < WIDTH; ++col) {
             if (grid[row][col] != 0) {
-                int colorIndex = grid[row][col] - 1; // Конвертируем в индекс 0-4
+                int colorIndex = grid[row][col] - 1;
                 if (colorIndex >= 0 && colorIndex < 5) {
                     blockSprite[colorIndex].setPosition(sf::Vector2f(
                         offset.x + col * TILE_SIZE,
@@ -38,9 +37,10 @@ void Field::draw(sf::RenderWindow& window) {
     // Отрисовка активной фигуры
     if (isActiveFigure) {
         for (int i = 0; i < 4; i++) {
-            blockSprite[randomColor].setPosition(sf::Vector2f(offset.x + currentShape[i].x * TILE_SIZE,
-                offset.y + currentShape[i].y * TILE_SIZE)
-            );
+            blockSprite[randomColor].setPosition(sf::Vector2f(
+                offset.x + currentShape[i].x * TILE_SIZE,
+                offset.y + currentShape[i].y * TILE_SIZE
+            ));
             window.draw(blockSprite[randomColor]);
         }
     }
@@ -69,41 +69,81 @@ void Field::generateNewFigure() {
     isActiveFigure = true;
 }
 
-void Field::moveFigure(float deltaTime) {
+void Field::handleInput() {
     if (!isActiveFigure) return;
-    dropTimer += deltaTime;
-    if (dropTimer < dropDelay) return;
 
-    dropTimer = 0;
-
-    // Проверяем, может ли фигура двигаться вниз
-    bool canMoveDown = true;
-    for (int i = 0; i < 4; ++i) {
-        int newY = currentShape[i].y + 1;
-        if (newY >= HEIGHT) {
-            canMoveDown = false;
-            break;
-        }
-        if (grid[newY][currentShape[i].x] != 0) {
-            canMoveDown = false;
-            break;
-        }
-    }
-
-    if (!canMoveDown) {
+    // Обработка движения влево/вправо
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
+        bool canMove = true;
         for (int i = 0; i < 4; ++i) {
-            int x = currentShape[i].x;
-            int y = currentShape[i].y;
-            if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
-                grid[y][x] = randomColor + 1;
+            int newX = currentShape[i].x - 1;
+            if (newX < 0 || grid[currentShape[i].y][newX] != 0) {
+                canMove = false;
+                break;
             }
         }
-        isActiveFigure = false;
-        return;
+        if (canMove) {
+            for (int i = 0; i < 4; ++i)
+                currentShape[i].x -= 1;
+        }
     }
-
-    for (int i = 0; i < 4; ++i) {
-        currentShape[i].y += 1;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
+        bool canMove = true;
+        for (int i = 0; i < 4; ++i) {
+            int newX = currentShape[i].x + 1;
+            if (newX >= WIDTH || grid[currentShape[i].y][newX] != 0) {
+                canMove = false;
+                break;
+            }
+        }
+        if (canMove) {
+            for (int i = 0; i < 4; ++i)
+                currentShape[i].x += 1;
+        }
     }
 }
+
+void Field::moveFigure(float deltaTime) {
+    if (!isActiveFigure) return;
+
+    // Обработка движения вниз
+    dropTimer += deltaTime;
+    if (dropTimer >= dropDelay) {
+        dropTimer = 0;
+        bool canMoveDown = true;
+
+        for (int i = 0; i < 4; ++i) {
+            int newY = currentShape[i].y + 1;
+            if (newY >= HEIGHT || grid[newY][currentShape[i].x] != 0) {
+                canMoveDown = false;
+                break;
+            }
+        }
+
+        if (!canMoveDown) {
+            // Фиксация фигуры
+            for (int i = 0; i < 4; ++i) {
+                int x = currentShape[i].x;
+                int y = currentShape[i].y;
+                if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT) {
+                    grid[y][x] = randomColor + 1;
+                }
+            }
+            isActiveFigure = false;
+            return;
+        }
+
+        // Перемещение вниз
+        for (int i = 0; i < 4; ++i)
+            currentShape[i].y += 1;
+    }
+
+    // Обработка бокового движения с задержкой
+    moveSideTimer += deltaTime;
+    if (moveSideTimer >= moveSideDelay) {
+        handleInput();
+        moveSideTimer = 0;
+    }
+}
+
 
