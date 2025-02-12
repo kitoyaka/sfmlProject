@@ -45,8 +45,7 @@ private:
     };
     struct Point {int x, y;};
     Point currentShape[4];
-    float dropTimer = 0;
-    const float dropDelay = 0.5f;
+
     bool isActiveFigure = false;
     sf::Sprite blockSprite[5];
     int randomColor;
@@ -54,9 +53,11 @@ private:
     int Left;
     float moveSideTimer = 0;
     const float moveSideDelay = 0.15f;
-    void moveLeft();
-    void moveRight();
 
+    float baseDropDelay=0.5f;
+    float fastDropDelay=0.1f;
+    float dropTimer = 0;
+    bool isFastFalling=0;     // Флаг ускоренного падения
 
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),

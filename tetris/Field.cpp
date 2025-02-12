@@ -18,7 +18,6 @@ void Field::draw(sf::RenderWindow& window) {
         }
     }
 
-    // Отрисовка накопленных блоков
     for (int row = 0; row < HEIGHT; ++row) {
         for (int col = 0; col < WIDTH; ++col) {
             if (grid[row][col] != 0) {
@@ -71,8 +70,9 @@ void Field::generateNewFigure() {
 
 void Field::handleInput() {
     if (!isActiveFigure) return;
+    // Обработка ускоренного падения
+    isFastFalling = sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down);
 
-    // Обработка движения влево/вправо
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)) {
         bool canMove = true;
         for (int i = 0; i < 4; ++i) {
@@ -86,8 +86,7 @@ void Field::handleInput() {
             for (int i = 0; i < 4; ++i)
                 currentShape[i].x -= 1;
         }
-    }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
+    }else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)) {
         bool canMove = true;
         for (int i = 0; i < 4; ++i) {
             int newX = currentShape[i].x + 1;
@@ -106,12 +105,15 @@ void Field::handleInput() {
 void Field::moveFigure(float deltaTime) {
     if (!isActiveFigure) return;
 
-    // Обработка движения вниз
-    dropTimer += deltaTime;
-    if (dropTimer >= dropDelay) {
-        dropTimer = 0;
-        bool canMoveDown = true;
+    // Выбираем задержку в зависимости от состояния клавиши
+    float currentDropDelay = isFastFalling ? fastDropDelay : baseDropDelay;
 
+    dropTimer += deltaTime;
+
+    if (dropTimer >= currentDropDelay) {
+        dropTimer = 0;
+
+        bool canMoveDown = true;
         for (int i = 0; i < 4; ++i) {
             int newY = currentShape[i].y + 1;
             if (newY >= HEIGHT || grid[newY][currentShape[i].x] != 0) {
@@ -134,8 +136,9 @@ void Field::moveFigure(float deltaTime) {
         }
 
         // Перемещение вниз
-        for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i) {
             currentShape[i].y += 1;
+        }
     }
 
     // Обработка бокового движения с задержкой

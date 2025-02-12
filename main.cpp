@@ -178,7 +178,6 @@ while (window.isOpen()) {
         startGameMenu.showSettings(window);
     } else if(currentState == GameState::Game)
     {
-
         float deltaTime = clockInGame.restart().asSeconds();
         field.generateNewFigure();
         field.moveFigure(deltaTime);
