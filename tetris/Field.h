@@ -28,15 +28,38 @@ private:
     bool keyPressed = false;
 
 
+    sf::Texture textureBlueBlock;
+    sf::Sprite spriteBlueBlock;
+    sf::Texture textureYellowBlock;
+    sf::Sprite spriteYellowBlock;
+    sf::Texture texturePinkBlock;
+    sf::Sprite spritePinkBlock;
+    sf::Texture textureGreenBlock;
+    sf::Sprite spriteGreenBlock;
+    sf::Texture textureRedBlock;
+    sf::Sprite spriteRedBlock;
+
+
 public:
     Field(sf::RenderWindow& window)
             : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             newTexture(("../image/Tetris_backgroundv2.png")), newSprite(newTexture),
-            music("../music/bgm_2.ogg")
+            music("../music/bgm_2.ogg"),
+            textureBlueBlock(("../image/blue_squarev2.png")), spriteBlueBlock(textureBlueBlock),
+            textureYellowBlock(("../image/yellow_squarev2.png")), spriteYellowBlock(textureYellowBlock),
+            texturePinkBlock(("../image/pink_squarev2.png")), spritePinkBlock(texturePinkBlock),
+            textureGreenBlock(("../image/green_squarev2.png")), spriteGreenBlock(textureGreenBlock),
+            textureRedBlock(("../image/red_squarev2.png")), spriteRedBlock(textureRedBlock)
     {
         music.setVolume(30);
+        spriteBlueBlock.setPosition(sf::Vector2f(150, 150));
+        spriteYellowBlock.setPosition(sf::Vector2f(250, 250));
+        spritePinkBlock.setPosition(sf::Vector2f(350, 350));
+        spriteGreenBlock.setPosition(sf::Vector2f(450, 450));
+        spriteRedBlock.setPosition(sf::Vector2f(550, 550));
 
-        cell.setFillColor(sf::Color::White);
+        cell.setFillColor(sf::Color(0, 0, 0,50));
+
 
 
         float fieldWidth = WIDTH * TILE_SIZE;

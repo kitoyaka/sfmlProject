@@ -9,6 +9,11 @@ void Field::draw(sf::RenderWindow& window) {
     musicSettings(keyPressed, music, musicPlaying);
 
     window.draw(newSprite);
+    window.draw(spriteBlueBlock);
+    window.draw(spriteYellowBlock);
+    window.draw(spritePinkBlock);
+    window.draw(spriteGreenBlock);
+    window.draw(spriteRedBlock);
 
     for (int row = 0; row < HEIGHT; ++row) {
         for (int col = 0; col < WIDTH; ++col) {
