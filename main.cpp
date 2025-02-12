@@ -110,7 +110,7 @@ int main() {
     clickSound.setVolume(50);
 
     Field field(window);
-
+    sf::Clock clockInGame;
 
 while (window.isOpen()) {
 
@@ -178,8 +178,11 @@ while (window.isOpen()) {
         startGameMenu.showSettings(window);
     } else if(currentState == GameState::Game)
     {
-        field.draw(window);
+
+        float deltaTime = clockInGame.restart().asSeconds();
         field.generateNewFigure();
+        field.moveFigure(deltaTime);
+        field.draw(window);
     }
 
     window.display();

@@ -15,7 +15,7 @@ private:
     static constexpr int WIDTH = 15;
     static constexpr int HEIGHT = 15;
     static constexpr int TILE_SIZE = 72;
-    static constexpr  int SPACING = 0;
+
 
     sf::RectangleShape cell;
     std::vector<std::vector<int>> grid;
@@ -52,7 +52,8 @@ private:
 
     struct Point {int x, y;};
     Point currentShape[4];
-
+    float dropTimer = 0;
+    const float dropDelay = 0.5f;
     bool isActiveFigure = false;
 
 
@@ -68,18 +69,11 @@ public:
             textureRedBlock(("../image/red_squarev2.png")), spriteRedBlock(textureRedBlock)
     {
         music.setVolume(30);
-        spriteBlueBlock.setPosition(sf::Vector2f(150, 150));
-        spriteYellowBlock.setPosition(sf::Vector2f(250, 250));
-        spritePinkBlock.setPosition(sf::Vector2f(350, 350));
-        spriteGreenBlock.setPosition(sf::Vector2f(450, 450));
-        spriteRedBlock.setPosition(sf::Vector2f(550, 550));
-
         cell.setFillColor(sf::Color(0, 0, 0,50));
 
 
 
         float fieldWidth = WIDTH * TILE_SIZE;
-        float fieldHeight = HEIGHT * TILE_SIZE;
 
         offset.x = (window.getSize().x - fieldWidth) / 2;
         offset.y = 0;
@@ -88,6 +82,7 @@ public:
 
     void draw(sf::RenderWindow& window);
     void generateNewFigure();
+    void moveFigure(float deltaTime);
 };
 
 
