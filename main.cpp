@@ -112,6 +112,10 @@ int main() {
     Field field(window);
     sf::Clock clockInGame;
 
+
+
+
+
 while (window.isOpen()) {
 
     while (const std::optional<sf::Event> event = window.pollEvent()) {
@@ -182,6 +186,7 @@ while (window.isOpen()) {
         field.generateNewFigure();
         field.moveFigure(deltaTime);
         field.draw(window);
+
     }
 
     window.display();

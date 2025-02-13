@@ -5,9 +5,11 @@
 #include "Field.h"
 
 void Field::draw(sf::RenderWindow& window) {
-    musicSettings(keyPressed, music, musicPlaying);
+    if (gameOverMusicPlaying == false)
+        musicSettings(keyPressed, music, musicPlaying);
+    else if (gameOverMusicPlaying == true)
+        musicSettings(keyPressed, musicGameOver, musicPlaying);
     window.draw(gameBackgroundSprite);
-
     // Отрисовка сетки
     for (int row = 0; row < HEIGHT; ++row) {
         for (int col = 0; col < WIDTH; ++col) {
@@ -44,8 +46,18 @@ void Field::draw(sf::RenderWindow& window) {
         }
     }
 
+    if (isGameOver == true) {
+        if (gameOverMusicPlaying == false) {
+            music.stop();
+            gameOverMusicPlaying = true;
+        }
+        window.draw(gameOverRectangle);
+        window.draw(gameOverSprite);
+    }
+
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
         music.stop();
+        musicGameOver.stop();
     }
 }
 
@@ -62,11 +74,13 @@ void Field::generateNewFigure() {
         if (grid[currentShape[i].y][currentShape[i].x] != 0) {
             // Игра завершена (можно добавить обработку)
             isActiveFigure = false;
+            isGameOver = true;
             return;
         }
     }
     isActiveFigure = true;
 }
+
 
 void Field::handleInput() {
     if (!isActiveFigure) return;
