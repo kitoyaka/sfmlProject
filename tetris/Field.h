@@ -67,6 +67,7 @@ private:
     sf::Sprite gameOverSprite;
     sf::RectangleShape gameOverRectangle;
     bool gameOverMusicPlaying = false;
+    bool squareNotReturn =false;
 
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),

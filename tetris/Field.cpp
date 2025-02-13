@@ -64,6 +64,11 @@ void Field::draw(sf::RenderWindow& window) {
 void Field::generateNewFigure() {
     if (isActiveFigure) return;
     int n = rand() % 7;
+    if (n==6)
+        squareNotReturn = true;
+    else
+        squareNotReturn = false;
+
     randomColor = rand() % 5;
 
     for (int i = 0; i < 4; ++i) {
@@ -196,6 +201,7 @@ void Field::clearFullLine() {
 
 void Field::rotateFigure() {
     if (!isActiveFigure) return;
+    if (squareNotReturn) return;
 
     Point center = currentShape[1]; // точна на якій буде обертатись фігура
 
