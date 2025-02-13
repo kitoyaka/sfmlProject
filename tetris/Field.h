@@ -67,7 +67,19 @@ private:
     sf::Sprite gameOverSprite;
     sf::RectangleShape gameOverRectangle;
     bool gameOverMusicPlaying = false;
-    bool squareNotReturn =false;
+    bool squareNotReturn = false;
+
+    int score = 0;
+    sf::Font font;
+    sf::Text scoreText;
+    sf::Text timerText;
+    sf::Clock gameClock;
+    float elapsedTime = 0;
+    sf::Texture textureStats;
+    sf::Sprite spriteStats;
+    int tabPressed = 0;
+    int tabState = 0;
+    bool tabReleased = true;
 
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
@@ -82,13 +94,18 @@ public:
             gameOverTexture("../image/gameOver.png"),
             gameOverSprite(gameOverTexture),
             gameOverRectangle({1920.f,1080.f}),
+            font(("../font/ArialMT.ttf")),
+            scoreText(font),
+            timerText(font),
             blockSprite{
             sf::Sprite(textureBlueBlock),
             sf::Sprite(textureYellowBlock),
             sf::Sprite(texturePinkBlock),
             sf::Sprite(textureGreenBlock),
             sf::Sprite(textureRedBlock)
-            }
+            },
+            textureStats("../image/stats.png"),
+            spriteStats(textureStats)
 
     {
         music.setVolume(30);
@@ -99,6 +116,22 @@ public:
         float fieldWidth = WIDTH * TILE_SIZE;
         offset.x = (window.getSize().x - fieldWidth) / 2;
         offset.y = 0;
+
+        scoreText.setFont(font);
+        scoreText.setCharacterSize(80);
+        scoreText.setFillColor(sf::Color::Black);
+        scoreText.setOutlineThickness(2.f);
+        scoreText.setOutlineColor(sf::Color::White);
+        scoreText.setPosition(sf::Vector2f(53.f, 440.f));
+
+
+
+        timerText.setFont(font);
+        timerText.setCharacterSize(80);
+        timerText.setFillColor(sf::Color::Black);
+        timerText.setOutlineThickness(2.f);
+        timerText.setOutlineColor(sf::Color::White);
+        timerText.setPosition(sf::Vector2f(1610.f, 440.f));
     }
 
 
@@ -108,6 +141,10 @@ public:
     void handleInput();
     void clearFullLine();
     void rotateFigure();
+
+    // Новый метод для обновления таймера и текста:
+    void update(float deltaTime);
+
 };
 
 

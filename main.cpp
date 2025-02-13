@@ -184,6 +184,7 @@ while (window.isOpen()) {
     {
         float deltaTime = clockInGame.restart().asSeconds();
         field.generateNewFigure();
+        field.update(deltaTime);
         field.moveFigure(deltaTime);
         field.draw(window);
 

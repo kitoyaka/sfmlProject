@@ -4,6 +4,8 @@
 
 #include "Field.h"
 
+#include <iostream>
+
 void Field::draw(sf::RenderWindow& window) {
     if (gameOverMusicPlaying == false)
         musicSettings(keyPressed, music, musicPlaying);
@@ -59,6 +61,17 @@ void Field::draw(sf::RenderWindow& window) {
         music.stop();
         musicGameOver.stop();
     }
+
+    if (tabState == 0) {
+        window.draw(scoreText);
+        window.draw(timerText);
+    } else if (tabState == 1) {
+        window.draw(spriteStats);
+        window.draw(scoreText);
+        window.draw(timerText);
+    }
+
+
 }
 
 void Field::generateNewFigure() {
@@ -119,6 +132,16 @@ void Field::handleInput() {
                 currentShape[i].x += 1;
         }
     }
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Tab)) {
+        if (tabReleased) {
+            tabState = (tabState + 1) % 3;  // Переключаем состояния: 0 → 1 → 2 → 0
+            tabReleased = false;
+        }
+    } else {
+        tabReleased = true;
+    }
+
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
     {
         rotateFigure();
@@ -175,6 +198,7 @@ void Field::moveFigure(float deltaTime) {
 
 
 void Field::clearFullLine() {
+    int linesCleared = 0;
     int row = HEIGHT - 1;
     while (row >= 0) {
         bool isFull = true;
@@ -185,20 +209,22 @@ void Field::clearFullLine() {
             }
         }
         if (isFull) {
-            // Сдвигаем все ряды выше вниз
+            linesCleared++;
             for (int i = row; i > 0; --i) {
                 for (int j = 0; j < WIDTH; ++j) {
                     grid[i][j] = grid[i - 1][j];
                 }
             }
-            // Очищаем верхний ряд
             for (int j = 0; j < WIDTH; ++j) {
                 grid[0][j] = 0;
             }
+            // После сдвига строк, тот же ряд может быть заполненным снова,
+            // поэтому не уменьшаем row
         } else {
             row--;
         }
     }
+    score += linesCleared * 100;
 }
 
 void Field::rotateFigure() {
@@ -223,4 +249,14 @@ void Field::rotateFigure() {
     for (int i = 0; i < 4; ++i) {
         currentShape[i] = rotatedShape[i];
     }
+}
+
+void Field::update(float deltaTime) {
+    if (!isGameOver) {
+        elapsedTime = gameClock.getElapsedTime().asSeconds(); // Обновляем таймер
+    }
+
+    // Обновляем отображение счета и таймера
+    scoreText.setString("SCORE: \n    " + std::to_string(score));
+    timerText.setString("TIME: \n   " + std::to_string(static_cast<int>(elapsedTime)));
 }
