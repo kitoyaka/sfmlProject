@@ -57,7 +57,7 @@ private:
     float baseDropDelay=0.5f;
     float fastDropDelay=0.1f;
     float dropTimer = 0;
-    bool isFastFalling=0;     // Флаг ускоренного падения
+    bool isFastFalling=0;
 
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
@@ -88,6 +88,8 @@ public:
     void generateNewFigure();
     void moveFigure(float deltaTime);
     void handleInput();
+    void clearFullLine();
+    void rotateFigure();
 };
 
 

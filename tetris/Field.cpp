@@ -100,6 +100,10 @@ void Field::handleInput() {
                 currentShape[i].x += 1;
         }
     }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+    {
+        rotateFigure();
+    }
 }
 
 void Field::moveFigure(float deltaTime) {
@@ -132,6 +136,7 @@ void Field::moveFigure(float deltaTime) {
                 }
             }
             isActiveFigure = false;
+            clearFullLine();
             return;
         }
 
@@ -150,3 +155,50 @@ void Field::moveFigure(float deltaTime) {
 }
 
 
+void Field::clearFullLine() {
+    for (int row = HEIGHT - 1; row >= 0; --row) {
+        bool isFull = true;
+        for (int col = 0; col < WIDTH ; ++col) {
+            if(grid[row][col] == 0) {
+                isFull = false;
+                break;
+            }
+        }
+        if(isFull)
+        {
+            for (int i = row; i > 0; ++i) {
+                for (int j = 0; j < WIDTH; ++j) {
+                    grid[i][j] = grid[i-1][j];
+                }
+            }
+
+            for (int j = 0; j < WIDTH; ++j) {
+                grid[0][j] = 0;
+            }
+            row++;
+        }
+    }
+}
+
+void Field::rotateFigure() {
+    if (!isActiveFigure) return;
+
+    Point center = currentShape[1]; // точна на якій буде обертатись фігура
+
+    Point rotatedShape[4]; // Нові координати
+
+    for (int i = 0; i < 4; ++i) {
+        int newX = center.x - (currentShape[i].y - center.y);
+        int newY = center.y + (currentShape[i].x - center.x);
+
+        // Перевіряємо, чи не виходимо за межі поля
+        if (newX < 0 || newX >= WIDTH || newY < 0 || newY >= HEIGHT || grid[newY][newX] != 0)
+            return; // Якщо виходимо або зайняте місце — не обертаємо
+        rotatedShape[i] = {newX, newY};
+    }
+
+    // Якщо все нормально — оновлюємо позиції
+    for (int i = 0; i < 4; ++i) {
+        currentShape[i] = rotatedShape[i];
+    }
+}
