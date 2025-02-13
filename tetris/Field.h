@@ -25,8 +25,11 @@ private:
     sf::Sprite gameBackgroundSprite;
 
     sf::Music music;
+    sf::Music musicGameOver;
     bool musicPlaying = true;
     bool keyPressed = false;
+
+
 
     sf::Texture textureBlueBlock;
     sf::Texture textureYellowBlock;
@@ -59,15 +62,25 @@ private:
     float dropTimer = 0;
     bool isFastFalling=0;
 
+    bool isGameOver = false;
+    sf::Texture gameOverTexture;
+    sf::Sprite gameOverSprite;
+    sf::RectangleShape gameOverRectangle;
+    bool gameOverMusicPlaying = false;
+
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             gameBackgroundTexture(("../image/Tetris_backgroundv2.png")), gameBackgroundSprite(gameBackgroundTexture),
             music("../music/bgm_2.ogg"),
+            musicGameOver("../music/bgm_3.ogg"),
             textureBlueBlock(("../image/blue_squarev2.png")),
             textureYellowBlock(("../image/yellow_squarev2.png")),
             texturePinkBlock(("../image/pink_squarev2.png")),
             textureGreenBlock(("../image/green_squarev2.png")),
             textureRedBlock(("../image/red_squarev2.png")),
+            gameOverTexture("../image/gameOver.png"),
+            gameOverSprite(gameOverTexture),
+            gameOverRectangle({1920.f,1080.f}),
             blockSprite{
             sf::Sprite(textureBlueBlock),
             sf::Sprite(textureYellowBlock),
@@ -75,9 +88,13 @@ public:
             sf::Sprite(textureGreenBlock),
             sf::Sprite(textureRedBlock)
             }
+
     {
         music.setVolume(30);
+        musicGameOver.setVolume(30);
         cell.setFillColor(sf::Color(0, 0, 0,50));
+        gameOverRectangle.setFillColor(sf::Color(255, 0, 0,80));
+        //gameOverSprite.setColor(sf::Color(255, 0, 0,95));
         float fieldWidth = WIDTH * TILE_SIZE;
         offset.x = (window.getSize().x - fieldWidth) / 2;
         offset.y = 0;
