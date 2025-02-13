@@ -175,26 +175,28 @@ void Field::moveFigure(float deltaTime) {
 
 
 void Field::clearFullLine() {
-    for (int row = HEIGHT - 1; row >= 0; --row) {
+    int row = HEIGHT - 1;
+    while (row >= 0) {
         bool isFull = true;
-        for (int col = 0; col < WIDTH ; ++col) {
-            if(grid[row][col] == 0) {
+        for (int col = 0; col < WIDTH; ++col) {
+            if (grid[row][col] == 0) {
                 isFull = false;
                 break;
             }
         }
-        if(isFull)
-        {
-            for (int i = row; i > 0; ++i) {
+        if (isFull) {
+            // Сдвигаем все ряды выше вниз
+            for (int i = row; i > 0; --i) {
                 for (int j = 0; j < WIDTH; ++j) {
-                    grid[i][j] = grid[i-1][j];
+                    grid[i][j] = grid[i - 1][j];
                 }
             }
-
+            // Очищаем верхний ряд
             for (int j = 0; j < WIDTH; ++j) {
                 grid[0][j] = 0;
             }
-            row++;
+        } else {
+            row--;
         }
     }
 }
