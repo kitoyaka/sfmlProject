@@ -82,7 +82,7 @@ private:
     bool tabReleased = true;
 
     float rotateTimer = 0.0f;
-    const float rotateDelay = 0.3f; // Задержка в 0.2 секунды между поворотами
+    const float rotateDelay = 0.3f;
 
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
@@ -145,7 +145,7 @@ public:
     void clearFullLine();
     void rotateFigure();
     void update(float deltaTime);
-
+    void resetGame();
 };
 
 

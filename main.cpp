@@ -187,7 +187,7 @@ while (window.isOpen()) {
         field.update(deltaTime);
         field.moveFigure(deltaTime);
         field.draw(window);
-
+        field.resetGame();
     }
 
     window.display();

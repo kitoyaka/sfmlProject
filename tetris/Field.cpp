@@ -135,7 +135,7 @@ void Field::handleInput() {
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Tab)) {
         if (tabReleased) {
-            tabState = (tabState + 1) % 3;  // Переключаем состояния: 0 → 1 → 2 → 0
+            tabState = (tabState + 1) % 3;
             tabReleased = false;
         }
     } else {
@@ -222,8 +222,7 @@ void Field::clearFullLine() {
             for (int j = 0; j < WIDTH; ++j) {
                 grid[0][j] = 0;
             }
-            // После сдвига строк, тот же ряд может быть заполненным снова,
-            // поэтому не уменьшаем row
+
         } else {
             row--;
         }
@@ -268,4 +267,19 @@ void Field::update(float deltaTime) {
     // Обновляем отображение счета и таймера
     scoreText.setString("SCORE\n    " + std::to_string(score));
     timerText.setString("TIME\n  " + std::to_string(static_cast<int>(elapsedTime)));
+}
+
+void Field::resetGame() {
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
+            for (int row = 0; row < HEIGHT; ++row) {
+                for (int col = 0; col < WIDTH; ++col) {
+                    grid[row][col] = 0;
+                }
+            }
+            isActiveFigure = false;
+            dropTimer = 0;
+            moveSideTimer = 0;
+            score = 0;
+            gameClock.restart();
+        }
 }
