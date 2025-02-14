@@ -32,10 +32,10 @@ private:
 
     button settingsField;
 public:
-    gameMenu(sf::RenderWindow &window) : newTexture(("../image/menuBackground_v2.png")),
-    newSprite(newTexture), Start(true,360, 100, "", "../image/StartButtonRed.png"),
-    Options(false,360, 100, "", "../image/OptionsButtonWhite.png"),
-    Quit(false,360, 100, "", "../image/QuitButtonWhite.png"),
+    gameMenu(sf::RenderWindow &window) : newTexture(("../image/background.png")),
+    newSprite(newTexture), Start(true,420, 142, "", "../image/StartButtonRed.png"),
+    Options(false,567, 139, "", "../image/OptionsButtonWhite.png"),
+    Quit(false,296, 147, "", "../image/QuitButtonWhite.png"),
     buffer("../music/Blip_select 6.wav"),
     buttonSound(buffer),
     music("../music/bgm_17.ogg"),
@@ -44,9 +44,9 @@ public:
     {
         music.setVolume(30);
         buttonSound.setVolume(20);
-        Start.setPosition(780.f, 240.f);
-        Options.setPosition(780.f, 410.f);
-        Quit.setPosition(780.f, 560.f);
+        Start.setPosition(744.f, 144.f);
+        Options.setPosition(680.f, 432.f);
+        Quit.setPosition(808.f, 720.f);
 
 
         settingsField.setPosition(555.f, 150);

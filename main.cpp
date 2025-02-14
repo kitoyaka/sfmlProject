@@ -68,19 +68,19 @@ int main() {
     GameState currentState = GameState::LoginMenu;
 
     // Load a sprite to display
-    const sf::Texture texture("../image/startWindow.png");
+    const sf::Texture texture("../image/background.png");
     sf::Sprite sprite(texture);
 
     // Add loginField
-    textField loginField(360, 100, "Login Button","../image/LoginPasswordField_v2.png");
-    loginField.setPosition(780.f, 220.f);
+    textField loginField(356, 145, "Login Button","../image/LoginPasswordField_v2.png");
+    loginField.setPosition(783.f, 217.f);
 
     // Add passwordField
-    textField passwordField(360, 100, "Password Button","../image/LoginPasswordField_v2.png");
-    passwordField.setPosition(780.f, 380.f);
+    textField passwordField(356, 145, "Password Button","../image/LoginPasswordField_v2.png");
+    passwordField.setPosition(783.f, 430.f);
 
     // Add button
-    button btn(false,360, 100, "", "../image/LoginButton3d_v2.png");
+    button btn(false,360, 144, "", "../image/LoginButton3d_v2.png");
     btn.setPosition(780.f, 720.f);
 
     // Load a music to play

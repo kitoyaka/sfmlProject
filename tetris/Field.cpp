@@ -257,6 +257,6 @@ void Field::update(float deltaTime) {
     }
 
     // Обновляем отображение счета и таймера
-    scoreText.setString("SCORE: \n    " + std::to_string(score));
+    scoreText.setString("SCORE: \n   " + std::to_string(score));
     timerText.setString("TIME: \n   " + std::to_string(static_cast<int>(elapsedTime)));
 }

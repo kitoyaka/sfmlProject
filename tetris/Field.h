@@ -141,8 +141,6 @@ public:
     void handleInput();
     void clearFullLine();
     void rotateFigure();
-
-    // Новый метод для обновления таймера и текста:
     void update(float deltaTime);
 
 };
