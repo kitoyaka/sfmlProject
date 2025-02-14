@@ -75,12 +75,13 @@ void Field::draw(sf::RenderWindow& window) {
     if (tabState == 0) {
         window.draw(scoreText);
         window.draw(timerText);
+        window.draw(writeTimesPlayed);
     } else if (tabState == 1) {
         window.draw(spriteStats);
         window.draw(scoreText);
         window.draw(timerText);
+        window.draw(writeTimesPlayed);
     }
-
 
 }
 
@@ -277,6 +278,7 @@ void Field::update(float deltaTime) {
     // Обновляем отображение счета и таймера
     scoreText.setString("SCORE\n    " + std::to_string(score));
     timerText.setString("TIME\n  " + std::to_string(static_cast<int>(elapsedTime)));
+    writeTimesPlayed.setString(std::to_string(timesPlayed)+" - TRY");
 }
 
 void Field::resetGame() {
@@ -295,5 +297,6 @@ void Field::resetGame() {
         musicGameOver.stop();
         gameOverMusicPlaying = false;
         resetMusic = false;
+        timesPlayed++;
     }
 }

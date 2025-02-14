@@ -86,6 +86,9 @@ private:
 
     bool resetMusic = false;
 
+    sf::Text writeTimesPlayed;
+    int timesPlayed = 1;
+
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             gameBackgroundTexture(("../image/backgroundGame.png")), gameBackgroundSprite(gameBackgroundTexture),
@@ -110,7 +113,8 @@ public:
             sf::Sprite(textureRedBlock)
             },
             textureStats("../image/stats.png"),
-            spriteStats(textureStats)
+            spriteStats(textureStats),
+            writeTimesPlayed(font)
 
     {
         music.setVolume(30);
@@ -129,6 +133,13 @@ public:
         scoreText.setOutlineColor(sf::Color::Black);
         scoreText.setPosition(sf::Vector2f(57.f, 340.f));
 
+
+        writeTimesPlayed.setFont(font);
+        writeTimesPlayed.setCharacterSize(80);
+        writeTimesPlayed.setFillColor(sf::Color::Black);
+        writeTimesPlayed.setOutlineColor(sf::Color::Black);
+        writeTimesPlayed.setOutlineThickness(4.f);
+        writeTimesPlayed.setPosition(sf::Vector2f(840, 0));
 
 
         timerText.setFont(font);
