@@ -142,9 +142,13 @@ void Field::handleInput() {
         tabReleased = true;
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
-    {
-        rotateFigure();
+
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+        if (rotateTimer <= 0) {
+            rotateFigure();
+            rotateTimer = rotateDelay; // Устанавливаем задержку после поворота
+        }
     }
 }
 
@@ -255,6 +259,11 @@ void Field::update(float deltaTime) {
     if (!isGameOver) {
         elapsedTime = gameClock.getElapsedTime().asSeconds(); // Обновляем таймер
     }
+
+    if (rotateTimer > 0) {
+        rotateTimer -= deltaTime;
+    }
+
 
     // Обновляем отображение счета и таймера
     scoreText.setString("SCORE: \n   " + std::to_string(score));

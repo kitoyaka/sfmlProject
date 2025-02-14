@@ -45,8 +45,8 @@ public:
         music.setVolume(30);
         buttonSound.setVolume(20);
         Start.setPosition(744.f, 144.f);
-        Options.setPosition(680.f, 432.f);
-        Quit.setPosition(808.f, 720.f);
+        Options.setPosition(675.f, 432.f);
+        Quit.setPosition(804.f, 720.f);
 
 
         settingsField.setPosition(555.f, 150);

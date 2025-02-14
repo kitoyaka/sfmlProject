@@ -81,6 +81,9 @@ private:
     int tabState = 0;
     bool tabReleased = true;
 
+    float rotateTimer = 0.0f;
+    const float rotateDelay = 0.3f; // Задержка в 0.2 секунды между поворотами
+
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             gameBackgroundTexture(("../image/Tetris_backgroundv2.png")), gameBackgroundSprite(gameBackgroundTexture),
