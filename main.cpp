@@ -112,10 +112,6 @@ int main() {
     Field field(window);
     sf::Clock clockInGame;
 
-
-
-
-
 while (window.isOpen()) {
 
     while (const std::optional<sf::Event> event = window.pollEvent()) {
@@ -124,14 +120,12 @@ while (window.isOpen()) {
             window.close();
         }
 
-
-        //if (event->is<sf::Event::KeyPressed>()) {
         if (currentState == GameState::LoginMenu) {
             if (btn.isButtonClicked(window)) {
                 if (userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
                     currentState = GameState::GameMenu;
                     window.setMouseCursorVisible(false);
-                    music.stop();
+                    //music.stop();
                 }
             }
 
@@ -156,8 +150,6 @@ while (window.isOpen()) {
                 currentState = GameState::GameMenu;
             }
         }
-        //}
-
 
         loginField.handleClick(window, *event);
         passwordField.handleClick(window, *event);
@@ -169,9 +161,11 @@ while (window.isOpen()) {
 
     window.clear();
 
+    if (currentState == GameState::LoginMenu || currentState==GameState::GameMenu) {
+        musicSettings(keyPressed, music, musicPlaying);
+    }
 
     if (currentState == GameState::LoginMenu) {
-        musicSettings(keyPressed, music, musicPlaying);
         changeCursor(window, textCursor, loginField, passwordField, activeCursor, cursor, clickSound);
         window.draw(sprite);              // фон
         loginField.draw(window);
@@ -181,8 +175,8 @@ while (window.isOpen()) {
         startGameMenu.showGameMenu(window);
     } else if (currentState == GameState::Settings) {
         startGameMenu.showSettings(window);
-    } else if(currentState == GameState::Game)
-    {
+    } else if (currentState == GameState::Game) {
+        music.stop();
         float deltaTime = clockInGame.restart().asSeconds();
         field.generateNewFigure();
         field.update(deltaTime);
@@ -190,7 +184,6 @@ while (window.isOpen()) {
         field.draw(window);
         field.resetGame();
     }
-
     window.display();
 }
 

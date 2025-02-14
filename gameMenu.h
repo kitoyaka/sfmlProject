@@ -23,10 +23,8 @@ private:
     bool active;
     sf::SoundBuffer buffer;
     sf::Sound buttonSound;
-    sf::Music music;
     bool musicPlaying = true;
     bool keyPressed = false;
-
     sf::Clock clock;
     const float delayTime = 0.2f;
 
@@ -40,7 +38,6 @@ public:
     Quit(false,296, 147, "", "../image/QuitButtonWhite.png"),
     buffer("../music/Blip_select 6.wav"),
     buttonSound(buffer),
-    music("../music/bgm_17.ogg"),
     settingsField(false,810, 800, "", "../image/SettingsField.png")
 
     {

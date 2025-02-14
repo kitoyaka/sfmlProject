@@ -6,8 +6,6 @@
 
 
 int gameMenu::showGameMenu(sf::RenderWindow &window) {
-    musicSettings(keyPressed, music, musicPlaying);
-
     if (clock.getElapsedTime().asSeconds() >= delayTime) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
             if (Start.getActive()) {

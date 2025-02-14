@@ -87,7 +87,10 @@ void Field::draw(sf::RenderWindow& window) {
 
 void Field::generateNewFigure() {
     if (isActiveFigure) return;
-    int n = rand() % 7;
+    if (!isGameOver) {
+        n = rand() % 7;
+    }
+
     if (n==6)
         squareNotReturn = true;
     else
@@ -96,16 +99,16 @@ void Field::generateNewFigure() {
     randomColor = rand() % 5;
 
     for (int i = 0; i < 4; ++i) {
-        currentShape[i].x = figures[n][i] % 2 + WIDTH / 2 - 1;
-        currentShape[i].y = figures[n][i] / 2;
+         currentShape[i].x = figures[n][i] % 2 + WIDTH / 2 - 1;
+         currentShape[i].y = figures[n][i] / 2;
 
-        // Проверка на столкновение с существующими блоками
-        if (grid[currentShape[i].y][currentShape[i].x] != 0) {
-            // Игра завершена (можно добавить обработку)
-            isActiveFigure = false;
-            isGameOver = true;
-            return;
-        }
+         // Проверка на столкновение с существующими блоками
+         if (grid[currentShape[i].y][currentShape[i].x] != 0) {
+             // Игра завершена (можно добавить обработку)
+             isActiveFigure = false;
+             isGameOver = true;
+             return;
+            }
     }
     isActiveFigure = true;
 }
@@ -155,7 +158,7 @@ void Field::handleInput() {
 
 
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
         if (rotateTimer <= 0) {
             rotateFigure();
             rotateTimer = rotateDelay; // Устанавливаем задержку после поворота
