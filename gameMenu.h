@@ -30,6 +30,8 @@ private:
     sf::Clock clock;
     const float delayTime = 0.2f;
 
+
+
     button settingsField;
 public:
     gameMenu(sf::RenderWindow &window) : newTexture(("../image/background.png")),

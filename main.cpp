@@ -139,8 +139,9 @@ while (window.isOpen()) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
                     if (startGameMenu.showGameMenu(window) == 1) {
                         currentState = GameState::Game;
-                        //music.stop();
-                    } else if (startGameMenu.showGameMenu(window) == 2) {
+                        field.startGame();
+                    }
+                    else if (startGameMenu.showGameMenu(window) == 2) {
                         currentState = GameState::Settings;
                     } else if (startGameMenu.showGameMenu(window) == 3) {
                         window.close();

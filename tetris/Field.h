@@ -148,6 +148,7 @@ public:
     void rotateFigure();
     void update(float deltaTime);
     void resetGame();
+    void startGame();
 };
 
 

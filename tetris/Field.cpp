@@ -6,6 +6,12 @@
 
 #include <iostream>
 
+void Field::startGame() {
+    gameClock.restart();
+    elapsedTime = 0;
+    score = 0;
+}
+
 void Field::draw(sf::RenderWindow& window) {
     if (!gameOverMusicPlaying || resetMusic) {
         resetMusic = false;
