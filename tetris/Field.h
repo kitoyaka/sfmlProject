@@ -86,7 +86,7 @@ private:
 
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
-            gameBackgroundTexture(("../image/Tetris_backgroundv2.png")), gameBackgroundSprite(gameBackgroundTexture),
+            gameBackgroundTexture(("../image/backgroundGame.png")), gameBackgroundSprite(gameBackgroundTexture),
             music("../music/bgm_2.ogg"),
             musicGameOver("../music/bgm_3.ogg"),
             textureBlueBlock(("../image/blue_squarev2.png")),
@@ -123,18 +123,18 @@ public:
         scoreText.setFont(font);
         scoreText.setCharacterSize(80);
         scoreText.setFillColor(sf::Color::Black);
-        scoreText.setOutlineThickness(2.f);
-        scoreText.setOutlineColor(sf::Color::White);
-        scoreText.setPosition(sf::Vector2f(53.f, 440.f));
+        scoreText.setOutlineThickness(4.f);
+        scoreText.setOutlineColor(sf::Color::Black);
+        scoreText.setPosition(sf::Vector2f(57.f, 340.f));
 
 
 
         timerText.setFont(font);
         timerText.setCharacterSize(80);
         timerText.setFillColor(sf::Color::Black);
-        timerText.setOutlineThickness(2.f);
-        timerText.setOutlineColor(sf::Color::White);
-        timerText.setPosition(sf::Vector2f(1610.f, 440.f));
+        timerText.setOutlineThickness(4.f);
+        timerText.setOutlineColor(sf::Color::Black);
+        timerText.setPosition(sf::Vector2f(1610.f, 340.f));
     }
 
 
