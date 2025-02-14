@@ -7,10 +7,14 @@
 #include <iostream>
 
 void Field::draw(sf::RenderWindow& window) {
-    if (gameOverMusicPlaying == false)
+    if (!gameOverMusicPlaying || resetMusic) {
+        resetMusic = false;
         musicSettings(keyPressed, music, musicPlaying);
-    else if (gameOverMusicPlaying == true)
+    } else if (gameOverMusicPlaying && !resetMusic) {
         musicSettings(keyPressed, musicGameOver, musicPlaying);
+    }
+
+
     window.draw(gameBackgroundSprite);
     // Отрисовка сетки
     for (int row = 0; row < HEIGHT; ++row) {
@@ -270,16 +274,20 @@ void Field::update(float deltaTime) {
 }
 
 void Field::resetGame() {
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
-            for (int row = 0; row < HEIGHT; ++row) {
-                for (int col = 0; col < WIDTH; ++col) {
-                    grid[row][col] = 0;
-                }
+    if (isGameOver && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
+        for (int row = 0; row < HEIGHT; ++row) {
+            for (int col = 0; col < WIDTH; ++col) {
+                grid[row][col] = 0;
             }
-            isActiveFigure = false;
-            dropTimer = 0;
-            moveSideTimer = 0;
-            score = 0;
-            gameClock.restart();
         }
+        isActiveFigure = false;
+        dropTimer = 0;
+        moveSideTimer = 0;
+        score = 0;
+        gameClock.restart();
+        isGameOver = false;
+        musicGameOver.stop();
+        gameOverMusicPlaying = false;
+        resetMusic = false;
+    }
 }

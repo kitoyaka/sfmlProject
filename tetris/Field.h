@@ -84,6 +84,8 @@ private:
     float rotateTimer = 0.0f;
     const float rotateDelay = 0.3f;
 
+    bool resetMusic = false;
+
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             gameBackgroundTexture(("../image/backgroundGame.png")), gameBackgroundSprite(gameBackgroundTexture),
