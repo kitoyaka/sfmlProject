@@ -102,7 +102,7 @@ public:
             gameOverTexture("../image/gameOver.png"),
             gameOverSprite(gameOverTexture),
             gameOverRectangle({1920.f,1080.f}),
-            font(("../font/ArialMT.ttf")),
+            font(("../font/hermanomayor.ttf")),
             scoreText(font),
             timerText(font),
             blockSprite{
@@ -126,28 +126,32 @@ public:
         offset.x = (window.getSize().x - fieldWidth) / 2;
         offset.y = 0;
 
-        scoreText.setFont(font);
-        scoreText.setCharacterSize(80);
-        scoreText.setFillColor(sf::Color::Black);
-        scoreText.setOutlineThickness(4.f);
-        scoreText.setOutlineColor(sf::Color::Black);
-        scoreText.setPosition(sf::Vector2f(57.f, 340.f));
-
 
         writeTimesPlayed.setFont(font);
-        writeTimesPlayed.setCharacterSize(80);
+        writeTimesPlayed.setCharacterSize(145);
         writeTimesPlayed.setFillColor(sf::Color::Black);
-        writeTimesPlayed.setOutlineColor(sf::Color::Black);
-        writeTimesPlayed.setOutlineThickness(4.f);
-        writeTimesPlayed.setPosition(sf::Vector2f(840, 0));
+        writeTimesPlayed.setStyle(sf::Text::Bold);
+        //writeTimesPlayed.setOutlineColor(sf::Color::Black);
+        //writeTimesPlayed.setOutlineThickness(4.f);
+        writeTimesPlayed.setPosition(sf::Vector2f(10, 0));
+
+
+        scoreText.setFont(font);
+        scoreText.setCharacterSize(145);
+        writeTimesPlayed.setStyle(sf::Text::Bold);
+        scoreText.setFillColor(sf::Color::Black);
+        //scoreText.setOutlineThickness(4.f);
+        //scoreText.setOutlineColor(sf::Color::Black);
+        scoreText.setPosition(sf::Vector2f(10, 144));
 
 
         timerText.setFont(font);
-        timerText.setCharacterSize(80);
+        timerText.setCharacterSize(145);
+        writeTimesPlayed.setStyle(sf::Text::Bold);
         timerText.setFillColor(sf::Color::Black);
-        timerText.setOutlineThickness(4.f);
-        timerText.setOutlineColor(sf::Color::Black);
-        timerText.setPosition(sf::Vector2f(1610.f, 340.f));
+        //timerText.setOutlineThickness(4.f);
+        //timerText.setOutlineColor(sf::Color::Black);
+        timerText.setPosition(sf::Vector2f(10, 288));
     }
 
 

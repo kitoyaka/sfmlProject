@@ -276,9 +276,9 @@ void Field::update(float deltaTime) {
 
 
     // Обновляем отображение счета и таймера
-    scoreText.setString("SCORE\n    " + std::to_string(score));
-    timerText.setString("TIME\n  " + std::to_string(static_cast<int>(elapsedTime)));
-    writeTimesPlayed.setString(std::to_string(timesPlayed)+" - TRY");
+    scoreText.setString("SCORE-" + std::to_string(score));
+    timerText.setString("TIME-" + std::to_string(static_cast<int>(elapsedTime)));
+    writeTimesPlayed.setString(std::to_string(timesPlayed)+"-TRY");
 }
 
 void Field::resetGame() {
