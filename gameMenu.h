@@ -41,7 +41,6 @@ public:
     settingsField(false,810, 800, "", "../image/SettingsField.png")
 
     {
-        music.setVolume(30);
         buttonSound.setVolume(20);
         Start.setPosition(744.f, 144.f);
         Options.setPosition(675.f, 432.f);

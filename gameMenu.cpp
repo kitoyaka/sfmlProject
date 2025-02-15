@@ -42,7 +42,6 @@ int gameMenu::showGameMenu(sf::RenderWindow &window) {
 
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Start.getActive()) {
-        music.stop();
         return 1; // Начало игры
     } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) && Options.getActive()) {
         return 2; // Настройки
@@ -60,7 +59,6 @@ int gameMenu::showGameMenu(sf::RenderWindow &window) {
 }
 
 void gameMenu::showSettings(sf::RenderWindow &window) {
-    musicSettings(keyPressed, music, musicPlaying);
     window.draw(newSprite);
     Start.draw(window);
     Options.draw(window);
