@@ -76,11 +76,6 @@ void Field::draw(sf::RenderWindow& window) {
         window.draw(scoreText);
         window.draw(timerText);
         window.draw(writeTimesPlayed);
-    } else if (tabState == 1) {
-        window.draw(spriteStats);
-        window.draw(scoreText);
-        window.draw(timerText);
-        window.draw(writeTimesPlayed);
     }
 
 }
@@ -149,7 +144,7 @@ void Field::handleInput() {
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Tab)) {
         if (tabReleased) {
-            tabState = (tabState + 1) % 3;
+            tabState = (tabState+1) % 2;
             tabReleased = false;
         }
     } else {
@@ -158,7 +153,7 @@ void Field::handleInput() {
 
 
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
         if (rotateTimer <= 0) {
             rotateFigure();
             rotateTimer = rotateDelay; // Устанавливаем задержку после поворота

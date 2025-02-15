@@ -76,7 +76,6 @@ private:
     sf::Clock gameClock;
     float elapsedTime = 0;
     sf::Texture textureStats;
-    sf::Sprite spriteStats;
     int tabPressed = 0;
     int tabState = 0;
     bool tabReleased = true;
@@ -114,8 +113,6 @@ public:
             sf::Sprite(textureGreenBlock),
             sf::Sprite(textureRedBlock)
             },
-            textureStats("../image/stats.png"),
-            spriteStats(textureStats),
             writeTimesPlayed(font)
 
     {
@@ -139,21 +136,21 @@ public:
 
 
         scoreText.setFont(font);
-        scoreText.setCharacterSize(145);
+        scoreText.setCharacterSize(100);
         writeTimesPlayed.setStyle(sf::Text::Bold);
         scoreText.setFillColor(sf::Color::Black);
         //scoreText.setOutlineThickness(4.f);
         //scoreText.setOutlineColor(sf::Color::Black);
-        scoreText.setPosition(sf::Vector2f(10, 144));
+        scoreText.setPosition(sf::Vector2f(10, 180));
 
 
         timerText.setFont(font);
-        timerText.setCharacterSize(145);
+        timerText.setCharacterSize(100);
         writeTimesPlayed.setStyle(sf::Text::Bold);
         timerText.setFillColor(sf::Color::Black);
         //timerText.setOutlineThickness(4.f);
         //timerText.setOutlineColor(sf::Color::Black);
-        timerText.setPosition(sf::Vector2f(10, 288));
+        timerText.setPosition(sf::Vector2f(10, 324));
     }
 
 
