@@ -98,6 +98,9 @@ private:
     sf::Text writeBestScore;
     sf::Text writeBestTime;
 
+    sf::SoundBuffer buffer;
+    sf::Sound destroySound;
+
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             gameBackgroundTexture(("../image/backgroundGame.png")), gameBackgroundSprite(gameBackgroundTexture),
@@ -125,10 +128,13 @@ public:
     writeBestResult(font),
     writeBestTry(font),
     writeBestScore(font),
-    writeBestTime(font)
+    writeBestTime(font),
+    buffer("../music/Pickup_coin 9.wav"),
+    destroySound(buffer)
 
 
     {
+        destroySound.setVolume(20);
         music.setVolume(30);
         musicGameOver.setVolume(30);
         cell.setFillColor(sf::Color(0, 0, 0,50));
@@ -140,28 +146,46 @@ public:
 
 
         writeTimesPlayed.setFont(font);
-        writeTimesPlayed.setCharacterSize(145);
+        writeTimesPlayed.setCharacterSize(72);
         writeTimesPlayed.setFillColor(sf::Color::Black);
         writeTimesPlayed.setStyle(sf::Text::Bold);
-        writeTimesPlayed.setPosition(sf::Vector2f(10, 0));
+        writeTimesPlayed.setPosition(sf::Vector2f(0, 72));
 
         scoreText.setFont(font);
-        scoreText.setCharacterSize(100);
+        scoreText.setCharacterSize(72);
         scoreText.setStyle(sf::Text::Bold);
         scoreText.setFillColor(sf::Color::Black);
-        scoreText.setPosition(sf::Vector2f(10, 180));
+        scoreText.setPosition(sf::Vector2f(0, 144));
 
         timerText.setFont(font);
-        timerText.setCharacterSize(100);
+        timerText.setCharacterSize(72);
         timerText.setStyle(sf::Text::Bold);
         timerText.setFillColor(sf::Color::Black);
-        timerText.setPosition(sf::Vector2f(10, 324));
+        timerText.setPosition(sf::Vector2f(0, 216));
 
         writeBestResult.setFont(font);
-        writeBestResult.setCharacterSize(100);
+        writeBestResult.setCharacterSize(72);
         writeBestResult.setStyle(sf::Text::Bold);
         writeBestResult.setFillColor(sf::Color::Black);
-        writeBestResult.setPosition(sf::Vector2f(1554, 0));
+        writeBestResult.setPosition(sf::Vector2f(1512, 0));
+
+        writeBestTry.setFont(font);
+        writeBestTry.setCharacterSize(72);
+        writeBestTry.setStyle(sf::Text::Bold);
+        writeBestTry.setFillColor(sf::Color::Black);
+        writeBestTry.setPosition(sf::Vector2f(1512, 144));
+
+        writeBestScore.setFont(font);
+        writeBestScore.setCharacterSize(72);
+        writeBestScore.setStyle(sf::Text::Bold);
+        writeBestScore.setFillColor(sf::Color::Black);
+        writeBestScore.setPosition(sf::Vector2f(1512, 216));
+
+        writeBestTime.setFont(font);
+        writeBestTime.setCharacterSize(72);
+        writeBestTime.setStyle(sf::Text::Bold);
+        writeBestTime.setFillColor(sf::Color::Black);
+        writeBestTime.setPosition(sf::Vector2f(1512, 288));
 
     }
 
@@ -177,6 +201,7 @@ public:
     void startGame();
     void saveGameData();
     void loadGameData();
+    void loadBestGameData();
 };
 
 

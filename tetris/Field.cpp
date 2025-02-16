@@ -6,6 +6,40 @@
 
 #include <iostream>
 
+void Field::loadBestGameData() {
+    std::ifstream inFile("game_data.txt");
+    if (inFile.is_open()) {
+        std::string line;
+        int bestScore = 0;
+        int bestTry = 0;
+        int bestTime = 0;
+
+        while (std::getline(inFile, line)) {
+            std::istringstream iss(line);
+            int tryNumber;
+            int score;
+            int time;
+
+            if (iss >> tryNumber >> score >> time) {
+                // Проверяем, если это лучший результат
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestTry = tryNumber;
+                    bestTime = time;
+                }
+            }
+        }
+        inFile.close();
+
+        // Отображаем лучший результат
+        writeBestResult.setString("  BEST RESULT:");
+        writeBestTry.setString("TRY-" + std::to_string(bestTry));
+        writeBestScore.setString("SCORE-" + std::to_string(bestScore));
+        writeBestTime.setString("TIME-" + std::to_string(bestTime) + "s");
+    }
+}
+
+
 void Field::saveGameData() {
     std::ofstream outFile("game_data.txt", std::ios::app);
     if (outFile.is_open()) {
@@ -35,10 +69,6 @@ void Field::loadGameData() {
     }
     timesPlayed++;
 }
-
-
-
-
 
 void Field::startGame() {
     loadGameData();
@@ -95,15 +125,13 @@ void Field::draw(sf::RenderWindow& window) {
             gameOverMusicPlaying = true;
         }
 
-        // **СОХРАНЯЕМ ДАННЫЕ ТОЛЬКО ОДИН РАЗ**
         if (!gameDataSaved) {
             saveGameData();
-            gameDataSaved = true; // Чтобы не сохранить одну и ту же попытку несколько раз
+            gameDataSaved = true;
         }
 
         window.draw(gameOverRectangle);
         window.draw(gameOverSprite);
-
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
@@ -116,6 +144,9 @@ void Field::draw(sf::RenderWindow& window) {
         window.draw(timerText);
         window.draw(writeTimesPlayed);
         window.draw(writeBestResult);
+        window.draw(writeBestTry);
+        window.draw(writeBestScore);
+        window.draw(writeBestTime); // Отображаем лучшее время
     }
 }
 
@@ -262,6 +293,7 @@ void Field::clearFullLine() {
             }
         }
         if (isFull) {
+            destroySound.play();
             linesCleared++;
             for (int i = row; i > 0; --i) {
                 for (int j = 0; j < WIDTH; ++j) {
@@ -277,6 +309,7 @@ void Field::clearFullLine() {
         }
     }
     score += linesCleared * 100;
+
 }
 
 void Field::rotateFigure() {
@@ -313,17 +346,20 @@ void Field::update(float deltaTime) {
     }
 
     scoreText.setString("SCORE-" + std::to_string(score));
-    timerText.setString("TIME-" + std::to_string(static_cast<int>(elapsedTime)));
+    timerText.setString("TIME-" + std::to_string(static_cast<int>(elapsedTime))+ "s");
     writeTimesPlayed.setString(std::to_string(timesPlayed) + "-TRY");
-    writeBestResult.setString("BEST TRY");
+
+
+    // Обновляем лучший результат
+    loadBestGameData();
 
     // Проверка выхода через Escape
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
         if (!gameDataSaved) {
             saveGameData();
-            gameDataSaved = true; // Чтобы не сохранить повторно
+            gameDataSaved = true;
         }
-        exit(0); // Завершаем программу корректно
+        exit(0);
     }
 }
 
