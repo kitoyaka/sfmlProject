@@ -32,7 +32,7 @@ void Field::loadBestGameData() {
         inFile.close();
 
         // Отображаем лучший результат
-        writeBestResult.setString("  BEST RESULT:");
+        writeBestResult.setString("BEST RESULT");
         writeBestTry.setString("TRY-" + std::to_string(bestTry));
         writeBestScore.setString("SCORE-" + std::to_string(bestScore));
         writeBestTime.setString("TIME-" + std::to_string(bestTime) + "s");
@@ -146,7 +146,8 @@ void Field::draw(sf::RenderWindow& window) {
         window.draw(writeBestResult);
         window.draw(writeBestTry);
         window.draw(writeBestScore);
-        window.draw(writeBestTime); // Отображаем лучшее время
+        window.draw(writeBestTime);
+        window.draw(writeThisTry);
     }
 }
 
@@ -345,6 +346,7 @@ void Field::update(float deltaTime) {
         rotateTimer -= deltaTime;
     }
 
+    writeThisTry.setString("THIS GAME:");
     scoreText.setString("SCORE-" + std::to_string(score));
     timerText.setString("TIME-" + std::to_string(static_cast<int>(elapsedTime))+ "s");
     writeTimesPlayed.setString(std::to_string(timesPlayed) + "-TRY");
