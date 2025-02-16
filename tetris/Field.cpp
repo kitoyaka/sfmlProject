@@ -9,7 +9,7 @@
 void Field::saveGameData() {
     std::ofstream outFile("game_data.txt", std::ios::app);
     if (outFile.is_open()) {
-        outFile << timesPlayed << " " << score << "\n";
+        outFile << timesPlayed << " " << score <<" "<< elapsedTime << "\n";
         outFile.close();
     }
 }
@@ -24,14 +24,14 @@ void Field::loadGameData() {
         inFile.close();
         if (!lastLine.empty()) {
             std::istringstream iss(lastLine);
-            iss >> timesPlayed >> bestScore;
+            iss >> timesPlayed >> score;
         } else {
             timesPlayed = 0;
-            bestScore = 0;
+            score = 0;
         }
     } else {
         timesPlayed = 0;
-        bestScore = 0;
+        score = 0;
     }
     timesPlayed++;
 }
@@ -340,9 +340,6 @@ void Field::resetGame() {
         musicGameOver.stop();
         gameOverMusicPlaying = false;
         resetMusic = false;
-
-        if (score > bestScore)
-            bestScore = score;
 
         gameDataSaved = false;
         timesPlayed++;

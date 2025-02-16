@@ -75,7 +75,7 @@ private:
     sf::Text scoreText;
     sf::Text timerText;
     sf::Clock gameClock;
-    float elapsedTime = 0;
+    int elapsedTime = 0;
     sf::Texture textureStats;
     int tabPressed = 0;
     int tabState = 0;
@@ -90,7 +90,7 @@ private:
     int timesPlayed = 0;
 
     int n;
-    int bestScore = 0;
+    //int bestScore = 0;
     bool gameDataSaved = false;
 
 public:
