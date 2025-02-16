@@ -84,7 +84,7 @@ int main() {
     btn.setPosition(780.f, 720.f);
 
     // Load a music to play
-    sf::Music music("../music/bgm_6.ogg");
+    sf::Music music("../music/Classical-Vol3-Aether-Cut-60.ogg");
     music.setVolume(30);
     bool musicPlaying = true;
     bool keyPressed = false;

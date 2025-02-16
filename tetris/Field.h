@@ -102,10 +102,16 @@ private:
     sf::SoundBuffer buffer;
     sf::Sound destroySound;
 
+    sf::SoundBuffer rotateBuffer;
+    sf::Sound rotateSound;
+
+    sf::SoundBuffer blockBuffer;
+    sf::Sound blockSound;
+
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             gameBackgroundTexture(("../image/backgroundGame.png")), gameBackgroundSprite(gameBackgroundTexture),
-            music("../music/bgm_2.ogg"),
+            music("../music/Classical-Vol3-Matchmaker-Intensity-2.ogg"),
             musicGameOver("../music/bgm_3.ogg"),
             textureBlueBlock(("../image/blue_squarev2.png")),
             textureYellowBlock(("../image/yellow_squarev2.png")),
@@ -132,11 +138,17 @@ public:
     writeBestTime(font),
     writeThisTry(font),
     buffer("../music/Pickup_coin 9.wav"),
-    destroySound(buffer)
+    destroySound(buffer),
+    rotateBuffer("../music/Small_Tear_D.wav"),
+    rotateSound(rotateBuffer),
+    blockBuffer("../music/Wall_Break_Stone_C.wav"),
+    blockSound(blockBuffer)
 
 
     {
         destroySound.setVolume(20);
+        rotateSound.setVolume(20);
+        blockSound.setVolume(20);
         music.setVolume(30);
         musicGameOver.setVolume(30);
         cell.setFillColor(sf::Color(0, 0, 0,50));

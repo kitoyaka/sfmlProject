@@ -228,6 +228,7 @@ void Field::handleInput() {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
         if (rotateTimer <= 0) {
             rotateFigure();
+            rotateSound.play();
             rotateTimer = rotateDelay; // Устанавливаем задержку после поворота
         }
     }
@@ -262,6 +263,7 @@ void Field::moveFigure(float deltaTime) {
                     grid[y][x] = randomColor + 1;
                 }
             }
+            blockSound.play();
             isActiveFigure = false;
             clearFullLine();
             return;
