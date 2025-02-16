@@ -7,6 +7,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <SFML/Audio.hpp>
+#include <fstream>
 
 void musicSettings(bool &isPlaying, sf::Music &music, bool &stopMusic);
 
@@ -86,9 +87,11 @@ private:
     bool resetMusic = false;
 
     sf::Text writeTimesPlayed;
-    int timesPlayed = 1;
+    int timesPlayed = 0;
 
     int n;
+    int bestScore = 0;
+    bool gameDataSaved = false;
 
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
@@ -151,6 +154,7 @@ public:
         //timerText.setOutlineThickness(4.f);
         //timerText.setOutlineColor(sf::Color::Black);
         timerText.setPosition(sf::Vector2f(10, 324));
+
     }
 
 
@@ -163,6 +167,8 @@ public:
     void update(float deltaTime);
     void resetGame();
     void startGame();
+    void saveGameData();
+    void loadGameData();
 };
 
 

@@ -6,7 +6,42 @@
 
 #include <iostream>
 
+void Field::saveGameData() {
+    std::ofstream outFile("game_data.txt", std::ios::app);
+    if (outFile.is_open()) {
+        outFile << timesPlayed << " " << score << "\n";
+        outFile.close();
+    }
+}
+
+void Field::loadGameData() {
+    std::ifstream inFile("game_data.txt");
+    if (inFile.is_open()) {
+        std::string line, lastLine;
+        while (std::getline(inFile, line)) {
+            if (!line.empty()) lastLine = line;
+        }
+        inFile.close();
+        if (!lastLine.empty()) {
+            std::istringstream iss(lastLine);
+            iss >> timesPlayed >> bestScore;
+        } else {
+            timesPlayed = 0;
+            bestScore = 0;
+        }
+    } else {
+        timesPlayed = 0;
+        bestScore = 0;
+    }
+    timesPlayed++;
+}
+
+
+
+
+
 void Field::startGame() {
+    loadGameData();
     gameClock.restart();
     elapsedTime = 0;
     score = 0;
@@ -20,14 +55,11 @@ void Field::draw(sf::RenderWindow& window) {
         musicSettings(keyPressed, musicGameOver, musicPlaying);
     }
 
-
     window.draw(gameBackgroundSprite);
-    // Отрисовка сетки
+
     for (int row = 0; row < HEIGHT; ++row) {
         for (int col = 0; col < WIDTH; ++col) {
-            cell.setPosition(sf::Vector2f(
-                offset.x + col * TILE_SIZE,
-                offset.y + row * TILE_SIZE));
+            cell.setPosition(sf::Vector2f(offset.x + col * TILE_SIZE, offset.y + row * TILE_SIZE));
             window.draw(cell);
         }
     }
@@ -39,15 +71,14 @@ void Field::draw(sf::RenderWindow& window) {
                 if (colorIndex >= 0 && colorIndex < 5) {
                     blockSprite[colorIndex].setPosition(sf::Vector2f(
                         offset.x + col * TILE_SIZE,
-                        offset.y + row * TILE_SIZE)
-                    );
+                        offset.y + row * TILE_SIZE
+                    ));
                     window.draw(blockSprite[colorIndex]);
                 }
             }
         }
     }
 
-    // Отрисовка активной фигуры
     if (isActiveFigure) {
         for (int i = 0; i < 4; i++) {
             blockSprite[randomColor].setPosition(sf::Vector2f(
@@ -58,13 +89,21 @@ void Field::draw(sf::RenderWindow& window) {
         }
     }
 
-    if (isGameOver == true) {
-        if (gameOverMusicPlaying == false) {
+    if (isGameOver) {
+        if (!gameOverMusicPlaying) {
             music.stop();
             gameOverMusicPlaying = true;
         }
+
+        // **СОХРАНЯЕМ ДАННЫЕ ТОЛЬКО ОДИН РАЗ**
+        if (!gameDataSaved) {
+            saveGameData();
+            gameDataSaved = true; // Чтобы не сохранить одну и ту же попытку несколько раз
+        }
+
         window.draw(gameOverRectangle);
         window.draw(gameOverSprite);
+
     }
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
@@ -77,8 +116,8 @@ void Field::draw(sf::RenderWindow& window) {
         window.draw(timerText);
         window.draw(writeTimesPlayed);
     }
-
 }
+
 
 void Field::generateNewFigure() {
     if (isActiveFigure) return;
@@ -265,27 +304,33 @@ void Field::rotateFigure() {
 
 void Field::update(float deltaTime) {
     if (!isGameOver) {
-        elapsedTime = gameClock.getElapsedTime().asSeconds(); // Обновляем таймер
+        elapsedTime = gameClock.getElapsedTime().asSeconds();
     }
 
     if (rotateTimer > 0) {
         rotateTimer -= deltaTime;
     }
 
-
-    // Обновляем отображение счета и таймера
     scoreText.setString("SCORE-" + std::to_string(score));
     timerText.setString("TIME-" + std::to_string(static_cast<int>(elapsedTime)));
-    writeTimesPlayed.setString(std::to_string(timesPlayed)+"-TRY");
+    writeTimesPlayed.setString(std::to_string(timesPlayed) + "-TRY");
+
+    // Проверка выхода через Escape
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
+        if (!gameDataSaved) {
+            saveGameData();
+            gameDataSaved = true; // Чтобы не сохранить повторно
+        }
+        exit(0); // Завершаем программу корректно
+    }
 }
 
 void Field::resetGame() {
     if (isGameOver && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
-        for (int row = 0; row < HEIGHT; ++row) {
-            for (int col = 0; col < WIDTH; ++col) {
+        for (int row = 0; row < HEIGHT; ++row)
+            for (int col = 0; col < WIDTH; ++col)
                 grid[row][col] = 0;
-            }
-        }
+
         isActiveFigure = false;
         dropTimer = 0;
         moveSideTimer = 0;
@@ -295,6 +340,15 @@ void Field::resetGame() {
         musicGameOver.stop();
         gameOverMusicPlaying = false;
         resetMusic = false;
+
+        if (score > bestScore)
+            bestScore = score;
+
+        gameDataSaved = false;
         timesPlayed++;
     }
 }
+
+
+
+
