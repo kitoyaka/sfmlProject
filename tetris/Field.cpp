@@ -115,6 +115,7 @@ void Field::draw(sf::RenderWindow& window) {
         window.draw(scoreText);
         window.draw(timerText);
         window.draw(writeTimesPlayed);
+        window.draw(writeBestResult);
     }
 }
 
@@ -314,6 +315,7 @@ void Field::update(float deltaTime) {
     scoreText.setString("SCORE-" + std::to_string(score));
     timerText.setString("TIME-" + std::to_string(static_cast<int>(elapsedTime)));
     writeTimesPlayed.setString(std::to_string(timesPlayed) + "-TRY");
+    writeBestResult.setString("BEST TRY");
 
     // Проверка выхода через Escape
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {

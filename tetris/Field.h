@@ -93,6 +93,11 @@ private:
     //int bestScore = 0;
     bool gameDataSaved = false;
 
+    sf::Text writeBestResult;
+    sf::Text writeBestTry;
+    sf::Text writeBestScore;
+    sf::Text writeBestTime;
+
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             gameBackgroundTexture(("../image/backgroundGame.png")), gameBackgroundSprite(gameBackgroundTexture),
@@ -116,14 +121,19 @@ public:
             sf::Sprite(textureGreenBlock),
             sf::Sprite(textureRedBlock)
             },
-            writeTimesPlayed(font)
+            writeTimesPlayed(font),
+    writeBestResult(font),
+    writeBestTry(font),
+    writeBestScore(font),
+    writeBestTime(font)
+
 
     {
         music.setVolume(30);
         musicGameOver.setVolume(30);
         cell.setFillColor(sf::Color(0, 0, 0,50));
         gameOverRectangle.setFillColor(sf::Color(255, 0, 0,80));
-        //gameOverSprite.setColor(sf::Color(255, 0, 0,95));
+
         float fieldWidth = WIDTH * TILE_SIZE;
         offset.x = (window.getSize().x - fieldWidth) / 2;
         offset.y = 0;
@@ -133,27 +143,25 @@ public:
         writeTimesPlayed.setCharacterSize(145);
         writeTimesPlayed.setFillColor(sf::Color::Black);
         writeTimesPlayed.setStyle(sf::Text::Bold);
-        //writeTimesPlayed.setOutlineColor(sf::Color::Black);
-        //writeTimesPlayed.setOutlineThickness(4.f);
         writeTimesPlayed.setPosition(sf::Vector2f(10, 0));
-
 
         scoreText.setFont(font);
         scoreText.setCharacterSize(100);
-        writeTimesPlayed.setStyle(sf::Text::Bold);
+        scoreText.setStyle(sf::Text::Bold);
         scoreText.setFillColor(sf::Color::Black);
-        //scoreText.setOutlineThickness(4.f);
-        //scoreText.setOutlineColor(sf::Color::Black);
         scoreText.setPosition(sf::Vector2f(10, 180));
-
 
         timerText.setFont(font);
         timerText.setCharacterSize(100);
-        writeTimesPlayed.setStyle(sf::Text::Bold);
+        timerText.setStyle(sf::Text::Bold);
         timerText.setFillColor(sf::Color::Black);
-        //timerText.setOutlineThickness(4.f);
-        //timerText.setOutlineColor(sf::Color::Black);
         timerText.setPosition(sf::Vector2f(10, 324));
+
+        writeBestResult.setFont(font);
+        writeBestResult.setCharacterSize(100);
+        writeBestResult.setStyle(sf::Text::Bold);
+        writeBestResult.setFillColor(sf::Color::Black);
+        writeBestResult.setPosition(sf::Vector2f(1554, 0));
 
     }
 
