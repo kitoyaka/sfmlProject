@@ -12,14 +12,16 @@ bool UserManager::loginUser(const std::string& login, const std::string& passwor
 
 // В UserManager.cpp
 void UserManager::registerUser(const std::string& login, const std::string& password) {
-    // Проверяем, существует ли уже такой пользователь
     if (users.find(login) != users.end()) {
-       // std::cerr << "Пользователь с логином " << login << " уже существует." << std::endl;
         return;
     }
     users[login] = password;
     saveUsers();
-    std::cout << "User registered!" << std::endl;
+
+    // Загружаем пользователей обратно, чтобы убедиться, что файл сохранился и данные корректно читаются
+    loadUsers();
+
+    std::cout << "User registered and saved!" << std::endl;
 }
 
 
@@ -59,5 +61,8 @@ void UserManager::saveUsers() {
         file << login << ":" << password << "\n";
     }
 
+    std::cout << "Users saved to file: " << filename << std::endl; // Отладка
+
     file.close();
 }
+

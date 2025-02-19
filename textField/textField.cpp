@@ -64,7 +64,7 @@ void textField::setActive(bool checkActive) {
     m_isActive = checkActive;
     if (m_isActive) {
         m_rect.setFillColor(lightGray);  // Если активное, делаем светло-серым
-        showWrongLogPass=false;
+        //showWrongLogPass=false;
     } else {
         m_rect.setFillColor(sf::Color::White);  // Если не активное, белым
     }
