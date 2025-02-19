@@ -17,10 +17,6 @@ private:
     sf::Texture m_texture;
     bool textureSet = false;
     bool isActive;
-
-    sf::Font fontWrongLogPass;
-    sf::Text wrongLogPass;
-
 public:
 
     button(bool active, int width, int height, std::string buttonText,const std::string& texturePath = "") :
@@ -29,9 +25,7 @@ public:
     m_buttonText(buttonText),
     font("../font/ArialMT.ttf"),
     isActive(active),
-    m_text(font,m_buttonText , 50),
-    fontWrongLogPass("../font/hermanomayor.ttf"),
-    wrongLogPass(fontWrongLogPass)
+    m_text(font,m_buttonText , 50)
     {
         // Малювання прямокутника
         m_rect.setSize(sf::Vector2f(m_width, m_height));
@@ -55,17 +49,6 @@ public:
         m_text.setStyle(sf::Text::Bold);
         m_text.setOutlineColor(sf::Color::Black);
         m_text.setOutlineThickness(2.f);
-
-
-        wrongLogPass.setString("WRONG LOGIN OR PASSWORD");
-        wrongLogPass.setFont(fontWrongLogPass);
-        wrongLogPass.setCharacterSize(25);
-        wrongLogPass.setFillColor(sf::Color::Black);
-        wrongLogPass.setStyle(sf::Text::Bold);
-        wrongLogPass.setOutlineThickness(1.0f);
-        wrongLogPass.setOutlineColor(sf::Color::Red);
-        wrongLogPass.setPosition(sf::Vector2f(807, 864));
-
     }
 
 

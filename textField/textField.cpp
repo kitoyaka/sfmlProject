@@ -51,7 +51,6 @@ void textField::handeTextInput(sf::Event event) {
                     m_text.setString(m_userInput);
                 }
             }
-
         }
     }
 }

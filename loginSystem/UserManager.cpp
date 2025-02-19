@@ -5,19 +5,23 @@
 #include "UserManager.h"
 
 
-
-
 bool UserManager::loginUser(const std::string& login, const std::string& password) {
     auto it  = users.find(login);
     return it != users.end() && it->second == password;
 }
 
-void UserManager::registerUser(std::string &login, std::string &password) {
+// В UserManager.cpp
+void UserManager::registerUser(const std::string& login, const std::string& password) {
+    // Проверяем, существует ли уже такой пользователь
+    if (users.find(login) != users.end()) {
+       // std::cerr << "Пользователь с логином " << login << " уже существует." << std::endl;
+        return;
+    }
     users[login] = password;
-            saveUsers();
-            std::cout << "User registered!" << std:: endl;
-
+    saveUsers();
+    std::cout << "User registered!" << std::endl;
 }
+
 
 
 void UserManager::loadUsers() {

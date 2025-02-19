@@ -63,6 +63,14 @@ enum class GameState {
     Game
 };
 
+void ifSetInfo(sf::Text& wrongLogPass,bool &registrationStatus) {
+    if (registrationStatus) {
+        wrongLogPass.setOutlineColor(sf::Color::Green);
+        wrongLogPass.setString("REGISTRATION SUCCESSFUL");
+        registrationStatus=true;
+    }
+}
+
 int main() {
     // Create the main window
     sf::RenderWindow window(sf::VideoMode({1920, 1080}), "Big patric", sf::Style::None);
@@ -125,6 +133,8 @@ int main() {
     wrongLogPass.setOutlineColor(sf::Color::Red);
     wrongLogPass.setPosition(sf::Vector2f(807, 864));
 
+    bool registrationStatus=false;
+
 
 while (window.isOpen()) {
 
@@ -135,11 +145,25 @@ while (window.isOpen()) {
         }
 
         if (currentState == GameState::LoginMenu) {
+            // Обработка нажатия кнопки входа
             if (btn.isButtonClicked(window)) {
-                showWrongLogPass=true;
                 if (userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
                     currentState = GameState::GameMenu;
                     window.setMouseCursorVisible(false);
+                } else {
+                    showWrongLogPass = true;
+                }
+            }
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
+                std::string login = loginField.getUserInput();
+                std::string password = passwordField.getUserInput();
+
+                if (!login.empty() && !password.empty()) {
+                    userManager.registerUser(login, password);
+                    loginField.clear();
+                    passwordField.clear();
+                    registrationStatus = true;
                 }
             }
         } else if (currentState == GameState::GameMenu) {
@@ -184,9 +208,10 @@ while (window.isOpen()) {
         loginField.draw(window);
         passwordField.draw(window);
         btn.draw(window);
-        if (showWrongLogPass) {
+        if (showWrongLogPass || registrationStatus) {
             window.draw(wrongLogPass);
         }
+        ifSetInfo(wrongLogPass,registrationStatus);
     } else if (currentState == GameState::GameMenu) {
         startGameMenu.showGameMenu(window);
     } else if (currentState == GameState::Settings) {

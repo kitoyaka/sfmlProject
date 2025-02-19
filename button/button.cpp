@@ -20,7 +20,6 @@ bool button::isButtonClicked(sf::RenderWindow& window) {
             if (leftButtonPressed) {
                 leftButtonPressed = false;
                 changeTexture(m_rect,m_texture,"../image/LoginButton3dPressed_v2.png");
-                window.draw(wrongLogPass);
                 return true;
             }
         }
