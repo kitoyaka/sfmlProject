@@ -20,8 +20,6 @@ void textField::clear() {
     m_text.setString("");
 }
 
-
-
 void textField::handleClick(sf::RenderWindow &window, sf::Event event) {
     if(sf::Mouse::isButtonPressed(sf::Mouse::Button::Left))
     {
@@ -36,20 +34,6 @@ void textField::handleClick(sf::RenderWindow &window, sf::Event event) {
         }
     }
 }
-/*
-void textField::handleHover(sf::RenderWindow &window) {
-    sf::Vector2i mousePosition = sf::Mouse::getPosition(window);
-    if(m_rect.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePosition)))
-    {
-        sf::Color grayColor(128,128,128);
-        m_rect.setFillColor(grayColor);
-    }
-    else
-    {
-        m_rect.setFillColor(sf::Color::White);
-    }
-}*/
-
 
 void textField::handeTextInput(sf::Event event) {
     if (m_isActive) {
@@ -72,8 +56,6 @@ void textField::handeTextInput(sf::Event event) {
     }
 }
 
-
-
 std::string textField::getUserInput() {
     return m_userInput;
 }
@@ -83,14 +65,15 @@ void textField::setActive(bool checkActive) {
     m_isActive = checkActive;
     if (m_isActive) {
         m_rect.setFillColor(lightGray);  // Если активное, делаем светло-серым
+        showWrongLogPass=false;
     } else {
         m_rect.setFillColor(sf::Color::White);  // Если не активное, белым
     }
 }
+
 void textField::setUnActive() {
     m_isActive = false;
 }
-
 
 bool textField::checkActive() {
     return m_isActive;

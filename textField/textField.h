@@ -9,6 +9,8 @@
 #include <iostream>
 #include <string>
 
+inline bool showWrongLogPass = false;
+
 class textField
 {
 private:

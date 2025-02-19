@@ -57,6 +57,7 @@ void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
 
 enum class GameState {
     LoginMenu,
+    RegistrationMenu,
     GameMenu,
     Settings,
     Game
@@ -112,6 +113,19 @@ int main() {
     Field field(window);
     sf::Clock clockInGame;
 
+    sf::Font fontWrongLogPass("../font/hermanomayor.ttf");
+    sf::Text wrongLogPass(fontWrongLogPass);
+
+    wrongLogPass.setString("WRONG LOGIN OR PASSWORD");
+    wrongLogPass.setFont(fontWrongLogPass);
+    wrongLogPass.setCharacterSize(25);
+    wrongLogPass.setFillColor(sf::Color::Black);
+    wrongLogPass.setStyle(sf::Text::Bold);
+    wrongLogPass.setOutlineThickness(1.0f);
+    wrongLogPass.setOutlineColor(sf::Color::Red);
+    wrongLogPass.setPosition(sf::Vector2f(807, 864));
+
+
 while (window.isOpen()) {
 
     while (const std::optional<sf::Event> event = window.pollEvent()) {
@@ -122,13 +136,12 @@ while (window.isOpen()) {
 
         if (currentState == GameState::LoginMenu) {
             if (btn.isButtonClicked(window)) {
+                showWrongLogPass=true;
                 if (userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
                     currentState = GameState::GameMenu;
                     window.setMouseCursorVisible(false);
-                    //music.stop();
                 }
             }
-
         } else if (currentState == GameState::GameMenu) {
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
                     if (startGameMenu.showGameMenu(window) == 1) {
@@ -171,6 +184,9 @@ while (window.isOpen()) {
         loginField.draw(window);
         passwordField.draw(window);
         btn.draw(window);
+        if (showWrongLogPass) {
+            window.draw(wrongLogPass);
+        }
     } else if (currentState == GameState::GameMenu) {
         startGameMenu.showGameMenu(window);
     } else if (currentState == GameState::Settings) {

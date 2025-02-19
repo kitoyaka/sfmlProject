@@ -27,10 +27,12 @@ private:
     bool keyPressed = false;
     sf::Clock clock;
     const float delayTime = 0.2f;
-
-
-
     button settingsField;
+
+
+
+
+
 public:
     gameMenu(sf::RenderWindow &window) : newTexture(("../image/background.png")),
     newSprite(newTexture), Start(true,420, 142, "", "../image/StartButtonRed.png"),
@@ -40,12 +42,12 @@ public:
     buttonSound(buffer),
     settingsField(false,810, 800, "", "../image/SettingsField.png")
 
+
     {
         buttonSound.setVolume(20);
         Start.setPosition(744.f, 144.f);
         Options.setPosition(675.f, 432.f);
         Quit.setPosition(804.f, 720.f);
-
 
         settingsField.setPosition(555.f, 150);
     };
