@@ -108,6 +108,10 @@ private:
     sf::SoundBuffer blockBuffer;
     sf::Sound blockSound;
 
+    bool upSpeed = true;
+    float fallSpeed = 1;
+    sf::Text fallSpeedText;
+
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             gameBackgroundTexture(("../image/backgroundGame.png")), gameBackgroundSprite(gameBackgroundTexture),
@@ -142,7 +146,8 @@ public:
     rotateBuffer("../music/Small_Tear_D.wav"),
     rotateSound(rotateBuffer),
     blockBuffer("../music/Wall_Break_Stone_C.wav"),
-    blockSound(blockBuffer)
+    blockSound(blockBuffer),
+    fallSpeedText(font)
 
 
     {
@@ -190,6 +195,14 @@ public:
         timerText.setOutlineThickness(1.0f);
         timerText.setOutlineColor(sf::Color::Yellow);
         timerText.setPosition(sf::Vector2f(2, 285));
+
+        fallSpeedText.setFont(font);
+        fallSpeedText.setCharacterSize(72);
+        fallSpeedText.setStyle(sf::Text::Bold);
+        fallSpeedText.setFillColor(sf::Color::Black);
+        fallSpeedText.setOutlineThickness(1.0f);
+        fallSpeedText.setOutlineColor(sf::Color::Yellow);
+        fallSpeedText.setPosition(sf::Vector2f(2, 357));
 
         writeBestResult.setFont(font);
         writeBestResult.setCharacterSize(90);

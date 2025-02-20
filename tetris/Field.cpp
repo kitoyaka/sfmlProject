@@ -143,6 +143,7 @@ void Field::draw(sf::RenderWindow& window) {
         window.draw(scoreText);
         window.draw(timerText);
         window.draw(writeTimesPlayed);
+        window.draw(fallSpeedText);
         window.draw(writeBestResult);
         window.draw(writeBestTry);
         window.draw(writeBestScore);
@@ -171,7 +172,6 @@ void Field::generateNewFigure() {
 
          // Проверка на столкновение с существующими блоками
          if (grid[currentShape[i].y][currentShape[i].x] != 0) {
-             // Игра завершена (можно добавить обработку)
              isActiveFigure = false;
              isGameOver = true;
              return;
@@ -240,7 +240,16 @@ void Field::moveFigure(float deltaTime) {
     // Выбираем задержку в зависимости от состояния клавиши
     float currentDropDelay = isFastFalling ? fastDropDelay : baseDropDelay;
 
+    if (score!=0 && score % 100 == 0) {
+        if (upSpeed) {
+            baseDropDelay=baseDropDelay - 0.02f;
+            fallSpeed+=0.2;
+        }
+        upSpeed = false;
+    }
+
     dropTimer += deltaTime;
+
 
     if (dropTimer >= currentDropDelay) {
         dropTimer = 0;
@@ -297,6 +306,7 @@ void Field::clearFullLine() {
         }
         if (isFull) {
             destroySound.play();
+            upSpeed = true;
             linesCleared++;
             for (int i = row; i > 0; --i) {
                 for (int j = 0; j < WIDTH; ++j) {
@@ -312,6 +322,7 @@ void Field::clearFullLine() {
         }
     }
     score += linesCleared * 100;
+
 
 }
 
@@ -352,7 +363,9 @@ void Field::update(float deltaTime) {
     scoreText.setString("SCORE-" + std::to_string(score));
     timerText.setString("TIME-" + std::to_string(static_cast<int>(elapsedTime))+ "s");
     writeTimesPlayed.setString(std::to_string(timesPlayed) + "-TRY");
-
+    std::ostringstream fallSpeedStream;
+    fallSpeedStream << fallSpeed;
+    fallSpeedText.setString("SPEED FALL-" + fallSpeedStream.str() + "x");
 
     // Обновляем лучший результат
     loadBestGameData();
@@ -382,6 +395,8 @@ void Field::resetGame() {
         musicGameOver.stop();
         gameOverMusicPlaying = false;
         resetMusic = false;
+        baseDropDelay=0.5f;
+        fallSpeed=1;
 
         gameDataSaved = false;
         timesPlayed++;
