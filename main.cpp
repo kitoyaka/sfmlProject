@@ -8,8 +8,8 @@
 #include "gameMenu.h"
 #include "tetris/Field.h"
 
-void changeTexture(sf::RectangleShape &rect, sf::Texture &m_texture, const std::string& newTexturePath) {
-    m_texture.loadFromFile(newTexturePath);
+void changeTexture(sf::RectangleShape &rect, sf::Texture &m_texture, const std::string& texturePath) {
+    m_texture.loadFromFile(texturePath);
     rect.setTexture(&m_texture);
 
 }
@@ -126,8 +126,10 @@ int main() {
     wrongLogPass.setOutlineColor(sf::Color::Red);
     wrongLogPass.setPosition(sf::Vector2f(807, 864));
 
-    bool registrationStatus=false;
+    bool registrationStatus = false;
 
+    button createAccount(false,216,72, "", "../image/CreateAccount.png");
+    createAccount.setPosition(852,936);
 
 while (window.isOpen()) {
 
@@ -139,7 +141,8 @@ while (window.isOpen()) {
 
         if (currentState == GameState::LoginMenu) {
             // Обработка нажатия кнопки входа
-            if (btn.isButtonClicked(window)) {
+            if (btn.isButtonClicked(window,"../image/LoginButton3d_v2.png","../image/LoginButton3dPressed_v2.png")) {
+                showWrongLogPass = false;
                 if (userManager.loginUser(loginField.getUserInput(), passwordField.getUserInput())) {
                     currentState = GameState::GameMenu;
                     window.setMouseCursorVisible(false);
@@ -153,7 +156,8 @@ while (window.isOpen()) {
             }
 
             // Обработка регистрации по нажатию клавиши R
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R)) {
+            if (createAccount.isButtonClicked(window,"../image/CreateAccount.png","../image/CreateAccountPressed.png")) {
+                showWrongLogPass = false;
                 std::string login = loginField.getUserInput();
                 std::string password = passwordField.getUserInput();
 
@@ -161,7 +165,7 @@ while (window.isOpen()) {
                     userManager.registerUser(login, password);
                     loginField.clear();
                     passwordField.clear();
-                    registrationStatus = true;  // регистрация прошла успешно
+                    registrationStatus = true;
                     showWrongLogPass = true;
                     wrongLogPass.setOutlineColor(sf::Color::Green);
                     wrongLogPass.setString("REGISTRATION SUCCESSFUL");
@@ -209,6 +213,7 @@ while (window.isOpen()) {
         loginField.draw(window);
         passwordField.draw(window);
         btn.draw(window);
+        createAccount.draw(window);
         if (showWrongLogPass ) {
             window.draw(wrongLogPass);
         }
