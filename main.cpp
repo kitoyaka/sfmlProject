@@ -57,7 +57,6 @@ void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
 
 enum class GameState {
     LoginMenu,
-    RegistrationMenu,
     GameMenu,
     Settings,
     Game
@@ -220,7 +219,7 @@ while (window.isOpen()) {
     } else if (currentState == GameState::GameMenu) {
         startGameMenu.showGameMenu(window);
     } else if (currentState == GameState::Settings) {
-        startGameMenu.showSettings(window);
+        startGameMenu.showSettings(window,music);
     } else if (currentState == GameState::Game) {
         music.stop();
         float deltaTime = clockInGame.restart().asSeconds();

@@ -164,7 +164,6 @@ public:
         offset.y = 0;
 
 
-        writeThisTry.setFont(font);
         writeThisTry.setCharacterSize(90);
         writeThisTry.setFillColor(sf::Color::Black);
         writeThisTry.setStyle(sf::Text::Bold);
@@ -172,7 +171,6 @@ public:
         writeThisTry.setOutlineColor(sf::Color::Yellow);
         writeThisTry.setPosition(sf::Vector2f(2, 54));
 
-        writeTimesPlayed.setFont(font);
         writeTimesPlayed.setCharacterSize(72);
         writeTimesPlayed.setFillColor(sf::Color::Black);
         writeTimesPlayed.setStyle(sf::Text::Bold);
@@ -180,7 +178,6 @@ public:
         writeTimesPlayed.setOutlineColor(sf::Color::Yellow);
         writeTimesPlayed.setPosition(sf::Vector2f(2, 141));
 
-        scoreText.setFont(font);
         scoreText.setCharacterSize(72);
         scoreText.setStyle(sf::Text::Bold);
         scoreText.setFillColor(sf::Color::Black);
@@ -188,7 +185,6 @@ public:
         scoreText.setOutlineColor(sf::Color::Yellow);
         scoreText.setPosition(sf::Vector2f(2, 213));
 
-        timerText.setFont(font);
         timerText.setCharacterSize(72);
         timerText.setStyle(sf::Text::Bold);
         timerText.setFillColor(sf::Color::Black);
@@ -196,7 +192,6 @@ public:
         timerText.setOutlineColor(sf::Color::Yellow);
         timerText.setPosition(sf::Vector2f(2, 285));
 
-        fallSpeedText.setFont(font);
         fallSpeedText.setCharacterSize(72);
         fallSpeedText.setStyle(sf::Text::Bold);
         fallSpeedText.setFillColor(sf::Color::Black);
@@ -204,7 +199,6 @@ public:
         fallSpeedText.setOutlineColor(sf::Color::Yellow);
         fallSpeedText.setPosition(sf::Vector2f(2, 357));
 
-        writeBestResult.setFont(font);
         writeBestResult.setCharacterSize(90);
         writeBestResult.setStyle(sf::Text::Bold);
         writeBestResult.setFillColor(sf::Color::Black);
@@ -212,7 +206,6 @@ public:
         writeBestResult.setOutlineColor(sf::Color::Yellow);
         writeBestResult.setPosition(sf::Vector2f(1502, 54));
 
-        writeBestTry.setFont(font);
         writeBestTry.setCharacterSize(72);
         writeBestTry.setStyle(sf::Text::Bold);
         writeBestTry.setFillColor(sf::Color::Black);
@@ -220,7 +213,6 @@ public:
         writeBestTry.setOutlineColor(sf::Color::Yellow);
         writeBestTry.setPosition(sf::Vector2f(1502, 141));
 
-        writeBestScore.setFont(font);
         writeBestScore.setCharacterSize(72);
         writeBestScore.setStyle(sf::Text::Bold);
         writeBestScore.setFillColor(sf::Color::Black);
@@ -228,7 +220,6 @@ public:
         writeBestScore.setOutlineColor(sf::Color::Yellow);
         writeBestScore.setPosition(sf::Vector2f(1502, 213));
 
-        writeBestTime.setFont(font);
         writeBestTime.setCharacterSize(72);
         writeBestTime.setStyle(sf::Text::Bold);
         writeBestTime.setFillColor(sf::Color::Black);

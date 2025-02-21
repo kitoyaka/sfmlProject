@@ -58,14 +58,74 @@ int gameMenu::showGameMenu(sf::RenderWindow &window) {
     return 0;
 }
 
-void gameMenu::showSettings(sf::RenderWindow &window) {
+void gameMenu::showSettings(sf::RenderWindow &window,sf::Music &music) {
     window.draw(newSprite);
-    Start.draw(window);
-    Options.draw(window);
-    Quit.draw(window);
     settingsField.draw(window);
-}
 
+    // Обработка нажатий стрелок для переключения активного пункта
+    if (settingClock.getElapsedTime().asSeconds() >= settingDelay) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
+            activeSettingIndex = (activeSettingIndex + 1) % numSettings;
+            settingClock.restart();
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)) {
+            activeSettingIndex = (activeSettingIndex - 1 + numSettings) % numSettings;
+            settingClock.restart();
+        }
+    }
+
+    if (activeSettingIndex == 0)
+        volume.setFillColor(sf::Color::Red);
+    else
+        volume.setFillColor(sf::Color::Green);
+
+    if (activeSettingIndex == 1)
+        resolution.setFillColor(sf::Color::Red);
+    else
+        resolution.setFillColor(sf::Color::Blue);
+
+    if (activeSettingIndex == 2)
+        difficulty.setFillColor(sf::Color::Red);
+    else
+        difficulty.setFillColor(sf::Color::Magenta);
+
+    if (activeSettingIndex == 3)
+        fallIncrease.setFillColor(sf::Color::Red);
+    else
+        fallIncrease.setFillColor(sf::Color::Cyan);
+
+    if (activeSettingIndex == 4)
+        saveSettings.setFillColor(sf::Color::Red);
+    else
+        saveSettings.setFillColor(sf::Color::Yellow);
+
+    // Обновляем строку громкости и обрабатываем её изменение, только если пункт "VOLUME" активен
+    int displayedVolume = static_cast<int>(std::round(music.getVolume()));
+    volume.setString("VOLUME: " + std::to_string(displayedVolume) + "%");
+
+    // Предполагается, что volumeClock – отдельный таймер для изменения громкости
+    if (activeSettingIndex == 0 && volumeClock.getElapsedTime().asSeconds() > volumeDelay) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Add) && music.getVolume() < 100) {
+            music.setVolume(music.getVolume() + 1);
+            volumeClock.restart();
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Subtract) && music.getVolume() > 0) {
+            music.setVolume(music.getVolume() - 1);
+            volumeClock.restart();
+        }
+    }
+
+    // Устанавливаем строки для остальных пунктов настроек
+    resolution.setString("RESOLUTION: FULL");
+    difficulty.setString("DIFFICULTY: EASY");
+    fallIncrease.setString("FALL INCREASE: ON");
+    saveSettings.setString("SAVE SETTINGS");
+
+    // Отрисовка всех элементов настроек
+    window.draw(volume);
+    window.draw(resolution);
+    window.draw(difficulty);
+    window.draw(fallIncrease);
+    window.draw(saveSettings);
+}
 
 void gameMenu::updateButtonStates() {
 
