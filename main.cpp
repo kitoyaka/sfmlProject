@@ -37,20 +37,8 @@ void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &log
     }
 }
 
-void musicSettings(bool &keyPressed, sf::Music &music, bool &musicPlaying) {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M) && !keyPressed) {
-        if (musicPlaying) {
-            music.setVolume(0);
-            musicPlaying = false;
-        } else {
-            music.setVolume(30);
-            musicPlaying = true;
-        }
-        keyPressed = true;
-    } else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
-        keyPressed = false;
-    }
-    if (music.getStatus() != sf::SoundSource::Status::Playing && musicPlaying) {
+void musicSettings(sf::Music &music) {
+    if (music.getStatus() != sf::SoundSource::Status::Playing) {
         music.play();
     }
 }
@@ -86,6 +74,7 @@ int main() {
 
     // Load a music to play
     sf::Music music("../music/Classical-Vol3-Aether-Cut-60.ogg");
+    std::string currentMusicFile = "";
     music.setVolume(30);
     bool musicPlaying = true;
     bool keyPressed = false;
@@ -199,11 +188,46 @@ while (window.isOpen()) {
         passwordField.handeTextInput(*event);
     }
 
+    std::string targetMusicFile;
+    if (currentState == GameState::LoginMenu || currentState == GameState::GameMenu || currentState == GameState::Settings) {
+        targetMusicFile = "menu_music";
+        if (currentMusicFile != targetMusicFile) {
+            music.stop();
+            if (!music.openFromFile("../music/Classical-Vol3-Aether-Cut-60.ogg")) {
+                std::cerr << "Ошибка загрузки меню музыки\n";
+            }
+            music.play();
+            currentMusicFile = targetMusicFile;
+        }
+    } else if (currentState == GameState::Game) {
+        if (field.getIsGameOver()) {
+            targetMusicFile = "game_over_music";
+            if (currentMusicFile != targetMusicFile) {
+                music.stop();
+                if (!music.openFromFile("../music/bgm_3.ogg")) {
+                    std::cerr << "Ошибка загрузки GameOver музыки\n";
+                }
+                music.play();
+                currentMusicFile = targetMusicFile;
+            }
+        } else {
+            targetMusicFile = "game_music";
+            if (currentMusicFile != targetMusicFile) {
+                music.stop();
+                if (!music.openFromFile("../music/Classical-Vol3-Matchmaker-Intensity-2.ogg")) {
+                    std::cerr << "Ошибка загрузки игровой музыки\n";
+                }
+                music.play();
+                currentMusicFile = targetMusicFile;
+            }
+        }
+    }
+
 
     window.clear();
 
-    if (currentState == GameState::LoginMenu || currentState==GameState::GameMenu) {
-        musicSettings(keyPressed, music, musicPlaying);
+    if (currentState == GameState::LoginMenu || currentState==GameState::GameMenu || currentState==GameState::Settings || currentState==GameState::Game) {
+        musicSettings(music);
     }
 
     if (currentState == GameState::LoginMenu) {
@@ -221,7 +245,6 @@ while (window.isOpen()) {
     } else if (currentState == GameState::Settings) {
         startGameMenu.showSettings(window,music);
     } else if (currentState == GameState::Game) {
-        music.stop();
         float deltaTime = clockInGame.restart().asSeconds();
         field.generateNewFigure();
         field.update(deltaTime);

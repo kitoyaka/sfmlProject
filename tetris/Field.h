@@ -9,7 +9,7 @@
 #include <SFML/Audio.hpp>
 #include <fstream>
 
-void musicSettings(bool &isPlaying, sf::Music &music, bool &stopMusic);
+void musicSettings(sf::Music &music);
 
 class Field {
 private:
@@ -24,12 +24,6 @@ private:
 
     const sf::Texture gameBackgroundTexture;
     sf::Sprite gameBackgroundSprite;
-
-    sf::Music music;
-    sf::Music musicGameOver;
-    bool musicPlaying = true;
-    bool keyPressed = false;
-
 
 
     sf::Texture textureBlueBlock;
@@ -115,8 +109,6 @@ private:
 public:
     Field(sf::RenderWindow& window) : grid(HEIGHT, std::vector<int>(WIDTH, 0)), cell(sf::Vector2f(TILE_SIZE - 2, TILE_SIZE - 2)),
             gameBackgroundTexture(("../image/backgroundGame.png")), gameBackgroundSprite(gameBackgroundTexture),
-            music("../music/Classical-Vol3-Matchmaker-Intensity-2.ogg"),
-            musicGameOver("../music/bgm_3.ogg"),
             textureBlueBlock(("../image/blue_squarev2.png")),
             textureYellowBlock(("../image/yellow_squarev2.png")),
             texturePinkBlock(("../image/pink_squarev2.png")),
@@ -154,8 +146,6 @@ public:
         destroySound.setVolume(20);
         rotateSound.setVolume(20);
         blockSound.setVolume(20);
-        music.setVolume(30);
-        musicGameOver.setVolume(30);
         cell.setFillColor(sf::Color(0, 0, 0,50));
         gameOverRectangle.setFillColor(sf::Color(255, 0, 0,80));
 
@@ -242,6 +232,9 @@ public:
     void saveGameData();
     void loadGameData();
     void loadBestGameData();
+
+    bool getIsGameOver() const { return isGameOver; }
+
 };
 
 

@@ -8,10 +8,9 @@
 #include <SFML/Graphics.hpp>
 #include "button/button.h"
 #include <SFML/Audio.hpp>
-#include <vector>
 #include<cmath>
 
-void musicSettings(bool &isPlaying, sf::Music &music, bool &stopMusic);
+void musicSettings(sf::Music &music);
 
 
 class gameMenu {
@@ -21,7 +20,6 @@ private:
     button Start;
     button Options;
     button Quit;
-    bool active;
     sf::SoundBuffer buffer;
     sf::Sound buttonSound;
     bool musicPlaying = true;

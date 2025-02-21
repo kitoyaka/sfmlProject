@@ -78,13 +78,6 @@ void Field::startGame() {
 }
 
 void Field::draw(sf::RenderWindow& window) {
-    if (!gameOverMusicPlaying || resetMusic) {
-        resetMusic = false;
-        musicSettings(keyPressed, music, musicPlaying);
-    } else if (gameOverMusicPlaying && !resetMusic) {
-        musicSettings(keyPressed, musicGameOver, musicPlaying);
-    }
-
     window.draw(gameBackgroundSprite);
 
     for (int row = 0; row < HEIGHT; ++row) {
@@ -120,23 +113,12 @@ void Field::draw(sf::RenderWindow& window) {
     }
 
     if (isGameOver) {
-        if (!gameOverMusicPlaying) {
-            music.stop();
-            gameOverMusicPlaying = true;
-        }
-
         if (!gameDataSaved) {
             saveGameData();
             gameDataSaved = true;
         }
-
         window.draw(gameOverRectangle);
         window.draw(gameOverSprite);
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
-        music.stop();
-        musicGameOver.stop();
     }
 
     if (tabState == 0) {
@@ -392,7 +374,6 @@ void Field::resetGame() {
         score = 0;
         gameClock.restart();
         isGameOver = false;
-        musicGameOver.stop();
         gameOverMusicPlaying = false;
         resetMusic = false;
         baseDropDelay=0.5f;

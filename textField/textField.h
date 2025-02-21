@@ -65,6 +65,7 @@ public:
     sf::RectangleShape& getRect() {
         return m_rect;
     }
+
 };
 
 #endif //SFMLPROJECT_TEXTFIELD_H
