@@ -38,10 +38,31 @@ void changeCursor(sf::RenderWindow &window,sf::Cursor &textCursor,textField &log
 }
 
 void musicSettings(sf::Music &music) {
+    static bool isMuted = false;
+    static float previousVolume = music.getVolume();
+    static bool mKeyPressed = false;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::M)) {
+        if (!mKeyPressed) {
+            if (!isMuted) {
+                previousVolume = music.getVolume();
+                music.setVolume(0);
+                isMuted = true;
+            } else {
+                music.setVolume(previousVolume);
+                isMuted = false;
+            }
+            mKeyPressed = true;
+        }
+    } else {
+        mKeyPressed = false;
+    }
+
     if (music.getStatus() != sf::SoundSource::Status::Playing) {
         music.play();
     }
 }
+
 
 enum class GameState {
     LoginMenu,
