@@ -7,7 +7,6 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <SFML/Audio.hpp>
-#include <fstream>
 
 void musicSettings(sf::Music &music);
 
@@ -55,7 +54,7 @@ private:
     float baseDropDelay=0.5f;
     float fastDropDelay=0.1f;
     float dropTimer = 0;
-    bool isFastFalling=0;
+    bool isFastFalling;
 
     bool isGameOver = false;
     sf::Texture gameOverTexture;
@@ -128,20 +127,18 @@ public:
             sf::Sprite(textureRedBlock)
             },
             writeTimesPlayed(font),
-    writeBestResult(font),
-    writeBestTry(font),
-    writeBestScore(font),
-    writeBestTime(font),
-    writeThisTry(font),
-    buffer("../music/Pickup_coin 9.wav"),
-    destroySound(buffer),
-    rotateBuffer("../music/Small_Tear_D.wav"),
-    rotateSound(rotateBuffer),
-    blockBuffer("../music/Wall_Break_Stone_C.wav"),
-    blockSound(blockBuffer),
-    fallSpeedText(font)
-
-
+            writeBestResult(font),
+            writeBestTry(font),
+            writeBestScore(font),
+            writeBestTime(font),
+            writeThisTry(font),
+            buffer("../music/Pickup_coin 9.wav"),
+            destroySound(buffer),
+            rotateBuffer("../music/Small_Tear_D.wav"),
+            rotateSound(rotateBuffer),
+            blockBuffer("../music/Wall_Break_Stone_C.wav"),
+            blockSound(blockBuffer),
+            fallSpeedText(font)
     {
         destroySound.setVolume(20);
         rotateSound.setVolume(20);

@@ -6,9 +6,6 @@
 #define SFMLPROJECT_USERMANAGER_H
 #include <unordered_map>
 #include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
 
 class UserManager {
 private:

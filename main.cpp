@@ -94,11 +94,9 @@ int main() {
     btn.setPosition(780.f, 720.f);
 
     // Load a music to play
-    sf::Music music("../music/Classical-Vol3-Aether-Cut-60.ogg");
+    sf::Music music;
     std::string currentMusicFile = "";
     music.setVolume(30);
-    bool musicPlaying = true;
-    bool keyPressed = false;
 
     // Load image for cursor
     sf::Image cursorImage("../image/notActiveCursor.png");
@@ -135,8 +133,6 @@ int main() {
     wrongLogPass.setOutlineColor(sf::Color::Red);
     wrongLogPass.setPosition(sf::Vector2f(807, 864));
 
-    bool registrationStatus = false;
-
     button createAccount(false,216,72, "", "../image/CreateAccount.png");
     createAccount.setPosition(852,936);
 
@@ -156,8 +152,6 @@ while (window.isOpen()) {
                     currentState = GameState::GameMenu;
                     window.setMouseCursorVisible(false);
                 } else {
-                    // Если вход не удался, сбрасываем флаг регистрации и устанавливаем сообщение об ошибке
-                    registrationStatus = false;
                     showWrongLogPass = true;
                     wrongLogPass.setOutlineColor(sf::Color::Red);
                     wrongLogPass.setString("WRONG LOGIN OR PASSWORD");
@@ -174,7 +168,6 @@ while (window.isOpen()) {
                     userManager.registerUser(login, password);
                     loginField.clear();
                     passwordField.clear();
-                    registrationStatus = true;
                     showWrongLogPass = true;
                     wrongLogPass.setOutlineColor(sf::Color::Green);
                     wrongLogPass.setString("REGISTRATION SUCCESSFUL");

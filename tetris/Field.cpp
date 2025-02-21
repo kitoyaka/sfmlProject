@@ -3,8 +3,9 @@
 //
 
 #include "Field.h"
-
 #include <iostream>
+#include <fstream>
+
 
 void Field::loadBestGameData() {
     std::ifstream inFile("game_data.txt");

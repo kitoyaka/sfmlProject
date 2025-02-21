@@ -3,7 +3,7 @@
 //
 
 #include "gameMenu.h"
-
+#include <fstream>
 
 int gameMenu::showGameMenu(sf::RenderWindow &window) {
     if (clock.getElapsedTime().asSeconds() >= delayTime) {
@@ -58,11 +58,22 @@ int gameMenu::showGameMenu(sf::RenderWindow &window) {
     return 0;
 }
 
-void gameMenu::showSettings(sf::RenderWindow &window,sf::Music &music) {
+void gameMenu::showSettings(sf::RenderWindow &window, sf::Music &music) {
     window.draw(newSprite);
     settingsField.draw(window);
 
-    // Обработка нажатий стрелок для переключения активного пункта
+    {
+        std::ifstream checkFile("game_data.txt");
+        bool fileIsEmpty = true;
+        if (checkFile.good()) {
+            if (checkFile.peek() != std::ifstream::traits_type::eof()) {
+                fileIsEmpty = false;
+            }
+        }
+        checkFile.close();
+        stateDeleteStat = fileIsEmpty ? "EMPTY" : "game_data.txt";
+    }
+
     if (settingClock.getElapsedTime().asSeconds() >= settingDelay) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
             activeSettingIndex = (activeSettingIndex + 1) % numSettings;
@@ -73,36 +84,24 @@ void gameMenu::showSettings(sf::RenderWindow &window,sf::Music &music) {
         }
     }
 
-    if (activeSettingIndex == 0)
-        volume.setFillColor(sf::Color::Red);
-    else
-        volume.setFillColor(sf::Color::Green);
+    if (activeSettingIndex == 0) volume.setFillColor(sf::Color::Red);
+    else volume.setFillColor(sf::Color::Yellow);
 
-    if (activeSettingIndex == 1)
-        resolution.setFillColor(sf::Color::Red);
-    else
-        resolution.setFillColor(sf::Color::Blue);
+    if (activeSettingIndex == 1) resolution.setFillColor(sf::Color::Red);
+    else resolution.setFillColor(sf::Color::Yellow);
 
-    if (activeSettingIndex == 2)
-        difficulty.setFillColor(sf::Color::Red);
-    else
-        difficulty.setFillColor(sf::Color::Magenta);
+    if (activeSettingIndex == 2) difficulty.setFillColor(sf::Color::Red);
+    else difficulty.setFillColor(sf::Color::Yellow);
 
-    if (activeSettingIndex == 3)
-        fallIncrease.setFillColor(sf::Color::Red);
-    else
-        fallIncrease.setFillColor(sf::Color::Cyan);
+    if (activeSettingIndex == 3) fallIncrease.setFillColor(sf::Color::Red);
+    else fallIncrease.setFillColor(sf::Color::Yellow);
 
-    if (activeSettingIndex == 4)
-        saveSettings.setFillColor(sf::Color::Red);
-    else
-        saveSettings.setFillColor(sf::Color::Yellow);
+    if (activeSettingIndex == 4) saveSettings.setFillColor(sf::Color::Red);
+    else saveSettings.setFillColor(sf::Color::Yellow);
 
-    // Обновляем строку громкости и обрабатываем её изменение, только если пункт "VOLUME" активен
     int displayedVolume = static_cast<int>(std::round(music.getVolume()));
     volume.setString("VOLUME: " + std::to_string(displayedVolume) + "%");
 
-    // Предполагается, что volumeClock – отдельный таймер для изменения громкости
     if (activeSettingIndex == 0 && volumeClock.getElapsedTime().asSeconds() > volumeDelay) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Add) && music.getVolume() < 100) {
             music.setVolume(music.getVolume() + 1);
@@ -113,19 +112,33 @@ void gameMenu::showSettings(sf::RenderWindow &window,sf::Music &music) {
         }
     }
 
-    // Устанавливаем строки для остальных пунктов настроек
+    if (activeSettingIndex == 3) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+            if (stateDeleteStat != "EMPTY") {
+                std::ofstream file("game_data.txt", std::ios::trunc);
+                file.close();
+                enterPressed = true;
+                stateDeleteStat = "EMPTY";
+            }
+        }
+    } else {
+        enterPressed = false;
+    }
+
+    // Обновляем текст пунктов меню
     resolution.setString("RESOLUTION: FULL");
-    difficulty.setString("DIFFICULTY: EASY");
-    fallIncrease.setString("FALL INCREASE: ON");
+    difficulty.setString("FALL INCREASE: ON");
+    fallIncrease.setString("DELETE STATISTIC: " + stateDeleteStat);
     saveSettings.setString("SAVE SETTINGS");
 
-    // Отрисовка всех элементов настроек
+    // Отрисовка всех элементов меню
     window.draw(volume);
     window.draw(resolution);
     window.draw(difficulty);
     window.draw(fallIncrease);
     window.draw(saveSettings);
 }
+
 
 void gameMenu::updateButtonStates() {
 

@@ -45,6 +45,9 @@ private:
     const float settingDelay = 0.2f;
     const int numSettings = 5;
 
+    bool enterPressed = false;
+    std::string stateDeleteStat;
+
 
 
 public:
@@ -72,37 +75,31 @@ public:
         settingsField.setPosition(555, 142);
 
         volume.setCharacterSize(90);
-        volume.setFillColor(sf::Color::Green);
         volume.setStyle(sf::Text::Bold);
         volume.setOutlineThickness(1.0f);
-        volume.setOutlineColor(sf::Color::Yellow);
         volume.setPosition(sf::Vector2f(612, 214));
 
         resolution.setCharacterSize(90);
-        resolution.setFillColor(sf::Color::Green);
         resolution.setStyle(sf::Text::Bold);
         resolution.setOutlineThickness(1.0f);
-        resolution.setOutlineColor(sf::Color::Yellow);
         resolution.setPosition(sf::Vector2f(612, 360));
 
         difficulty.setCharacterSize(90);
         difficulty.setStyle(sf::Text::Bold);
         difficulty.setFillColor(sf::Color::Green);
         difficulty.setOutlineThickness(1.0f);
-        difficulty.setOutlineColor(sf::Color::Yellow);
         difficulty.setPosition(sf::Vector2f(612, 504));
 
         fallIncrease.setCharacterSize(90);
         fallIncrease.setStyle(sf::Text::Bold);
         fallIncrease.setOutlineThickness(1.0f);
-        fallIncrease.setOutlineColor(sf::Color::Yellow);
         fallIncrease.setPosition(sf::Vector2f(612, 648));
 
         saveSettings.setCharacterSize(90);
         saveSettings.setFillColor(sf::Color::Blue);
         saveSettings.setStyle(sf::Text::Bold);
         saveSettings.setOutlineThickness(1.0f);
-        saveSettings.setPosition(sf::Vector2f(688, 772));
+        saveSettings.setPosition(sf::Vector2f(688, 792));
 
     };
 

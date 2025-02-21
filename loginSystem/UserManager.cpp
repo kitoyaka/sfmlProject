@@ -3,6 +3,9 @@
 //
 
 #include "UserManager.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
 
 
 bool UserManager::loginUser(const std::string& login, const std::string& password) {
