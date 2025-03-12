@@ -9,7 +9,6 @@ This project is an implementation of the classic game *Tetris* using the [SFML](
 - [Build and Run](#build-and-run)
 - [Features](#features)
 - [Project Structure](#project-structure)
-- [Project Contribution](#project-contribution)
 
 ## Description
 
@@ -52,8 +51,3 @@ sfmlProject/
 ├──── gameMenu.cpp # Implementation of the game menu  
 ├─── gameMenu.h # Header file for the game menu  
 └─── main.cpp # Main file with the entry point to the program  
-
-## Project Contribution
-
-SSBNDRK wrote 90% of the code, all sounds were added by him (purchased), all textures were drawn using Photoshop programme.
-special thanks to kitoyaka for participating in the project and for writing maximum 10% of the code by him 
