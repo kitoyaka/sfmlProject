@@ -15,7 +15,7 @@ This project is an implementation of the classic game *Tetris* using the [SFML](
 Tetris is a classic game in which the player controls falling pieces, trying to fill horizontal lines without gaps. This project implements the basic mechanics of the game, such as:
 - Controlling and moving the pieces
 - Checking the filling of lines and removing them
-- Scoring and changing the difficulty level
+- Scoring and changing the difficulty level  
 In this project were added such features as:
 - Registration of new users
 
