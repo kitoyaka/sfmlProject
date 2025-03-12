@@ -16,6 +16,7 @@ Tetris is a classic game in which the player controls falling pieces, trying to 
 - Controlling and moving the pieces
 - Checking the filling of lines and removing them
 - Scoring and changing the difficulty level  
+
 In this project were added such features as:
 - Registration of new users
 
