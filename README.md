@@ -36,7 +36,7 @@ The project was written with SFML 3.0.0 using the CLion 2024.3.1.1 program
 
 ## Project Structure
 
-sfmlProject/
+sfmlProject/  
 ├─── .idea/ # # Development environment configuration files  
 ├─── button/ # Components related to interface buttons  
 ├──── font/ # Fonts used in the project  
