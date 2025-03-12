@@ -53,7 +53,7 @@ sfmlProject/
 ├─── gameMenu.h # Header file for the game menu  
 └─── main.cpp # Main file with the entry point to the program  
 
-## Contribution to the project
+## Project Contribution
 
 SSBNDRK wrote 90% of the code, all sounds were added by him (purchased), all textures were drawn using Photoshop programme.
 special thanks to kitoyaka for participating in the project and for writing maximum 10% of the code by him 
