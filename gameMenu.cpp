@@ -58,7 +58,7 @@ int gameMenu::showGameMenu(sf::RenderWindow &window) {
     return 0;
 }
 
-void gameMenu::showSettings(sf::RenderWindow &window, sf::Music &music) {
+bool gameMenu::showSettings(sf::RenderWindow &window, sf::Music &music) {
     window.draw(newSprite);
     settingsField.draw(window);
 
@@ -146,18 +146,26 @@ void gameMenu::showSettings(sf::RenderWindow &window, sf::Music &music) {
     fallIncrease.setString("DELETE STATISTIC: " + stateDeleteStat);
     saveSettings.setString("SAVE SETTINGS");
 
+    bool shouldClose = false;
+    if (activeSettingIndex == 4) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
+            if (settingClock.getElapsedTime().asSeconds() >= settingDelay) {
+                shouldClose = true;
+                settingClock.restart();
+                activeSettingIndex = 0;
+            }
+        }
+    }
+
     // Отрисовка всех пунктов
     window.draw(volume);
     window.draw(resolution);
     window.draw(difficulty);
     window.draw(fallIncrease);
     window.draw(saveSettings);
+
+    return shouldClose;
 }
-
-
-
-
-
 
 void gameMenu::updateButtonStates() {
 
@@ -180,5 +188,12 @@ void gameMenu::updateButtonStates() {
         Quit.setActive(true, "../image/QuitButtonRed.png", "../image/QuitButtonWhite.png");
     }
 
+}
 
+int gameMenu::getActiveSettingIndex() {
+    return activeSettingIndex;
+}
+
+void gameMenu::setActiveSettingIndex(int index) {
+    activeSettingIndex = index;
 }

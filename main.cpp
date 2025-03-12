@@ -185,10 +185,6 @@ while (window.isOpen()) {
                         window.close();
                     }
                 }
-        } else if (currentState == GameState::Settings) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
-                currentState = GameState::GameMenu;
-            }
         } else if (currentState == GameState::Game) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
                 currentState = GameState::GameMenu;
@@ -257,7 +253,10 @@ while (window.isOpen()) {
     } else if (currentState == GameState::GameMenu) {
         startGameMenu.showGameMenu(window);
     } else if (currentState == GameState::Settings) {
-        startGameMenu.showSettings(window,music);
+        bool closeSettings = startGameMenu.showSettings(window, music);
+        if (closeSettings) {
+            currentState = GameState::GameMenu;
+        }
     } else if (currentState == GameState::Game) {
         float deltaTime = clockInGame.restart().asSeconds();
         field.generateNewFigure();

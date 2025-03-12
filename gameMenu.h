@@ -53,7 +53,6 @@ private:
     sf::Clock modeSwitchClock;
     const float modeSwitchDelay = 0.3f; // задержка в секундах
 
-
 public:
     gameMenu(sf::RenderWindow &window) : newTexture(("../image/background.png")),
     newSprite(newTexture), Start(true,420, 142, "", "../image/StartButtonRed.png"),
@@ -110,8 +109,9 @@ public:
 
     int showGameMenu(sf::RenderWindow &window);
     void updateButtonStates();
-    void showSettings(sf::RenderWindow &window, sf::Music &music);
-
+    bool showSettings(sf::RenderWindow &window, sf::Music &music);
+    int getActiveSettingIndex();
+    void setActiveSettingIndex(int index);
 };
 
 
