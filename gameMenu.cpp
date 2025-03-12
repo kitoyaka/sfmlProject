@@ -62,17 +62,21 @@ void gameMenu::showSettings(sf::RenderWindow &window, sf::Music &music) {
     window.draw(newSprite);
     settingsField.draw(window);
 
-    {
-        std::ifstream checkFile("game_data.txt");
-        bool fileIsEmpty = true;
-        if (checkFile.good()) {
-            if (checkFile.peek() != std::ifstream::traits_type::eof()) {
-                fileIsEmpty = false;
-            }
+    // Проверка файла статистики
+    std::ifstream checkFile("game_data.txt");
+    bool fileIsEmpty = true;
+    if (checkFile.good()) {
+        if (checkFile.peek() != std::ifstream::traits_type::eof()) {
+            fileIsEmpty = false;
         }
-        checkFile.close();
-        stateDeleteStat = fileIsEmpty ? "EMPTY" : "game_data.txt";
     }
+    checkFile.close();
+    stateDeleteStat = fileIsEmpty ? "EMPTY" : "game_data.txt";
+
+    if(windowMode == 0)
+        resolution.setString("RESOLUTION: FULLSCREEN");
+    else
+        resolution.setString("RESOLUTION: TITLEBAR");
 
     if (settingClock.getElapsedTime().asSeconds() >= settingDelay) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)) {
@@ -84,21 +88,35 @@ void gameMenu::showSettings(sf::RenderWindow &window, sf::Music &music) {
         }
     }
 
-    if (activeSettingIndex == 0) volume.setFillColor(sf::Color::Red);
-    else volume.setFillColor(sf::Color::Yellow);
+    // Обновление визуального состояния пунктов
+    volume.setFillColor(activeSettingIndex == 0 ? sf::Color::Red : sf::Color::Yellow);
+    resolution.setFillColor(activeSettingIndex == 1 ? sf::Color::Red : sf::Color::Yellow);
+    difficulty.setFillColor(activeSettingIndex == 2 ? sf::Color::Red : sf::Color::Yellow);
+    fallIncrease.setFillColor(activeSettingIndex == 3 ? sf::Color::Red : sf::Color::Yellow);
+    saveSettings.setFillColor(activeSettingIndex == 4 ? sf::Color::Red : sf::Color::Yellow);
 
-    if (activeSettingIndex == 1) resolution.setFillColor(sf::Color::Red);
-    else resolution.setFillColor(sf::Color::Yellow);
+    if (activeSettingIndex == 1 && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) &&
+        modeSwitchClock.getElapsedTime().asSeconds() >= modeSwitchDelay) {
+        windowMode = (windowMode + 1) % 2;
+        sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 
-    if (activeSettingIndex == 2) difficulty.setFillColor(sf::Color::Red);
-    else difficulty.setFillColor(sf::Color::Yellow);
+        if (windowMode == 0) {
+            window.create(desktop, "Game", sf::Style::None);
+            resolution.setString("RESOLUTION: FULLSCREEN");
+        } else {
+            window.create(desktop, "Game", sf::Style::Default);
+            window.setPosition(sf::Vector2i(0, 0));
+            resolution.setString("RESOLUTION: TITLEBAR");
+        }
 
-    if (activeSettingIndex == 3) fallIncrease.setFillColor(sf::Color::Red);
-    else fallIncrease.setFillColor(sf::Color::Yellow);
+        window.setView(window.getDefaultView());
+        window.setVerticalSyncEnabled(true);
+        sf::sleep(sf::milliseconds(100));
 
-    if (activeSettingIndex == 4) saveSettings.setFillColor(sf::Color::Red);
-    else saveSettings.setFillColor(sf::Color::Yellow);
+        modeSwitchClock.restart();
+        }
 
+    // Обработка громкости
     int displayedVolume = static_cast<int>(std::round(music.getVolume()));
     volume.setString("VOLUME: " + std::to_string(displayedVolume) + "%");
 
@@ -112,32 +130,33 @@ void gameMenu::showSettings(sf::RenderWindow &window, sf::Music &music) {
         }
     }
 
-    if (activeSettingIndex == 3) {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter)) {
-            if (stateDeleteStat != "EMPTY") {
-                std::ofstream file("game_data.txt", std::ios::trunc);
-                file.close();
-                enterPressed = true;
-                stateDeleteStat = "EMPTY";
-            }
+    // Обработка удаления статистики
+    if (activeSettingIndex == 3 && sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Enter) &&
+        settingClock.getElapsedTime().asSeconds() >= settingDelay) {
+        if (stateDeleteStat != "EMPTY") {
+            std::ofstream file("game_data.txt", std::ios::trunc);
+            file.close();
+            stateDeleteStat = "EMPTY";
+            settingClock.restart();
         }
-    } else {
-        enterPressed = false;
     }
 
-    // Обновляем текст пунктов меню
-    resolution.setString("RESOLUTION: FULL");
+    // Установка текста пунктов
     difficulty.setString("FALL INCREASE: ON");
     fallIncrease.setString("DELETE STATISTIC: " + stateDeleteStat);
     saveSettings.setString("SAVE SETTINGS");
 
-    // Отрисовка всех элементов меню
+    // Отрисовка всех пунктов
     window.draw(volume);
     window.draw(resolution);
     window.draw(difficulty);
     window.draw(fallIncrease);
     window.draw(saveSettings);
 }
+
+
+
+
 
 
 void gameMenu::updateButtonStates() {

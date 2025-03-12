@@ -48,6 +48,10 @@ private:
     bool enterPressed = false;
     std::string stateDeleteStat;
 
+    int windowMode = 0;
+
+    sf::Clock modeSwitchClock;
+    const float modeSwitchDelay = 0.3f; // задержка в секундах
 
 
 public:
